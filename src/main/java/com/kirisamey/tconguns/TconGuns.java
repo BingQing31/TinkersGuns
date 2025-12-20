@@ -1,5 +1,8 @@
 package com.kirisamey.tconguns;
 
+import com.kirisamey.tconguns.misc.RegisterHelper;
+import com.kirisamey.tconguns.register.TicgModuleBase;
+import com.kirisamey.tconguns.tools.TicgTools;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -30,6 +33,9 @@ public class TconGuns
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+
+        TicgModuleBase.initRegisters(modEventBus);
+        RegisterHelper.initRegisters();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

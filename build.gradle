@@ -169,6 +169,7 @@ dependencies {
 
     // tools
     runtimeOnly fg.deobf("curse.maven:jei-238222:7270446")
+    // runtimeOnly fg.deobf("curse.maven:imblocker-483760:7310351")
 
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html

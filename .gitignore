@@ -1,3 +1,7 @@
+# cache
+run-data
+**/.cache/**
+
 # eclipse
 bin
 *.launch
