@@ -4,7 +4,8 @@
       "type": "tconstruct:part_stats",
       "parts": [
         "tconstruct:pick_head",
-        "tconstruct:tool_handle"
+        "tconstruct:tough_handle",
+        "tconstruct:tool_binding"
       ],
       "primary_part": 0
     },
@@ -14,18 +15,39 @@
         {
           "type": "tconstruct:random",
           "tier": {
-            "max": 3,
+            "max": 2,
             "min": 1
           }
         },
         {
           "type": "tconstruct:random",
           "tier": {
-            "max": 3,
+            "max": 2,
+            "min": 1
+          }
+        },
+        {
+          "type": "tconstruct:random",
+          "tier": {
+            "max": 2,
             "min": 1
           }
         }
       ]
+    },
+    {
+      "type": "tconstruct:base_stats",
+      "stats": {
+        "tconstruct:attack_damage": 0.2,
+        "tconstruct:attack_speed": 5.0
+      }
+    },
+    {
+      "type": "tconstruct:modifier_slots",
+      "slots": {
+        "abilities": 1,
+        "upgrades": 3
+      }
     }
   ]
 }

@@ -6,8 +6,11 @@ import net.minecraft.data.PackOutput;
 import org.jetbrains.annotations.NotNull;
 import slimeknights.tconstruct.library.data.tinkering.AbstractToolDefinitionDataProvider;
 import slimeknights.tconstruct.library.materials.RandomMaterial;
+import slimeknights.tconstruct.library.tools.definition.module.build.SetStatsModule;
 import slimeknights.tconstruct.library.tools.definition.module.material.DefaultMaterialsModule;
 import slimeknights.tconstruct.library.tools.definition.module.material.PartStatsModule;
+import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
+import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.tools.TinkerToolParts;
 
 public class TicgToolDefinitionDataProvider extends AbstractToolDefinitionDataProvider {
@@ -15,22 +18,45 @@ public class TicgToolDefinitionDataProvider extends AbstractToolDefinitionDataPr
         super(packOutput, TconGuns.MODID);
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DuplicatedCode"})
     @Override protected void addToolDefinitions() {
         RandomMaterial matT1 = RandomMaterial.random().tier(1).build();
+        RandomMaterial matT1_2 = RandomMaterial.random().tier(1, 2).build();
         RandomMaterial matT1_3 = RandomMaterial.random().tier(1, 3).build();
         RandomMaterial matNoHide = RandomMaterial.random().build();
         RandomMaterial matAny = RandomMaterial.random().allowHidden().build();
+
+        DefaultMaterialsModule defT1P1 = DefaultMaterialsModule.builder().material(matT1).build();
+        DefaultMaterialsModule defT1P2 = DefaultMaterialsModule.builder().material(matT1, matT1).build();
+        DefaultMaterialsModule defT1P3 = DefaultMaterialsModule.builder().material(matT1, matT1, matT1).build();
         DefaultMaterialsModule defT1P4 = DefaultMaterialsModule.builder().material(matT1, matT1, matT1, matT1).build();
+        DefaultMaterialsModule defT1P5 = DefaultMaterialsModule.builder().material(matT1, matT1, matT1, matT1, matT1).build();
+
+        DefaultMaterialsModule defT1_2P1 = DefaultMaterialsModule.builder().material(matT1_2).build();
+        DefaultMaterialsModule defT1_2P2 = DefaultMaterialsModule.builder().material(matT1_2, matT1_2).build();
+        DefaultMaterialsModule defT1_2P3 = DefaultMaterialsModule.builder().material(matT1_2, matT1_2, matT1_2).build();
+        DefaultMaterialsModule defT1_2P4 = DefaultMaterialsModule.builder().material(matT1_2, matT1_2, matT1_2, matT1_2).build();
+        DefaultMaterialsModule defT1_2P5 = DefaultMaterialsModule.builder().material(matT1_2, matT1_2, matT1_2, matT1_2, matT1_2).build();
+
+        DefaultMaterialsModule defT1_3P1 = DefaultMaterialsModule.builder().material(matT1_3).build();
         DefaultMaterialsModule defT1_3P2 = DefaultMaterialsModule.builder().material(matT1_3, matT1_3).build();
+        DefaultMaterialsModule defT1_3P3 = DefaultMaterialsModule.builder().material(matT1_3, matT1_3, matT1_3).build();
         DefaultMaterialsModule defT1_3P4 = DefaultMaterialsModule.builder().material(matT1_3, matT1_3, matT1_3, matT1_3).build();
+        DefaultMaterialsModule defT1_3P5 = DefaultMaterialsModule.builder().material(matT1_3, matT1_3, matT1_3, matT1_3, matT1_3).build();
 
         define(TicgToolDefinitions.BASE_BULLET)
+                // parts
                 .module(PartStatsModule.parts()
                         .part(TinkerToolParts.pickHead)
-                        .part(TinkerToolParts.toolHandle)
+                        .part(TinkerToolParts.toughHandle)
+                        .part(TinkerToolParts.toolBinding)
                         .build())
-                .module(defT1_3P2);
+                .module(defT1_2P3)
+                // stats
+                .module(new SetStatsModule(StatsNBT.builder()
+                        .set(ToolStats.ATTACK_DAMAGE, 0.2f)
+                        .set(ToolStats.ATTACK_SPEED, 5f).build()))
+                .smallToolStartingSlots();
     }
 
     @Override public @NotNull String getName() {
