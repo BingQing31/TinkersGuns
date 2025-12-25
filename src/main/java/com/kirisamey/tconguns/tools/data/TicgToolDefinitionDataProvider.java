@@ -15,22 +15,22 @@ public class TicgToolDefinitionDataProvider extends AbstractToolDefinitionDataPr
         super(packOutput, TconGuns.MODID);
     }
 
+    @SuppressWarnings("unused")
     @Override protected void addToolDefinitions() {
         RandomMaterial matT1 = RandomMaterial.random().tier(1).build();
-        RandomMaterial matT1T3 = RandomMaterial.random().tier(1, 3).build();
+        RandomMaterial matT1_3 = RandomMaterial.random().tier(1, 3).build();
         RandomMaterial matNoHide = RandomMaterial.random().build();
         RandomMaterial matAny = RandomMaterial.random().allowHidden().build();
         DefaultMaterialsModule defT1P4 = DefaultMaterialsModule.builder().material(matT1, matT1, matT1, matT1).build();
-        DefaultMaterialsModule defT1T3P4 = DefaultMaterialsModule.builder().material(matT1T3, matT1T3, matT1T3, matT1T3).build();
+        DefaultMaterialsModule defT1_3P2 = DefaultMaterialsModule.builder().material(matT1_3, matT1_3).build();
+        DefaultMaterialsModule defT1_3P4 = DefaultMaterialsModule.builder().material(matT1_3, matT1_3, matT1_3, matT1_3).build();
 
-        define(TicgToolDefinitions.BULLET_BASE)
+        define(TicgToolDefinitions.BASE_BULLET)
                 .module(PartStatsModule.parts()
-                        .part(TinkerToolParts.pickHead)
-                        .part(TinkerToolParts.pickHead)
                         .part(TinkerToolParts.pickHead)
                         .part(TinkerToolParts.toolHandle)
                         .build())
-                .module(defT1T3P4);
+                .module(defT1_3P2);
     }
 
     @Override public @NotNull String getName() {

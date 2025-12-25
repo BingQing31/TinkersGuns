@@ -1,4 +1,4 @@
-package com.kirisamey.tconguns.misc;
+package com.kirisamey.tconguns.reghub;
 
 import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.tools.data.TicgToolDefinitionDataProvider;

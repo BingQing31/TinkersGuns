@@ -1,0 +1,18 @@
+{
+  "loader": "tconstruct:tool",
+  "parent": "forge:item/default-tool",
+
+  "textures": {
+    "head": "tconguns:item/tool/bullet/head",
+    "shell": "tconguns:item/tool/bullet/shell"
+  },
+
+  "parts": [
+    {"name": "shell", "index": 1},
+    {"name": "head", "index": 0}
+  ],
+
+  "overrides": [
+
+  ]
+}

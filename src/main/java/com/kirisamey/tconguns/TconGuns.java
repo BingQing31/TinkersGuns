@@ -1,8 +1,7 @@
 package com.kirisamey.tconguns;
 
-import com.kirisamey.tconguns.misc.RegisterHelper;
+import com.kirisamey.tconguns.reghub.RegisterHelper;
 import com.kirisamey.tconguns.register.TicgModuleBase;
-import com.kirisamey.tconguns.tools.TicgTools;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;

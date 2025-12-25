@@ -1,13 +1,9 @@
 package com.kirisamey.tconguns.tools;
 
 import com.kirisamey.tconguns.register.TicgModuleBase;
-import com.kirisamey.tconguns.tools.data.TicgToolDefinitionDataProvider;
-import com.mojang.logging.LogUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.RegistryObject;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.tconstruct.library.materials.RandomMaterial;
@@ -29,21 +25,21 @@ public final class TicgTools extends TicgModuleBase {
         RandomMaterial.init();
     }
 
-    public static final ItemObject<ModifiableItem> BULLET_BASE = ITEMS.register(
-            "bullet_base", () -> new ModifiableItem(UNSTACKABLE_PROPS, TicgToolDefinitions.BULLET_BASE));
+    public static final ItemObject<ModifiableItem> BASE_BULLET = ITEMS.register(
+            "base_bullet", () -> new ModifiableItem(UNSTACKABLE_PROPS, TicgToolDefinitions.BASE_BULLET));
 
 
     public static final RegistryObject<CreativeModeTab> tabTools = CREATIVE_TABS.register(
             "tools", () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.tconguns.tools"))
-                    .icon(() -> BULLET_BASE.get().getRenderTool())
+                    .icon(() -> BASE_BULLET.get().getRenderTool())
                     .displayItems(TicgTools::addTabItems)
                     .withSearchBar()
                     .build());
 
     private static void addTabItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output tab) {
         Consumer<ItemStack> output = tab::accept;
-        acceptTool(output, BULLET_BASE);
+        acceptTool(output, BASE_BULLET);
     }
     private static void acceptTool(Consumer<ItemStack> output, Supplier<? extends IModifiable> tool) {
         ToolBuildHandler.addVariants(output, tool.get(), "");
