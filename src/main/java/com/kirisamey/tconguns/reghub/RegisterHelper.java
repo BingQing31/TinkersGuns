@@ -1,5 +1,7 @@
 package com.kirisamey.tconguns.reghub;
 
+import com.kirisamey.tconguns.tools.TicgToolStats;
+import com.kirisamey.tconguns.tools.TicgToolTags;
 import com.kirisamey.tconguns.tools.TicgTools;
 import lombok.SneakyThrows;
 
@@ -7,7 +9,9 @@ import java.util.List;
 
 public final class RegisterHelper {
     private static final List<Class<?>> REG_CLASSES = List.of(
-            TicgTools.class
+            TicgTools.class,
+            TicgToolTags.class,
+            TicgToolStats.class
     );
 
     @SneakyThrows public static void initRegisters() {

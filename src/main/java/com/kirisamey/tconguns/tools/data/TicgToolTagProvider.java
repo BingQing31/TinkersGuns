@@ -1,6 +1,7 @@
 package com.kirisamey.tconguns.tools.data;
 
 import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.tools.TicgToolTags;
 import com.kirisamey.tconguns.tools.TicgTools;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -17,6 +18,7 @@ import slimeknights.mantle.registration.object.IdAwareObject;
 import java.util.concurrent.CompletableFuture;
 
 import static slimeknights.tconstruct.common.TinkerTags.Items.*;
+import static com.kirisamey.tconguns.tools.TicgToolTags.*;
 
 public class TicgToolTagProvider extends ItemTagsProvider {
     public TicgToolTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
@@ -27,7 +29,9 @@ public class TicgToolTagProvider extends ItemTagsProvider {
 
     @Override protected void addTags(@NotNull HolderLookup.Provider provider) {
         //todo: 定义自己的tags
-        addToolTags(TicgTools.BASE_BULLET, MULTIPART_TOOL, DURABILITY, SMALL_TOOLS);
+        addToolTags(TicgTools.BASE_BULLET,
+                MULTIPART_TOOL, SMALL_TOOLS, DURABILITY, BULLET
+        );
     }
 
     @SafeVarargs

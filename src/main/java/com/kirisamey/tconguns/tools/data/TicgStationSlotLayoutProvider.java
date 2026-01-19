@@ -15,9 +15,9 @@ public class TicgStationSlotLayoutProvider extends AbstractStationSlotLayoutProv
         // bullet
         defineModifiable(TicgTools.BASE_BULLET)
                 .sortIndex(SORT_HARVEST)
-                .addInputItem(TinkerToolParts.pickHead, 53, 22)
-                .addInputItem(TinkerToolParts.toughHandle, 15, 60)
-                .addInputItem(TinkerToolParts.toolBinding, 33, 42)
+                .addInputItem(TinkerToolParts.pickHead, 44, 30)
+                .addInputItem(TinkerToolParts.toughHandle, 26, 48)
+                .addInputItem(TinkerToolParts.toolBinding, 22, 26)
                 .build();
     }
 

@@ -38,8 +38,8 @@
     {
       "type": "tconstruct:base_stats",
       "stats": {
-        "tconstruct:attack_damage": 0.2,
-        "tconstruct:attack_speed": 5.0
+        "tconguns:bullet_attack": 1.0,
+        "tconguns:bullet_velocity": 500.0
       }
     },
     {

@@ -2,6 +2,7 @@ package com.kirisamey.tconguns.tools.data;
 
 import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.tools.TicgToolDefinitions;
+import com.kirisamey.tconguns.tools.TicgToolStats;
 import net.minecraft.data.PackOutput;
 import org.jetbrains.annotations.NotNull;
 import slimeknights.tconstruct.library.data.tinkering.AbstractToolDefinitionDataProvider;
@@ -54,8 +55,9 @@ public class TicgToolDefinitionDataProvider extends AbstractToolDefinitionDataPr
                 .module(defT1_2P3)
                 // stats
                 .module(new SetStatsModule(StatsNBT.builder()
-                        .set(ToolStats.ATTACK_DAMAGE, 0.2f)
-                        .set(ToolStats.ATTACK_SPEED, 5f).build()))
+//                        .set(TicgToolStats.BULLET_ATTACK, 1f)
+//                        .set(TicgToolStats.BULLET_VELOCITY, 500f)
+                        .build()))
                 .smallToolStartingSlots();
     }
 

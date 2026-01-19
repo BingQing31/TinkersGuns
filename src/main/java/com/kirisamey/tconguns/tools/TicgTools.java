@@ -1,6 +1,7 @@
 package com.kirisamey.tconguns.tools;
 
 import com.kirisamey.tconguns.register.TicgModuleBase;
+import com.kirisamey.tconguns.tools.impl.BulletTool;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -18,15 +19,15 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public final class TicgTools extends TicgModuleBase {
-    public TicgTools(){
+    public TicgTools() {
         SlotType.init();
         BlockSideHitListener.init();
         ModifierLootingHandler.init();
         RandomMaterial.init();
     }
 
-    public static final ItemObject<ModifiableItem> BASE_BULLET = ITEMS.register(
-            "base_bullet", () -> new ModifiableItem(UNSTACKABLE_PROPS, TicgToolDefinitions.BASE_BULLET));
+    public static final ItemObject<ModifiableItem> BASE_BULLET = TIC_ITEMS.register(
+            "base_bullet", () -> new BulletTool(UNSTACKABLE_PROPS, TicgToolDefinitions.BASE_BULLET));
 
 
     public static final RegistryObject<CreativeModeTab> tabTools = CREATIVE_TABS.register(
@@ -41,6 +42,7 @@ public final class TicgTools extends TicgModuleBase {
         Consumer<ItemStack> output = tab::accept;
         acceptTool(output, BASE_BULLET);
     }
+
     private static void acceptTool(Consumer<ItemStack> output, Supplier<? extends IModifiable> tool) {
         ToolBuildHandler.addVariants(output, tool.get(), "");
     }

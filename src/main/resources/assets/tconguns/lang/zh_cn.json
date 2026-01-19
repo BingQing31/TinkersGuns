@@ -1,5 +1,12 @@
 {
   "itemGroup.tconguns.tools": "匠魂枪械：工具",
 
-  "item.tconguns.base_bullet": "子弹"
+  "item.tconguns.base_bullet": "基础工匠子弹",
+  "item.tconguns.base_bullet.description": "基础的工匠子弹，用作工匠枪械的弹药。\n使用其他类型的部件可在工匠站上制造出特种弹药。",
+
+  "tool_stat.tconguns.bullet_attack": "弹药基伤：",
+  "tool_stat.tconguns.bullet_velocity": "初速度：",
+  "tool_stat.tconguns.bullet_velocity_attenuation": "速度衰减：",
+  "tool_stat.tconguns.bullet_recoil": "后坐力：",
+  "tool_stat.tconguns.bullet_volume": "开火音量："
 }
