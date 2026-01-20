@@ -1,6 +1,7 @@
 package com.kirisamey.tconguns.tools.data;
 
 import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.toolparts.TicgToolParts;
 import com.kirisamey.tconguns.tools.TicgToolDefinitions;
 import com.kirisamey.tconguns.tools.TicgToolStats;
 import net.minecraft.data.PackOutput;
@@ -48,8 +49,8 @@ public class TicgToolDefinitionDataProvider extends AbstractToolDefinitionDataPr
         define(TicgToolDefinitions.BASE_BULLET)
                 // parts
                 .module(PartStatsModule.parts()
-                        .part(TinkerToolParts.pickHead)
-                        .part(TinkerToolParts.toughHandle)
+                        .part(TicgToolParts.BASE_BULLET_HEAD)
+                        .part(TicgToolParts.BASE_BULLET_SHELL)
                         .part(TinkerToolParts.toolBinding)
                         .build())
                 .module(defT1_2P3)

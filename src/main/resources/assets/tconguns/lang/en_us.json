@@ -1,8 +1,12 @@
 {
   "itemGroup.tconguns.tools": "TiCG: Tools",
+  "itemGroup.tconguns.tool_parts": "TiCG: Tool Parts",
 
   "item.tconguns.base_bullet": "Basic Tinker Bullet",
   "item.tconguns.base_bullet.description": "Basic Tinker Bullet, used as ammo for Tinker firearms.\nUsing other types of components allows for the crafting of specialized ammunition at the Tinker Station.",
+
+  "item.tconguns.base_bullet_head": "Basic Bullet Head",
+  "item.tconguns.base_bullet_shell": "Basic Bullet Shell",
 
   "tool_stat.tconguns.bullet_attack": "Bullet Atk: ",
   "tool_stat.tconguns.bullet_velocity": "Init Velocity: ",

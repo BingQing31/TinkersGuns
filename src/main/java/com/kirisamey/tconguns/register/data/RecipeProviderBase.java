@@ -1,4 +1,4 @@
-package com.kirisamey.tconguns.register;
+package com.kirisamey.tconguns.register.data;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;

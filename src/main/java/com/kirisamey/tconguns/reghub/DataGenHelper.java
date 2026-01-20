@@ -1,7 +1,8 @@
 package com.kirisamey.tconguns.reghub;
 
 import com.kirisamey.tconguns.TconGuns;
-import com.kirisamey.tconguns.register.TicgBlockTagProvider;
+import com.kirisamey.tconguns.register.data.TicgBlockTagProvider;
+import com.kirisamey.tconguns.toolparts.data.TicgToolPartItemModelProvider;
 import com.kirisamey.tconguns.tools.data.TicgStationSlotLayoutProvider;
 import com.kirisamey.tconguns.tools.data.TicgToolDefinitionDataProvider;
 import com.kirisamey.tconguns.tools.data.TicgToolRecipeProvider;
@@ -30,5 +31,8 @@ public final class DataGenHelper {
         generator.addProvider(isServer, new TicgToolRecipeProvider(packOutput));
         generator.addProvider(isServer, new TicgStationSlotLayoutProvider(packOutput));
         generator.addProvider(isServer, new TicgToolTagProvider(packOutput, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
+
+        // for tool parts
+        generator.addProvider(isServer, new TicgToolPartItemModelProvider(packOutput, existingFileHelper));
     }
 }

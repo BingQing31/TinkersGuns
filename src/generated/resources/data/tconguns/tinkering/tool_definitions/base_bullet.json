@@ -3,8 +3,8 @@
     {
       "type": "tconstruct:part_stats",
       "parts": [
-        "tconstruct:pick_head",
-        "tconstruct:tough_handle",
+        "tconguns:base_bullet_head",
+        "tconguns:base_bullet_shell",
         "tconstruct:tool_binding"
       ],
       "primary_part": 0
@@ -37,10 +37,7 @@
     },
     {
       "type": "tconstruct:base_stats",
-      "stats": {
-        "tconguns:bullet_attack": 1.0,
-        "tconguns:bullet_velocity": 500.0
-      }
+      "stats": {}
     },
     {
       "type": "tconstruct:modifier_slots",

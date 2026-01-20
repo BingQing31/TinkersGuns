@@ -1,5 +1,6 @@
 package com.kirisamey.tconguns.tools.data;
 
+import com.kirisamey.tconguns.toolparts.TicgToolParts;
 import com.kirisamey.tconguns.tools.TicgTools;
 import net.minecraft.data.PackOutput;
 import org.jetbrains.annotations.NotNull;
@@ -15,8 +16,8 @@ public class TicgStationSlotLayoutProvider extends AbstractStationSlotLayoutProv
         // bullet
         defineModifiable(TicgTools.BASE_BULLET)
                 .sortIndex(SORT_HARVEST)
-                .addInputItem(TinkerToolParts.pickHead, 44, 30)
-                .addInputItem(TinkerToolParts.toughHandle, 26, 48)
+                .addInputItem(TicgToolParts.BASE_BULLET_HEAD, 44, 30)
+                .addInputItem(TicgToolParts.BASE_BULLET_SHELL, 26, 48)
                 .addInputItem(TinkerToolParts.toolBinding, 22, 26)
                 .build();
     }

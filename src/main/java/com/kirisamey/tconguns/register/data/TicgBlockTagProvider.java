@@ -1,4 +1,4 @@
-package com.kirisamey.tconguns.register;
+package com.kirisamey.tconguns.register.data;
 
 import com.kirisamey.tconguns.TconGuns;
 import net.minecraft.core.HolderLookup;

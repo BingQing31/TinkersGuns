@@ -14,6 +14,8 @@ import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
 import slimeknights.tconstruct.library.tools.item.IModifiable;
 import slimeknights.tconstruct.library.tools.item.ModifiableItem;
 import slimeknights.tconstruct.library.utils.BlockSideHitListener;
+import slimeknights.tconstruct.tools.TinkerToolParts;
+import slimeknights.tconstruct.tools.TinkerTools;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -30,11 +32,12 @@ public final class TicgTools extends TicgModuleBase {
             "base_bullet", () -> new BulletTool(UNSTACKABLE_PROPS, TicgToolDefinitions.BASE_BULLET));
 
 
-    public static final RegistryObject<CreativeModeTab> tabTools = CREATIVE_TABS.register(
+    public static final RegistryObject<CreativeModeTab> TAB_TOOLS = CREATIVE_TABS.register(
             "tools", () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.tconguns.tools"))
                     .icon(() -> BASE_BULLET.get().getRenderTool())
                     .displayItems(TicgTools::addTabItems)
+                    .withTabsBefore(TinkerTools.tabTools.getId(), TinkerToolParts.tabToolParts.getId())
                     .withSearchBar()
                     .build());
 

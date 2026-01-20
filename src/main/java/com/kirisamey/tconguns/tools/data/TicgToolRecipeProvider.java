@@ -1,12 +1,11 @@
 package com.kirisamey.tconguns.tools.data;
 
 import com.kirisamey.tconguns.TconGuns;
-import com.kirisamey.tconguns.register.RecipeProviderBase;
+import com.kirisamey.tconguns.register.data.RecipeProviderBase;
 import com.kirisamey.tconguns.tools.TicgTools;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import org.jetbrains.annotations.NotNull;
-import slimeknights.tconstruct.common.data.BaseRecipeProvider;
 import slimeknights.tconstruct.library.data.recipe.IToolRecipeHelper;
 
 import java.util.function.Consumer;

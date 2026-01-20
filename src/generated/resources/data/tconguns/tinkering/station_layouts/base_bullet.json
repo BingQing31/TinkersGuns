@@ -6,19 +6,19 @@
   "input_slots": [
     {
       "filter": {
-        "item": "tconstruct:pick_head"
+        "item": "tconguns:base_bullet_head"
       },
-      "icon": "tconstruct:pick_head",
-      "translation_key": "item.tconstruct.pick_head",
+      "icon": "tconguns:base_bullet_head",
+      "translation_key": "item.tconguns.base_bullet_head",
       "x": 44,
       "y": 30
     },
     {
       "filter": {
-        "item": "tconstruct:tough_handle"
+        "item": "tconguns:base_bullet_shell"
       },
-      "icon": "tconstruct:tough_handle",
-      "translation_key": "item.tconstruct.tough_handle",
+      "icon": "tconguns:base_bullet_shell",
+      "translation_key": "item.tconguns.base_bullet_shell",
       "x": 26,
       "y": 48
     },
