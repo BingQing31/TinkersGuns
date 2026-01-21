@@ -9,6 +9,8 @@
   "item.tconguns.base_bullet_shell": "Basic Bullet Shell",
   "item.tconguns.gunpowder": "Gunpowder",
 
+  "stat.tconguns.bullet_head": "Bullet Head",
+  "stat.tconguns.bullet_shell": "Bullet Shell",
   "stat.tconguns.gunpowder": "Gunpowder",
 
   "tool_stat.tconguns.bullet_attack": "Bullet Atk: ",

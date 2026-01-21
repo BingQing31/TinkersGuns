@@ -1,6 +1,8 @@
 package com.kirisamey.tconguns.materials;
 
 import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.toolparts.materialstats.BulletHeadMaterialStats;
+import com.kirisamey.tconguns.toolparts.materialstats.BulletShellMaterialStats;
 import com.kirisamey.tconguns.toolparts.materialstats.GunpowderMaterialStats;
 import com.mojang.logging.LogUtils;
 import slimeknights.tconstruct.library.materials.IMaterialRegistry;
@@ -19,6 +21,8 @@ public class MaterialStatsRegister {
         LogUtils.getLogger().info("Ticg Material Stats Registering...");
 
         final var matReg = MaterialRegistry.getInstance();
+        matReg.registerStatType(BulletHeadMaterialStats.TYPE, BULLET);
+        matReg.registerStatType(BulletShellMaterialStats.TYPE, BULLET);
         matReg.registerStatType(GunpowderMaterialStats.TYPE, BULLET);
     }
 }

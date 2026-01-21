@@ -1,6 +1,8 @@
 package com.kirisamey.tconguns.toolparts;
 
 import com.kirisamey.tconguns.register.TicgModuleBase;
+import com.kirisamey.tconguns.toolparts.materialstats.BulletHeadMaterialStats;
+import com.kirisamey.tconguns.toolparts.materialstats.BulletShellMaterialStats;
 import com.kirisamey.tconguns.toolparts.materialstats.GunpowderMaterialStats;
 import com.kirisamey.tconguns.tools.TicgTools;
 import net.minecraft.network.chat.Component;
@@ -24,12 +26,12 @@ public class TicgToolParts extends TicgModuleBase {
 
     public static final ItemObject<ToolPartItem> BASE_BULLET_HEAD = TIC_ITEMS.register(
             "base_bullet_head",
-            () -> new ToolPartItem(ITEM_PROPS, HeadMaterialStats.ID)
+            () -> new ToolPartItem(ITEM_PROPS, BulletHeadMaterialStats.ID)
     );
 
     public static final ItemObject<ToolPartItem> BASE_BULLET_SHELL = TIC_ITEMS.register(
             "base_bullet_shell",
-            () -> new ToolPartItem(ITEM_PROPS, HandleMaterialStats.ID)
+            () -> new ToolPartItem(ITEM_PROPS, BulletShellMaterialStats.ID)
     );
 
     public static final ItemObject<ToolPartItem> GUNPOWDER = TIC_ITEMS.register(

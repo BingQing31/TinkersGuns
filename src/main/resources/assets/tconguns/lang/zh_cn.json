@@ -9,6 +9,8 @@
   "item.tconguns.base_bullet_shell": "基础弹壳",
   "item.tconguns.gunpowder": "火药",
 
+  "stat.tconguns.bullet_head": "弹头",
+  "stat.tconguns.bullet_shell": "弹壳",
   "stat.tconguns.gunpowder": "火药",
 
   "tool_stat.tconguns.bullet_attack": "弹药基伤：",

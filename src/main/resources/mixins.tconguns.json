@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.tconguns.refmap.json",
   "mixins": [
-    "MaterialRegistryMixin"
+    "MaterialRegistryMixin",
+    "MaterialStatsManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
