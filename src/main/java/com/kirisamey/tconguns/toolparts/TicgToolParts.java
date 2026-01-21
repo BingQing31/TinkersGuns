@@ -1,6 +1,7 @@
 package com.kirisamey.tconguns.toolparts;
 
 import com.kirisamey.tconguns.register.TicgModuleBase;
+import com.kirisamey.tconguns.toolparts.materialstats.GunpowderMaterialStats;
 import com.kirisamey.tconguns.tools.TicgTools;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -31,6 +32,11 @@ public class TicgToolParts extends TicgModuleBase {
             () -> new ToolPartItem(ITEM_PROPS, HandleMaterialStats.ID)
     );
 
+    public static final ItemObject<ToolPartItem> GUNPOWDER = TIC_ITEMS.register(
+            "gunpowder",
+            () -> new ToolPartItem(ITEM_PROPS, GunpowderMaterialStats.ID)
+    );
+
 
     public static final RegistryObject<CreativeModeTab> TAB_TOOL_PARTS = CREATIVE_TABS.register(
             "tool_parts", () -> CreativeModeTab.builder()
@@ -54,6 +60,7 @@ public class TicgToolParts extends TicgModuleBase {
 
         acceptToolPart(output, BASE_BULLET_HEAD);
         acceptToolPart(output, BASE_BULLET_SHELL);
+        acceptToolPart(output, GUNPOWDER);
     }
 
     private static void acceptToolPart(Consumer<ItemStack> output, Supplier<? extends IMaterialItem> item) {

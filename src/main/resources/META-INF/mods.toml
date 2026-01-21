@@ -81,7 +81,7 @@ modId="toomanytinkers"
 mandatory=true
 versionRange="[0.2.2,)"
 ordering="AFTER"
-side="BOTH"
+side="CLIENT"
 
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares

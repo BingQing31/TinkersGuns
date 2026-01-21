@@ -1,0 +1,39 @@
+{
+  "color": "FFFF3B3B",
+  "fallbacks": [
+    "powder"
+  ],
+  "generator": {
+    "supported_stats": [
+      "tconguns:gunpowder"
+    ],
+    "transformer": {
+      "type": "tconstruct:recolor_sprite",
+      "color_mapping": {
+        "type": "tconstruct:grey_to_color",
+        "palette": [
+          {
+            "color": "FF000000",
+            "grey": 0
+          },
+          {
+            "color": "FF2D0000",
+            "grey": 63
+          },
+          {
+            "color": "FF5C0700",
+            "grey": 102
+          },
+          {
+            "color": "FFFF0000",
+            "grey": 161
+          },
+          {
+            "color": "FFFF6666",
+            "grey": 255
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "tconstruct:material",
+  "ingredient": {
+    "item": "minecraft:blaze_powder"
+  },
+  "material": "tconguns:blaze_powder",
+  "needed": 1,
+  "value": 1
+}

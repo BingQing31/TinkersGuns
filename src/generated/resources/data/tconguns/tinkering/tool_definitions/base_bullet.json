@@ -5,7 +5,7 @@
       "parts": [
         "tconguns:base_bullet_head",
         "tconguns:base_bullet_shell",
-        "tconstruct:tool_binding"
+        "tconguns:gunpowder"
       ],
       "primary_part": 0
     },

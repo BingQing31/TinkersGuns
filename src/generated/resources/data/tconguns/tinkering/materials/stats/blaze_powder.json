@@ -1,0 +1,8 @@
+{
+  "stats": {
+    "tconguns:gunpowder": {
+      "recoil": 1.5,
+      "velocity": 800.0
+    }
+  }
+}

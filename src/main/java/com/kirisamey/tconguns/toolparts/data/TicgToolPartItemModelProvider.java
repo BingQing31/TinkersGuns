@@ -17,8 +17,9 @@ public class TicgToolPartItemModelProvider extends ItemModelProvider {
     }
 
     @Override protected void registerModels() {
-        part(TicgToolParts.BASE_BULLET_HEAD, "parts/base_bullet_head");
+        part(TicgToolParts.BASE_BULLET_HEAD, "parts/base_bullet_head").offset(-2, 2);
         part(TicgToolParts.BASE_BULLET_SHELL, "bullet/shell").offset(1, -1);
+        part(TicgToolParts.GUNPOWDER, "parts/gunpowder");
     }
 
     private MaterialModelBuilder<ItemModelBuilder> part(ResourceLocation part, String texture) {

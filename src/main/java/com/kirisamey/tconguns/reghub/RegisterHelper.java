@@ -1,5 +1,6 @@
 package com.kirisamey.tconguns.reghub;
 
+import com.kirisamey.tconguns.materials.MaterialStatsRegister;
 import com.kirisamey.tconguns.register.TicgModuleBase;
 import com.kirisamey.tconguns.toolparts.TicgToolParts;
 import com.kirisamey.tconguns.tools.TicgToolStats;
@@ -11,12 +12,12 @@ import java.util.List;
 
 public final class RegisterHelper {
     private static final List<Class<?>> REG_CLASSES = List.of(
+            // tool parts
+            TicgToolParts.class,
             // tools
             TicgTools.class,
             TicgToolTags.class,
-            TicgToolStats.class,
-            // tool parts
-            TicgToolParts.class
+            TicgToolStats.class
     );
 
     @SneakyThrows public static void initRegisters() {

@@ -24,12 +24,12 @@
     },
     {
       "filter": {
-        "item": "tconstruct:tool_binding"
+        "item": "tconguns:gunpowder"
       },
-      "icon": "tconstruct:tool_binding",
-      "translation_key": "item.tconstruct.tool_binding",
-      "x": 22,
-      "y": 26
+      "icon": "tconguns:gunpowder",
+      "translation_key": "item.tconguns.gunpowder",
+      "x": 52,
+      "y": 56
     }
   ],
   "sortIndex": 6,

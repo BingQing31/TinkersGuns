@@ -1,6 +1,7 @@
 package com.kirisamey.tconguns.reghub;
 
 import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.materials.data.*;
 import com.kirisamey.tconguns.register.data.TicgBlockTagProvider;
 import com.kirisamey.tconguns.toolparts.data.TicgToolPartItemModelProvider;
 import com.kirisamey.tconguns.tools.data.TicgStationSlotLayoutProvider;
@@ -10,6 +11,8 @@ import com.kirisamey.tconguns.tools.data.TicgToolTagProvider;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import slimeknights.tconstruct.tools.data.sprite.TinkerMaterialSpriteProvider;
+import slimeknights.tconstruct.tools.data.sprite.TinkerPartSpriteProvider;
 
 @Mod.EventBusSubscriber(modid = TconGuns.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class DataGenHelper {
@@ -26,13 +29,23 @@ public final class DataGenHelper {
         var blockTags = new TicgBlockTagProvider(packOutput, lookupProvider, existingFileHelper);
         generator.addProvider(isServer, blockTags);
 
+        // for materials
+        var mat = new TicgMaterialDataProvider(packOutput);
+        generator.addProvider(isServer, mat);
+        generator.addProvider(isServer, new TicgMaterialStatsDataProvider(packOutput, mat));
+        generator.addProvider(isServer, new TicgMaterialTraitDataProvider(packOutput, mat));
+        generator.addProvider(isServer, new TicgMaterialRecipeProvider(packOutput));
+
+        var materialSprites = new TicgMaterialSpriteProvider();
+        generator.addProvider(isClient, new TicgMaterialRenderInfoProvider(packOutput, materialSprites, existingFileHelper));
+
+        // for tool parts
+        generator.addProvider(isServer, new TicgToolPartItemModelProvider(packOutput, existingFileHelper));
+
         // for tools
         generator.addProvider(isServer, new TicgToolDefinitionDataProvider(packOutput));
         generator.addProvider(isServer, new TicgToolRecipeProvider(packOutput));
         generator.addProvider(isServer, new TicgStationSlotLayoutProvider(packOutput));
         generator.addProvider(isServer, new TicgToolTagProvider(packOutput, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
-
-        // for tool parts
-        generator.addProvider(isServer, new TicgToolPartItemModelProvider(packOutput, existingFileHelper));
     }
 }

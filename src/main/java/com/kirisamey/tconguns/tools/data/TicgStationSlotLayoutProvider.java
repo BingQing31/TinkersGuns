@@ -5,7 +5,6 @@ import com.kirisamey.tconguns.tools.TicgTools;
 import net.minecraft.data.PackOutput;
 import org.jetbrains.annotations.NotNull;
 import slimeknights.tconstruct.library.data.tinkering.AbstractStationSlotLayoutProvider;
-import slimeknights.tconstruct.tools.TinkerToolParts;
 
 public class TicgStationSlotLayoutProvider extends AbstractStationSlotLayoutProvider {
     public TicgStationSlotLayoutProvider(PackOutput packOutput) {
@@ -18,7 +17,7 @@ public class TicgStationSlotLayoutProvider extends AbstractStationSlotLayoutProv
                 .sortIndex(SORT_HARVEST)
                 .addInputItem(TicgToolParts.BASE_BULLET_HEAD, 44, 30)
                 .addInputItem(TicgToolParts.BASE_BULLET_SHELL, 26, 48)
-                .addInputItem(TinkerToolParts.toolBinding, 22, 26)
+                .addInputItem(TicgToolParts.GUNPOWDER, 52, 56)
                 .build();
     }
 

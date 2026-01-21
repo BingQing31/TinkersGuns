@@ -51,7 +51,7 @@ public class TicgToolDefinitionDataProvider extends AbstractToolDefinitionDataPr
                 .module(PartStatsModule.parts()
                         .part(TicgToolParts.BASE_BULLET_HEAD)
                         .part(TicgToolParts.BASE_BULLET_SHELL)
-                        .part(TinkerToolParts.toolBinding)
+                        .part(TicgToolParts.GUNPOWDER)
                         .build())
                 .module(defT1_2P3)
                 // stats

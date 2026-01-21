@@ -4,12 +4,14 @@
 
   "textures": {
     "head": "tconguns:item/tool/bullet/head",
-    "shell": "tconguns:item/tool/bullet/shell"
+    "shell": "tconguns:item/tool/bullet/shell",
+    "gunpowder": "tconguns:item/tool/bullet/gunpowder"
   },
 
   "parts": [
     {"name": "shell", "index": 1},
-    {"name": "head", "index": 0}
+    {"name": "head", "index": 0},
+    {"name": "gunpowder", "index": 2}
   ],
 
   "overrides": [

@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.kirisamey.tconguns.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "mixins.tconguns.refmap.json",
+  "mixins": [
+    "MaterialRegistryMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -7,10 +7,31 @@
 
   "item.tconguns.base_bullet_head": "基础弹头",
   "item.tconguns.base_bullet_shell": "基础弹壳",
+  "item.tconguns.gunpowder": "火药",
+
+  "stat.tconguns.gunpowder": "火药",
 
   "tool_stat.tconguns.bullet_attack": "弹药基伤：",
+  "tool_stat.tconguns.bullet_attack.description": "弹药击中时造成的伤害的基础值，最终伤害将受到击中时的弹头速度影响",
   "tool_stat.tconguns.bullet_velocity": "初速度：",
+  "tool_stat.tconguns.bullet_velocity.description": "子弹出膛时的速度（m/s）",
   "tool_stat.tconguns.bullet_velocity_attenuation": "速度衰减：",
+  "tool_stat.tconguns.bullet_velocity_attenuation.description": "弹头飞行中速度衰减的速率，该值越高时速度随时间衰减越快",
   "tool_stat.tconguns.bullet_recoil": "后坐力：",
-  "tool_stat.tconguns.bullet_volume": "开火音量："
+  "tool_stat.tconguns.bullet_recoil.description": "开火时对枪械造成的后坐力的大小",
+  "tool_stat.tconguns.bullet_volume": "开火音量：",
+  "tool_stat.tconguns.bullet_volume.description": "开火时产生的噪音的大小",
+
+
+  "material.tconguns.gunpowder": "火药",
+  "material.tconguns.gunpowder.flavor": "Sssss...",
+  "material.tconguns.gunpowder.gunpowder": "普通的火药，提供适中的推进力和后坐力。",
+
+  "material.tconguns.redstone": "红石",
+  "material.tconguns.redstone.flavor": "*发光*",
+  "material.tconguns.redstone.gunpowder": "小威力火药，虽推进力不足但后坐力极小。",
+
+  "material.tconguns.blaze_powder": "烈焰粉",
+  "material.tconguns.blaze_powder.flavor": "它本能被用来酿些酒…",
+  "material.tconguns.blaze_powder.gunpowder": "大威力火药，强烈的推进力，以及同样凶猛的后坐力。"
 }

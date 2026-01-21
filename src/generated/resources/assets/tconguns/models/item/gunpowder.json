@@ -1,11 +1,7 @@
 {
   "parent": "forge:item/default",
   "loader": "tconstruct:material",
-  "offset": [
-    -2,
-    2
-  ],
   "textures": {
-    "texture": "tconguns:item/tool/parts/base_bullet_head"
+    "texture": "tconguns:item/tool/parts/gunpowder"
   }
 }

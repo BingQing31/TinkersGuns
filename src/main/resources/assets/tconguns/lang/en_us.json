@@ -7,10 +7,31 @@
 
   "item.tconguns.base_bullet_head": "Basic Bullet Head",
   "item.tconguns.base_bullet_shell": "Basic Bullet Shell",
+  "item.tconguns.gunpowder": "Gunpowder",
+
+  "stat.tconguns.gunpowder": "Gunpowder",
 
   "tool_stat.tconguns.bullet_attack": "Bullet Atk: ",
+  "tool_stat.tconguns.bullet_attack.description": "The base damage dealt when ammunition hits; the final damage will be affected by the projectile's velocity at impact.",
   "tool_stat.tconguns.bullet_velocity": "Init Velocity: ",
+  "tool_stat.tconguns.bullet_velocity.description": "Velocity when the bullet leaves the barrel (m/s)",
   "tool_stat.tconguns.bullet_velocity_attenuation": "Velocity Attenuation: ",
+  "tool_stat.tconguns.bullet_velocity_attenuation.description": "The rate at which a projectile's velocity decays during flight; the higher this value, the faster the velocity decays over time.",
   "tool_stat.tconguns.bullet_recoil": "Recoil: ",
-  "tool_stat.tconguns.bullet_volume": "Shooting Volume: "
+  "tool_stat.tconguns.bullet_recoil.description": "The magnitude of recoil exerted on firearms during firing",
+  "tool_stat.tconguns.bullet_volume": "Shooting Volume: ",
+  "tool_stat.tconguns.bullet_volume.description": "The intensity of noise generated during firing",
+
+
+  "material.tconguns.gunpowder": "Gunpowder",
+  "material.tconguns.gunpowder.flavor": "Sssss...",
+  "material.tconguns.gunpowder.gunpowder": "Ordinary gunpowder, providing moderate propulsive force and recoil.",
+
+  "material.tconguns.redstone": "Redstone",
+  "material.tconguns.redstone.flavor": "*Light*",
+  "material.tconguns.redstone.gunpowder": "Low-power gunpowder, offering reduced recoil in exchange for diminished propulsive force.",
+
+  "material.tconguns.blaze_powder": "Blaze Powder",
+  "material.tconguns.blaze_powder.flavor": "It could have been used to make some wine...",
+  "material.tconguns.blaze_powder.gunpowder": "High-powered gunpowder, delivering powerful propulsion and equally formidable recoil."
 }
