@@ -12,9 +12,11 @@ public class TicgStationSlotLayoutProvider extends AbstractStationSlotLayoutProv
     }
 
     @Override protected void addLayouts() {
+        // guns
+
         // bullet
         defineModifiable(TicgTools.BASE_BULLET)
-                .sortIndex(SORT_HARVEST)
+                .sortIndex(SORT_RANGED)
                 .addInputItem(TicgToolParts.BASE_BULLET_HEAD, 44, 30)
                 .addInputItem(TicgToolParts.BASE_BULLET_SHELL, 26, 48)
                 .addInputItem(TicgToolParts.GUNPOWDER, 52, 56)

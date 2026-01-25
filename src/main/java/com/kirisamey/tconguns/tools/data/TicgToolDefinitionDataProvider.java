@@ -46,6 +46,20 @@ public class TicgToolDefinitionDataProvider extends AbstractToolDefinitionDataPr
         DefaultMaterialsModule defT1_3P4 = DefaultMaterialsModule.builder().material(matT1_3, matT1_3, matT1_3, matT1_3).build();
         DefaultMaterialsModule defT1_3P5 = DefaultMaterialsModule.builder().material(matT1_3, matT1_3, matT1_3, matT1_3, matT1_3).build();
 
+
+        define(TicgToolDefinitions.GUN_SMALL)
+                // parts
+                .module(PartStatsModule.parts()
+                        .part(TinkerToolParts.pickHead)
+                        .part(TinkerToolParts.pickHead)
+                        .part(TinkerToolParts.pickHead)
+                        .part(TinkerToolParts.pickHead)
+                        .part(TinkerToolParts.toolHandle)
+                        .build())
+                .module(defT1_2P5)
+                // stats
+                .smallToolStartingSlots();
+
         define(TicgToolDefinitions.BASE_BULLET)
                 // parts
                 .module(PartStatsModule.parts()

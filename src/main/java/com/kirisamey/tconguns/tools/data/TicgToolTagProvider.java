@@ -28,8 +28,13 @@ public class TicgToolTagProvider extends ItemTagsProvider {
     }
 
     @Override protected void addTags(@NotNull HolderLookup.Provider provider) {
-        //todo: 定义自己的tags
-        addToolTags(TicgTools.BASE_BULLET,
+        addToolTags(
+                TicgTools.GUN_SMALL,
+                MULTIPART_TOOL, SMALL_TOOLS, DURABILITY
+        );
+
+        addToolTags(
+                TicgTools.BASE_BULLET,
                 MULTIPART_TOOL, SMALL_TOOLS, DURABILITY, BULLET
         );
     }

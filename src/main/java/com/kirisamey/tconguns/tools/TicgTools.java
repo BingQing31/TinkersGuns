@@ -2,6 +2,7 @@ package com.kirisamey.tconguns.tools;
 
 import com.kirisamey.tconguns.register.TicgModuleBase;
 import com.kirisamey.tconguns.tools.impl.BulletTool;
+import com.kirisamey.tconguns.tools.impl.GunTool;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -28,20 +29,38 @@ public final class TicgTools extends TicgModuleBase {
         RandomMaterial.init();
     }
 
+    public static final ItemObject<ModifiableItem> GUN_SMALL = TIC_ITEMS.register(
+            "gun_small", () -> new GunTool(UNSTACKABLE_PROPS, TicgToolDefinitions.GUN_SMALL));
+
+
     public static final ItemObject<ModifiableItem> BASE_BULLET = TIC_ITEMS.register(
             "base_bullet", () -> new BulletTool(UNSTACKABLE_PROPS, TicgToolDefinitions.BASE_BULLET));
 
 
-    public static final RegistryObject<CreativeModeTab> TAB_TOOLS = CREATIVE_TABS.register(
-            "tools", () -> CreativeModeTab.builder()
-                    .title(Component.translatable("itemGroup.tconguns.tools"))
-                    .icon(() -> BASE_BULLET.get().getRenderTool())
-                    .displayItems(TicgTools::addTabItems)
+    public static final RegistryObject<CreativeModeTab> TAB_GUNS = CREATIVE_TABS.register(
+            "guns", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.tconguns.guns"))
+                    .icon(() -> GUN_SMALL.get().getRenderTool())
+                    .displayItems(TicgTools::addGunTabItems)
                     .withTabsBefore(TinkerTools.tabTools.getId(), TinkerToolParts.tabToolParts.getId())
                     .withSearchBar()
                     .build());
+    public static final RegistryObject<CreativeModeTab> TAB_BULLETS = CREATIVE_TABS.register(
+            "bullets", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.tconguns.bullets"))
+                    .icon(() -> BASE_BULLET.get().getRenderTool())
+                    .displayItems(TicgTools::addBulletTabItems)
+                    .withTabsBefore(TAB_GUNS.getId())
+                    .withSearchBar()
+                    .build());
 
-    private static void addTabItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output tab) {
+
+    private static void addGunTabItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output tab) {
+        Consumer<ItemStack> output = tab::accept;
+        acceptTool(output, GUN_SMALL);
+    }
+
+    private static void addBulletTabItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output tab) {
         Consumer<ItemStack> output = tab::accept;
         acceptTool(output, BASE_BULLET);
     }

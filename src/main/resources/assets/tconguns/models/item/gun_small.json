@@ -1,0 +1,33 @@
+{
+  "loader": "tconguns:anim_tool3d",
+  "parts": {
+    "body": {
+      "model": "tconguns:item/gun_small/body",
+      "tool_part": 0
+    },
+    "barrel": {
+      "model": "tconguns:item/gun_small/barrel",
+      "tool_part": 1
+    },
+    "slide": {
+      "model": "tconguns:item/gun_small/slide",
+      "tool_part": 2
+    },
+    "hammer": {
+      "model": "tconguns:item/gun_small/hammer",
+      "tool_part": 2
+    },
+    "bolt": {
+      "model": "tconguns:item/gun_small/bolt",
+      "tool_part": 2
+    },
+    "magazine": {
+      "model": "tconguns:item/gun_small/magazine",
+      "tool_part": 3
+    },
+    "handle": {
+      "model": "tconguns:item/gun_small/handle",
+      "tool_part": 4
+    }
+  }
+}

@@ -16,7 +16,6 @@ import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
 import slimeknights.tconstruct.library.tools.part.IMaterialItem;
 import slimeknights.tconstruct.library.tools.part.ToolPartItem;
-import slimeknights.tconstruct.tools.stats.HandleMaterialStats;
 import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
 
 import java.util.function.Consumer;
@@ -53,7 +52,7 @@ public class TicgToolParts extends TicgModuleBase {
                         return BASE_BULLET_HEAD.get().withMaterialForDisplay(material);
                     })
                     .displayItems(TicgToolParts::addTabItems)
-                    .withTabsBefore(TicgTools.TAB_TOOLS.getId())
+                    .withTabsBefore(TicgTools.TAB_GUNS.getId(), TicgTools.TAB_BULLETS.getId())
                     .withSearchBar()
                     .build());
 

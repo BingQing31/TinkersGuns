@@ -1,0 +1,8 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "model": "tconguns:models/item/gun_small/magazine.obj",
+  "textures": {
+    "gun_small": "tconguns:item/tool/gun_small"
+  }
+}

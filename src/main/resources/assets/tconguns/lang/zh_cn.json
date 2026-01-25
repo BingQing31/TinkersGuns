@@ -1,6 +1,13 @@
 {
-  "itemGroup.tconguns.tools": "匠魂枪械：工具",
+  "itemGroup.tconguns.misc": "匠魂枪械：杂项",
+  "itemGroup.tconguns.guns": "匠魂枪械：枪械",
+  "itemGroup.tconguns.bullets": "匠魂枪械：弹药",
   "itemGroup.tconguns.tool_parts": "匠魂枪械：部件",
+
+  "item.tconguns.test_item": "匠魂枪械 - 测试物品",
+
+  "item.tconguns.gun_small": "工匠手枪",
+  "item.tconguns.gun_small.description": "工匠手枪暗色调飞哥很健康离开家很过分打撒",
 
   "item.tconguns.base_bullet": "基础工匠子弹",
   "item.tconguns.base_bullet.description": "基础的工匠子弹，用作工匠枪械的弹药。\n使用其他类型的部件可在工匠站上制造出特种弹药。",

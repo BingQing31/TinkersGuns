@@ -17,6 +17,7 @@ public abstract class TicgModuleBase {
 
     public static void initRegisters(IEventBus modEventBus) {
         TIC_ITEMS.register(modEventBus);
+        ITEMS.register(modEventBus);
         CREATIVE_TABS.register(modEventBus);
     }
 

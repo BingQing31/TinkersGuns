@@ -1,6 +1,13 @@
 {
-  "itemGroup.tconguns.tools": "TiCG: Tools",
+  "itemGroup.tconguns.guns": "TiCG: Guns",
+  "itemGroup.tconguns.bullets": "TiCG: Bullets",
   "itemGroup.tconguns.tool_parts": "TiCG: Tool Parts",
+  "itemGroup.tconguns.misc": "TiCG: Misc",
+
+  "item.tconguns.test_item": "Tinker Guns - Test Item",
+
+  "item.tconguns.gun_small": "Tinker Pistol",
+  "item.tconguns.gun_small.description": "Tinker Pistol lorem ipsum dolor sit amet consectetur adipiscing elit.",
 
   "item.tconguns.base_bullet": "Basic Tinker Bullet",
   "item.tconguns.base_bullet.description": "Basic Tinker Bullet, used as ammo for Tinker firearms.\nUsing other types of components allows for the crafting of specialized ammunition at the Tinker Station.",
