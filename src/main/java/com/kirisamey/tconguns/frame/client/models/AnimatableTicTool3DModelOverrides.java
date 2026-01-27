@@ -71,7 +71,7 @@ public class AnimatableTicTool3DModelOverrides extends ItemOverrides {
             return new Vector4f(r, g, b, a);
         }).toArray(Vector4f[]::new);
 
-        return new AnimatableTicTool3DFinalBakedModel(original.getParts(), argbColors, partAnimPairs);
+        return new AnimatableTicTool3DFinalBakedModel(original.getParts(), argbColors, partAnimPairs, original.getTransforms());
     }
 
     record OverrideKey(ImmutableList<MaterialVariant> partMats) {

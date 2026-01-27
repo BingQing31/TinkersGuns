@@ -1,33 +1,55 @@
 {
-  "loader": "tconguns:anim_tool3d",
-  "parts": {
-    "body": {
-      "model": "tconguns:item/gun_small/body",
-      "tool_part": 0
+    "loader": "tconguns:anim_tool3d",
+    "parts": {
+        "body": {
+            "model": "tconguns:item/gun_small/body",
+            "tool_part": 0
+        },
+        "barrel": {
+            "model": "tconguns:item/gun_small/barrel",
+            "tool_part": 1
+        },
+        "slide": {
+            "model": "tconguns:item/gun_small/slide",
+            "tool_part": 2
+        },
+        "hammer": {
+            "model": "tconguns:item/gun_small/hammer",
+            "tool_part": 2
+        },
+        "bolt": {
+            "model": "tconguns:item/gun_small/bolt",
+            "tool_part": 2
+        },
+        "magazine": {
+            "model": "tconguns:item/gun_small/magazine",
+            "tool_part": 3
+        },
+        "handle": {
+            "model": "tconguns:item/gun_small/handle",
+            "tool_part": 4
+        }
     },
-    "barrel": {
-      "model": "tconguns:item/gun_small/barrel",
-      "tool_part": 1
-    },
-    "slide": {
-      "model": "tconguns:item/gun_small/slide",
-      "tool_part": 2
-    },
-    "hammer": {
-      "model": "tconguns:item/gun_small/hammer",
-      "tool_part": 2
-    },
-    "bolt": {
-      "model": "tconguns:item/gun_small/bolt",
-      "tool_part": 2
-    },
-    "magazine": {
-      "model": "tconguns:item/gun_small/magazine",
-      "tool_part": 3
-    },
-    "handle": {
-      "model": "tconguns:item/gun_small/handle",
-      "tool_part": 4
+    "display": {
+        "firstperson_righthand": {
+            "rotation": [0, 90, 0],
+            "translation": [0, 2, -2]
+        },
+        "firstperson_lefthand": {
+            "rotation": [0, -90, 0],
+            "translation": [0, 2, -2]
+        },
+        "thirdperson_righthand": {
+            "rotation": [0, 90, 0],
+            "translation": [0, 2, -2]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [0, -90, 0],
+            "translation": [0, 2, -2]
+        },
+        "head": {
+            "rotation": [0, 90, 0],
+            "translation": [0, 8, 0]
+        }
     }
-  }
 }

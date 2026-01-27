@@ -36,6 +36,8 @@ public class AnimatableTicTool3DRenderer extends BlockEntityWithoutLevelRenderer
                              @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource,
                              int packedLight, int packedOverlay) {
 
+
+
         if (!(itemStack.getItem() instanceof AnimatableTicTool3DItem item)) {
             super.renderByItem(itemStack, itemDisplayContext, poseStack, multiBufferSource, packedLight, packedOverlay);
             return;

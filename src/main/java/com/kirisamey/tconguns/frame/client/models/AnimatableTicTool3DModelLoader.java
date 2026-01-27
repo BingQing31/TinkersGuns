@@ -3,6 +3,7 @@ package com.kirisamey.tconguns.frame.client.models;
 import com.google.gson.*;
 import com.kirisamey.tconguns.TconGuns;
 import lombok.extern.log4j.Log4j2;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelEvent;
@@ -35,7 +36,13 @@ public class AnimatableTicTool3DModelLoader implements IGeometryLoader<Animatabl
                 }
                 return new AnimatableTicTool3DModelData.UnbakedPart(id, model, toolPart, shift);
             }).toList();
-            return new AnimatableTicTool3DUnbakedModel(parts);
+
+            var transforms = ItemTransforms.NO_TRANSFORMS;
+            if (jsonObject.has("display")) {
+                transforms = deserializationContext.deserialize(jsonObject.get("display"), ItemTransforms.class);
+            }
+
+            return new AnimatableTicTool3DUnbakedModel(parts, transforms);
         } catch (IllegalStateException | JsonSyntaxException | ClassCastException | NullPointerException e) {
             throw new JsonParseException("AnimTicTool3DModel Loader found invalid model data.", e);
         }

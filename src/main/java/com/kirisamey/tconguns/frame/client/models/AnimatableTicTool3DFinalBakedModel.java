@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
@@ -32,9 +33,10 @@ import java.util.List;
 public class AnimatableTicTool3DFinalBakedModel implements BakedModel {
 
     public AnimatableTicTool3DFinalBakedModel(List<AnimatableTicTool3DModelData.BakedPart> parts, Vector4f[] partArgbColors,
-                                              List<Pair<Integer, Integer>> partAnimPairs) {
+                                              List<Pair<Integer, Integer>> partAnimPairs, ItemTransforms transforms) {
         this.parts = parts;
         this.toolPartRgbaColors = partArgbColors;
+        this.transforms = transforms;
 
         for (var pair : partAnimPairs) {
             while (ANIM_MAT_COLOR_UPDATE_LIST.size() <= pair.second) {
@@ -48,6 +50,7 @@ public class AnimatableTicTool3DFinalBakedModel implements BakedModel {
 
     @Getter private final List<AnimatableTicTool3DModelData.BakedPart> parts;
     @Getter private final Vector4f[] toolPartRgbaColors;
+    @Getter private final ItemTransforms transforms;
 
     @Override
     public @NotNull List<BakedQuad> getQuads(@Nullable BlockState blockState, @Nullable Direction direction, @NotNull RandomSource randomSource) {
@@ -82,7 +85,9 @@ public class AnimatableTicTool3DFinalBakedModel implements BakedModel {
 
     @Override
     public @NotNull BakedModel applyTransform(@NotNull ItemDisplayContext transformType, @NotNull PoseStack poseStack, boolean applyLeftHandTransform) {
-        return BakedModel.super.applyTransform(transformType, poseStack, applyLeftHandTransform);
+        var tr = transforms.getTransform(transformType);
+        tr.apply(applyLeftHandTransform, poseStack);
+        return this;
     }
 
     @Override public @NotNull List<RenderType> getRenderTypes(@NotNull ItemStack itemStack, boolean fabulous) {
