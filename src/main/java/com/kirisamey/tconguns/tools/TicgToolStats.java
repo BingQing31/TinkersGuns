@@ -27,6 +27,35 @@ public class TicgToolStats {
     ));
 
 
+    public static final FloatToolStat GUN_ATTACK = ToolStats.register(new FloatToolStat(
+            statId("gun_attack"), 0xffffffff, 0, Float.MIN_VALUE, Float.MAX_VALUE, TicgToolTags.GUN
+    ));
+
+    public static final FloatToolStat GUN_VELOCITY = ToolStats.register(new FloatToolStat(
+            statId("gun_velocity"), 0xffffffff, 0, Float.MIN_VALUE, Float.MAX_VALUE, TicgToolTags.GUN
+    ));
+
+    public static final FloatToolStat GUN_RECOIL = ToolStats.register(new FloatToolStat(
+            statId("gun_recoil"), 0xffffffff, 0, Float.MIN_VALUE, Float.MAX_VALUE, TicgToolTags.GUN
+    ));
+
+    public static final FloatToolStat GUN_SHOT_SPEED = ToolStats.register(new FloatToolStat(
+            statId("gun_shot_speed"), 0xff5500cc, 1, 0, Float.MAX_VALUE, TicgToolTags.GUN
+    ));
+
+    public static final FloatToolStat GUN_ACCURACY = ToolStats.register(new FloatToolStat(
+            statId("gun_accuracy"), 0xff4466ff, 1, 0, Float.MAX_VALUE, TicgToolTags.GUN
+    ));
+
+    public static final FloatToolStat GUN_MAGAZINE_CAPACITY = ToolStats.register(new FloatToolStat(
+            statId("gun_magazine_capacity"), 0xff00ff00, 5, 1, Integer.MAX_VALUE, TicgToolTags.GUN
+    ));
+
+    public static final FloatToolStat GUN_RELOAD_SPEED = ToolStats.register(new FloatToolStat(
+            statId("gun_reload_speed"), 0xff66ff00, 1, 0, Integer.MAX_VALUE, TicgToolTags.GUN
+    ));
+
+
     private static ToolStatId statId(String name) {
         return new ToolStatId(TconGuns.MODID, name);
     }

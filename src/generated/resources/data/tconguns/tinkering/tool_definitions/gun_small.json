@@ -3,11 +3,11 @@
     {
       "type": "tconstruct:part_stats",
       "parts": [
-        "tconstruct:pick_head",
-        "tconstruct:pick_head",
-        "tconstruct:pick_head",
-        "tconstruct:pick_head",
-        "tconstruct:tool_handle"
+        "tconguns:gunbody_small",
+        "tconguns:barrel",
+        "tconguns:bolt",
+        "tconguns:magazine",
+        "tconguns:gun_handle"
       ],
       "primary_part": 0
     },
@@ -17,35 +17,35 @@
         {
           "type": "tconstruct:random",
           "tier": {
-            "max": 2,
+            "max": 3,
             "min": 1
           }
         },
         {
           "type": "tconstruct:random",
           "tier": {
-            "max": 2,
+            "max": 3,
             "min": 1
           }
         },
         {
           "type": "tconstruct:random",
           "tier": {
-            "max": 2,
+            "max": 3,
             "min": 1
           }
         },
         {
           "type": "tconstruct:random",
           "tier": {
-            "max": 2,
+            "max": 3,
             "min": 1
           }
         },
         {
           "type": "tconstruct:random",
           "tier": {
-            "max": 2,
+            "max": 3,
             "min": 1
           }
         }

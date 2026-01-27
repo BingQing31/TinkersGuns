@@ -4,6 +4,7 @@
   "itemGroup.tconguns.tool_parts": "TiCG: Tool Parts",
   "itemGroup.tconguns.misc": "TiCG: Misc",
 
+
   "item.tconguns.test_item": "Tinker Guns - Test Item",
 
   "item.tconguns.gun_small": "Tinker Pistol",
@@ -12,13 +13,27 @@
   "item.tconguns.base_bullet": "Basic Tinker Bullet",
   "item.tconguns.base_bullet.description": "Basic Tinker Bullet, used as ammo for Tinker firearms.\nUsing other types of components allows for the crafting of specialized ammunition at the Tinker Station.",
 
+  "item.tconguns.barrel": "Barrel",
+  "item.tconguns.bolt": "Bolt",
+  "item.tconguns.gun_handle": "Gun Handle",
+  "item.tconguns.magazine": "Magazine",
+  "item.tconguns.gunbody_small": "Small Gunbody",
+
   "item.tconguns.base_bullet_head": "Basic Bullet Head",
   "item.tconguns.base_bullet_shell": "Basic Bullet Shell",
   "item.tconguns.gunpowder": "Gunpowder",
 
+
+  "stat.tconguns.barrel": "Barrel",
+  "stat.tconguns.bolt": "Bolt",
+  "stat.tconguns.gun_handle": "Gun Handle",
+  "stat.tconguns.magazine": "Magazine",
+  "stat.tconguns.gunbody": "Gunbody",
+
   "stat.tconguns.bullet_head": "Bullet Head",
   "stat.tconguns.bullet_shell": "Bullet Shell",
   "stat.tconguns.gunpowder": "Gunpowder",
+
 
   "tool_stat.tconguns.bullet_attack": "Bullet Atk: ",
   "tool_stat.tconguns.bullet_attack.description": "The base damage dealt when ammunition hits; the final damage will be affected by the projectile's velocity at impact.",
@@ -30,6 +45,21 @@
   "tool_stat.tconguns.bullet_recoil.description": "The magnitude of recoil exerted on firearms during firing",
   "tool_stat.tconguns.bullet_volume": "Shooting Volume: ",
   "tool_stat.tconguns.bullet_volume.description": "The intensity of noise generated during firing",
+
+  "tool_stat.tconguns.gun_attack": "Bullet Atk: ",
+  "tool_stat.tconguns.gun_attack.description": "Base damage adjustment provided by guns",
+  "tool_stat.tconguns.gun_velocity": "Init Velocity: ",
+  "tool_stat.tconguns.gun_velocity.description": "Init velocity adjustment provided by guns",
+  "tool_stat.tconguns.gun_recoil": "Recoil: ",
+  "tool_stat.tconguns.gun_recoil.description": "Recoil adjustment provided by guns",
+  "tool_stat.tconguns.gun_shot_speed": "Shot Speed: ",
+  "tool_stat.tconguns.gun_shot_speed.description": "Maximum rate of continuous firing",
+  "tool_stat.tconguns.gun_accuracy": "Accuracy: ",
+  "tool_stat.tconguns.gun_accuracy.description": "Shooting accuracy: The lower this value, the greater the probability and degree of deviation from the crosshairs during firing",
+  "tool_stat.tconguns.gun_magazine_capacity": "Magazine Capacity: ",
+  "tool_stat.tconguns.gun_magazine_capacity.description": "Number of bullets loaded when the magazine is fully loaded",
+  "tool_stat.tconguns.gun_reload_speed": "Reload Speed: ",
+  "tool_stat.tconguns.gun_reload_speed.description": "Speed of reloading",
 
 
   "material.tconguns.gunpowder": "Gunpowder",

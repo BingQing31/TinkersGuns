@@ -1,0 +1,55 @@
+{
+  "icon": {
+    "item": "tconguns:gun_small",
+    "nbt": "{Damage:0,tic_broken:0b,tic_display:1b,tic_materials:[\"tconstruct:ui_render#head\",\"tconstruct:ui_render#handle\",\"tconstruct:ui_render#extra\",\"tconstruct:ui_render#large\",\"tconstruct:ui_render#extra_large\"]}"
+  },
+  "input_slots": [
+    {
+      "filter": {
+        "item": "tconguns:gunbody_small"
+      },
+      "icon": "tconguns:gunbody_small",
+      "translation_key": "item.tconguns.gunbody_small",
+      "x": 28,
+      "y": 30
+    },
+    {
+      "filter": {
+        "item": "tconguns:barrel"
+      },
+      "icon": "tconguns:barrel",
+      "translation_key": "item.tconguns.barrel",
+      "x": 48,
+      "y": 30
+    },
+    {
+      "filter": {
+        "item": "tconguns:bolt"
+      },
+      "icon": "tconguns:bolt",
+      "translation_key": "item.tconguns.bolt",
+      "x": 34,
+      "y": 50
+    },
+    {
+      "filter": {
+        "item": "tconguns:magazine"
+      },
+      "icon": "tconguns:magazine",
+      "translation_key": "item.tconguns.magazine",
+      "x": 54,
+      "y": 54
+    },
+    {
+      "filter": {
+        "item": "tconguns:gun_handle"
+      },
+      "icon": "tconguns:gun_handle",
+      "translation_key": "item.tconguns.gun_handle",
+      "x": 14,
+      "y": 50
+    }
+  ],
+  "sortIndex": 8,
+  "translation_key": "item.tconguns.gun_small"
+}

@@ -18,6 +18,7 @@ public class TicgToolRecipeProvider extends RecipeProviderBase implements IToolR
     @Override protected void buildRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
         String folder = "tools/building/";
 
+        toolBuilding(consumer, TicgTools.GUN_SMALL, folder);
         toolBuilding(consumer, TicgTools.BASE_BULLET, folder);
     }
 

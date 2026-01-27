@@ -33,11 +33,11 @@
     "display": {
         "firstperson_righthand": {
             "rotation": [0, 90, 0],
-            "translation": [0, 2, -2]
+            "translation": [0, 2.5, -2]
         },
         "firstperson_lefthand": {
             "rotation": [0, -90, 0],
-            "translation": [0, 2, -2]
+            "translation": [0, 2.5, -2]
         },
         "thirdperson_righthand": {
             "rotation": [0, 90, 0],
@@ -49,7 +49,11 @@
         },
         "head": {
             "rotation": [0, 90, 0],
-            "translation": [0, 8, 0]
+            "translation": [0, 15, -8],
+            "scale": [2, 2, 2]
+        },
+        "ground": {
+            "translation": [0, 2, 0]
         }
     }
 }

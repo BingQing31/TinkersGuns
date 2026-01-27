@@ -50,13 +50,13 @@ public class TicgToolDefinitionDataProvider extends AbstractToolDefinitionDataPr
         define(TicgToolDefinitions.GUN_SMALL)
                 // parts
                 .module(PartStatsModule.parts()
-                        .part(TinkerToolParts.pickHead)
-                        .part(TinkerToolParts.pickHead)
-                        .part(TinkerToolParts.pickHead)
-                        .part(TinkerToolParts.pickHead)
-                        .part(TinkerToolParts.toolHandle)
+                        .part(TicgToolParts.GUNBODY_SMALL)
+                        .part(TicgToolParts.BARREL)
+                        .part(TicgToolParts.BOLT)
+                        .part(TicgToolParts.MAGAZINE)
+                        .part(TicgToolParts.GUN_HANDLE)
                         .build())
-                .module(defT1_2P5)
+                .module(defT1_3P5)
                 // stats
                 .smallToolStartingSlots();
 

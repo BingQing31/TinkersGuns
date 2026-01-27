@@ -4,6 +4,7 @@
   "itemGroup.tconguns.bullets": "匠魂枪械：弹药",
   "itemGroup.tconguns.tool_parts": "匠魂枪械：部件",
 
+
   "item.tconguns.test_item": "匠魂枪械 - 测试物品",
 
   "item.tconguns.gun_small": "工匠手枪",
@@ -12,13 +13,27 @@
   "item.tconguns.base_bullet": "基础工匠子弹",
   "item.tconguns.base_bullet.description": "基础的工匠子弹，用作工匠枪械的弹药。\n使用其他类型的部件可在工匠站上制造出特种弹药。",
 
+  "item.tconguns.barrel": "枪管",
+  "item.tconguns.bolt": "枪机",
+  "item.tconguns.gun_handle": "枪柄",
+  "item.tconguns.magazine": "弹匣",
+  "item.tconguns.gunbody_small": "小型枪体",
+
   "item.tconguns.base_bullet_head": "基础弹头",
   "item.tconguns.base_bullet_shell": "基础弹壳",
   "item.tconguns.gunpowder": "火药",
 
+
+  "stat.tconguns.barrel": "枪管",
+  "stat.tconguns.bolt": "枪机",
+  "stat.tconguns.gun_handle": "枪柄",
+  "stat.tconguns.magazine": "弹匣",
+  "stat.tconguns.gunbody": "枪体",
+
   "stat.tconguns.bullet_head": "弹头",
   "stat.tconguns.bullet_shell": "弹壳",
   "stat.tconguns.gunpowder": "火药",
+
 
   "tool_stat.tconguns.bullet_attack": "弹药基伤：",
   "tool_stat.tconguns.bullet_attack.description": "弹药击中时造成的伤害的基础值，最终伤害将受到击中时的弹头速度影响",
@@ -30,6 +45,21 @@
   "tool_stat.tconguns.bullet_recoil.description": "开火时对枪械造成的后坐力的大小",
   "tool_stat.tconguns.bullet_volume": "开火音量：",
   "tool_stat.tconguns.bullet_volume.description": "开火时产生的噪音的大小",
+
+  "tool_stat.tconguns.gun_attack": "弹药基伤：",
+  "tool_stat.tconguns.gun_attack.description": "枪械提供的弹药基伤修正",
+  "tool_stat.tconguns.gun_velocity": "初速度：",
+  "tool_stat.tconguns.gun_velocity.description": "枪械提供的初速度修正",
+  "tool_stat.tconguns.gun_recoil": "后坐力：",
+  "tool_stat.tconguns.gun_recoil.description": "枪械提供的后坐力修正",
+  "tool_stat.tconguns.gun_shot_speed": "射速：",
+  "tool_stat.tconguns.gun_shot_speed.description": "连续射击的最大频率",
+  "tool_stat.tconguns.gun_accuracy": "精准度：",
+  "tool_stat.tconguns.gun_accuracy.description": "射击时的精准度：该值越低，则实际弹道偏离准星的概率和程度越大",
+  "tool_stat.tconguns.gun_magazine_capacity": "装弹量：",
+  "tool_stat.tconguns.gun_magazine_capacity.description": "弹匣能容纳的子弹数量",
+  "tool_stat.tconguns.gun_reload_speed": "换弹速度: ",
+  "tool_stat.tconguns.gun_reload_speed.description": "重新装弹的速度",
 
 
   "material.tconguns.gunpowder": "火药",

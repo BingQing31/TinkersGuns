@@ -1,5 +1,6 @@
-package com.kirisamey.tconguns.materials.dynamics;
+package com.kirisamey.tconguns.materials.dynamics.bullet;
 
+import com.kirisamey.tconguns.materials.dynamics.DynamicMaterialStatsGeneratorBase;
 import com.kirisamey.tconguns.toolparts.materialstats.BulletHeadMaterialStats;
 import org.jetbrains.annotations.NotNull;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
@@ -22,7 +23,6 @@ public class DynamicBulletHeadStatsGenerator extends DynamicMaterialStatsGenerat
     }
 
     @Override protected Optional<Ctx> getContext(MaterialId mat, Map<MaterialStatsId, IMaterialStats> stats) {
-        if (stats.containsKey(BulletHeadMaterialStats.ID)) return Optional.empty();
         var head = stats.getOrDefault(HeadMaterialStats.ID, null);
         var handle = stats.getOrDefault(HandleMaterialStats.ID, null);
         if (!(head instanceof HeadMaterialStats headStats)) return Optional.empty();

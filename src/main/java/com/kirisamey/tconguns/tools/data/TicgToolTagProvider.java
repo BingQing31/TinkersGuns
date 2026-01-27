@@ -30,7 +30,7 @@ public class TicgToolTagProvider extends ItemTagsProvider {
     @Override protected void addTags(@NotNull HolderLookup.Provider provider) {
         addToolTags(
                 TicgTools.GUN_SMALL,
-                MULTIPART_TOOL, SMALL_TOOLS, DURABILITY
+                MULTIPART_TOOL, SMALL_TOOLS, DURABILITY, GUN
         );
 
         addToolTags(

@@ -6,4 +6,5 @@ import net.minecraft.world.item.Item;
 
 public final class TicgToolTags extends TicgModuleBase {
     public static final TagKey<Item> BULLET = ITEMS.createTagKey("bullet");
+    public static final TagKey<Item> GUN = ITEMS.createTagKey("gun");
 }

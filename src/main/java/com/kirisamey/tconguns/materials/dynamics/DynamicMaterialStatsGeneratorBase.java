@@ -17,7 +17,9 @@ public abstract class DynamicMaterialStatsGeneratorBase<TMaterialStats extends I
     public void append(Map<MaterialId, Map<MaterialStatsId, IMaterialStats>> map) {
         log.info("<{}> Start calculating mat...", getName());
 
-        Map<MaterialId, Map<MaterialStatsId, IMaterialStats>> statsPatch = map.entrySet().stream().map(entry -> {
+        Map<MaterialId, Map<MaterialStatsId, IMaterialStats>> statsPatch = map.entrySet().stream().filter(entry -> {
+            return !entry.getValue().containsKey(getMatId());
+        }).map(entry -> {
             return getContext(entry.getKey(), entry.getValue())
                     .map(ctx -> new ContextInfos<>(entry.getKey(), entry.getValue(), ctx));
         }).filter(Optional::isPresent).collect(Collectors.toMap(

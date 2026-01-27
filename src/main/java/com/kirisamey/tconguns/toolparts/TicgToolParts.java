@@ -1,9 +1,7 @@
 package com.kirisamey.tconguns.toolparts;
 
 import com.kirisamey.tconguns.register.TicgModuleBase;
-import com.kirisamey.tconguns.toolparts.materialstats.BulletHeadMaterialStats;
-import com.kirisamey.tconguns.toolparts.materialstats.BulletShellMaterialStats;
-import com.kirisamey.tconguns.toolparts.materialstats.GunpowderMaterialStats;
+import com.kirisamey.tconguns.toolparts.materialstats.*;
 import com.kirisamey.tconguns.tools.TicgTools;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -22,6 +20,32 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class TicgToolParts extends TicgModuleBase {
+
+    public static final ItemObject<ToolPartItem> BARREL = TIC_ITEMS.register(
+            "barrel",
+            () -> new ToolPartItem(ITEM_PROPS, BarrelMaterialStats.ID)
+    );
+
+    public static final ItemObject<ToolPartItem> BOLT = TIC_ITEMS.register(
+            "bolt",
+            () -> new ToolPartItem(ITEM_PROPS, BoltMaterialStats.ID)
+    );
+
+    public static final ItemObject<ToolPartItem> GUN_HANDLE = TIC_ITEMS.register(
+            "gun_handle",
+            () -> new ToolPartItem(ITEM_PROPS, GunHandleMaterialStats.ID)
+    );
+
+    public static final ItemObject<ToolPartItem> MAGAZINE = TIC_ITEMS.register(
+            "magazine",
+            () -> new ToolPartItem(ITEM_PROPS, MagazineMaterialStats.ID)
+    );
+
+    public static final ItemObject<ToolPartItem> GUNBODY_SMALL = TIC_ITEMS.register(
+            "gunbody_small",
+            () -> new ToolPartItem(ITEM_PROPS, GunbodyMaterialStats.ID)
+    );
+
 
     public static final ItemObject<ToolPartItem> BASE_BULLET_HEAD = TIC_ITEMS.register(
             "base_bullet_head",
@@ -58,6 +82,12 @@ public class TicgToolParts extends TicgModuleBase {
 
     private static void addTabItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output tab) {
         Consumer<ItemStack> output = tab::accept;
+
+        acceptToolPart(output, BARREL);
+        acceptToolPart(output, BOLT);
+        acceptToolPart(output, GUN_HANDLE);
+        acceptToolPart(output, MAGAZINE);
+        acceptToolPart(output, GUNBODY_SMALL);
 
         acceptToolPart(output, BASE_BULLET_HEAD);
         acceptToolPart(output, BASE_BULLET_SHELL);
