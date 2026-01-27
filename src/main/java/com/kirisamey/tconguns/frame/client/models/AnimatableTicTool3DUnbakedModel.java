@@ -1,6 +1,5 @@
 package com.kirisamey.tconguns.frame.client.models;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -16,7 +15,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class AnimatableTicTool3DUnbakedModel implements IUnbakedGeometry<AnimatableTicTool3DUnbakedModel> {
 
-    private final List<AnimatableTicTool3DModelPart.Unbaked> parts;
+    private final List<AnimatableTicTool3DModelData.UnbakedPart> parts;
 
 
     @Override
@@ -28,13 +27,14 @@ public class AnimatableTicTool3DUnbakedModel implements IUnbakedGeometry<Animata
     public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
         var bakedParts = parts.stream().map(p -> {
             var model = baker.bake(p.model(), modelState, spriteGetter);
-            return new AnimatableTicTool3DModelPart.Baked(p.id(), model, p.toolPart(), p.shift());
+            return new AnimatableTicTool3DModelData.BakedPart(p.id(), model, p.toolPart(), p.shift());
         }).toList();
-        return new AnimatableTicTool3DBakedModel(bakedParts);
+        return new AnimatableTicTool3DOriginalBakedModel(bakedParts);
     }
 
     @Override public Set<String> getConfigurableComponentNames() {
         return IUnbakedGeometry.super.getConfigurableComponentNames();
     }
+
 
 }

@@ -1,6 +1,7 @@
 package com.kirisamey.tconguns.frame.client.models;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
@@ -19,17 +20,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
-public class AnimatableTicTool3DBakedModel implements BakedModel {
+public class AnimatableTicTool3DOriginalBakedModel implements BakedModel {
 
-    private final List<AnimatableTicTool3DModelPart.Baked> parts;
+    @Getter private final List<AnimatableTicTool3DModelData.BakedPart> parts;
 
-    public Stream<AnimatableTicTool3DModelPart.Baked> getParts(){
-        return parts.stream();
-    }
 
+    private final AnimatableTicTool3DModelOverrides overrides = new AnimatableTicTool3DModelOverrides(this);
 
     @Override
     public @NotNull List<BakedQuad> getQuads(@Nullable BlockState blockState, @Nullable Direction direction, @NotNull RandomSource randomSource) {
@@ -58,7 +56,7 @@ public class AnimatableTicTool3DBakedModel implements BakedModel {
     }
 
     @Override public @NotNull ItemOverrides getOverrides() {
-        return ItemOverrides.EMPTY;
+        return overrides;
     }
 
 

@@ -2,7 +2,6 @@ package com.kirisamey.tconguns.frame.client.models;
 
 import com.google.gson.*;
 import com.kirisamey.tconguns.TconGuns;
-import com.mojang.logging.LogUtils;
 import lombok.extern.log4j.Log4j2;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -34,7 +33,7 @@ public class AnimatableTicTool3DModelLoader implements IGeometryLoader<Animatabl
                             shiftArray.get(2).getAsFloat()
                     );
                 }
-                return new AnimatableTicTool3DModelPart.Unbaked(id, model, toolPart, shift);
+                return new AnimatableTicTool3DModelData.UnbakedPart(id, model, toolPart, shift);
             }).toList();
             return new AnimatableTicTool3DUnbakedModel(parts);
         } catch (IllegalStateException | JsonSyntaxException | ClassCastException | NullPointerException e) {

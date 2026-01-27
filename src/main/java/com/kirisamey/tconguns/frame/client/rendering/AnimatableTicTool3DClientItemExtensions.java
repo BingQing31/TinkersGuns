@@ -16,7 +16,7 @@ public class AnimatableTicTool3DClientItemExtensions implements IClientItemExten
     AnimatableTicTool3DRenderer renderer = null;
 
     @Override
-    public HumanoidModel.@Nullable ArmPose getArmPose(LivingEntity entityLiving, InteractionHand hand, ItemStack itemStack) {
+    public @Nullable HumanoidModel.ArmPose getArmPose(LivingEntity entityLiving, InteractionHand hand, ItemStack itemStack) {
         return IClientItemExtensions.super.getArmPose(entityLiving, hand, itemStack);
     }
 

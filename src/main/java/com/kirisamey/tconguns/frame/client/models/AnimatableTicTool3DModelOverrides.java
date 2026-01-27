@@ -1,0 +1,80 @@
+package com.kirisamey.tconguns.frame.client.models;
+
+import com.google.common.collect.ImmutableList;
+import com.ibm.icu.impl.Pair;
+import com.kirisamey.tconguns.frame.items.AnimatableTicTool3DItem;
+import com.kirisamey.toomanytinkers.rendering.materialmap.MaterialMapsManager;
+import com.kirisamey.toomanytinkers.utils.TmtLookupUtils;
+import lombok.RequiredArgsConstructor;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Vector4f;
+import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
+import slimeknights.tconstruct.library.tools.nbt.ToolStack;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
+@RequiredArgsConstructor
+public class AnimatableTicTool3DModelOverrides extends ItemOverrides {
+
+    private final AnimatableTicTool3DOriginalBakedModel original;
+
+    private final Map<OverrideKey, AnimatableTicTool3DFinalBakedModel> cache = new HashMap<>();
+
+    @Override
+    public @Nullable BakedModel resolve(@NotNull BakedModel model, @NotNull ItemStack itemStack, @Nullable ClientLevel level,
+                                        @Nullable LivingEntity livingEntity, int seed) {
+        if (!(model instanceof AnimatableTicTool3DOriginalBakedModel originalModel && itemStack.getItem() instanceof AnimatableTicTool3DItem))
+            return super.resolve(model, itemStack, level, livingEntity, seed);
+
+        var tool = ToolStack.from(itemStack);
+        var mats = tool.getMaterials().getList();
+        var key = new OverrideKey(ImmutableList.copyOf(mats));
+        var result = cache.get(key);
+        if (result == null) {
+            result = createNewModel(key, mats);
+            cache.put(key, result);
+        }
+        return result;
+    }
+
+    private AnimatableTicTool3DFinalBakedModel createNewModel(OverrideKey key, List<MaterialVariant> mats) {
+        List<Pair<Integer, Integer>> partAnimPairs = new ArrayList<>();
+        AtomicInteger index = new AtomicInteger(0);
+        var argbColors = mats.stream().map(mv -> {
+            var i = index.getAndAdd(1);
+            var matId = mv.getVariant().getLocation('_');
+            var info = MaterialMapsManager.getTexInfo(matId);
+            int color = 0xffffffff;
+            if (info instanceof MaterialMapsManager.MatType.Mat1D m1d) {
+                color = TmtLookupUtils.getVertexColor(m1d.getId(), false, true); // todo: isLarge 加一个模型参数
+            } else if (info instanceof MaterialMapsManager.MatType.Mat3D m3d) {
+                color = TmtLookupUtils.getVertexColor(m3d.getId(), true, true);
+            } else if (info instanceof MaterialMapsManager.MatType.Mat4D m4d) {
+                partAnimPairs.add(Pair.of(i, m4d.getAnim()));
+            }
+
+            var b = (color & 0xff) / 255f;
+            var g = ((color >> 8) & 0xff) / 255f;
+            var r = ((color >> 16) & 0xff) / 255f;
+            var a = ((color >> 24) & 0xff) / 255f;
+
+            return new Vector4f(r, g, b, a);
+        }).toArray(Vector4f[]::new);
+
+        return new AnimatableTicTool3DFinalBakedModel(original.getParts(), argbColors, partAnimPairs);
+    }
+
+    record OverrideKey(ImmutableList<MaterialVariant> partMats) {
+        // todo: 加入词条
+    }
+}
