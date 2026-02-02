@@ -15,11 +15,6 @@ import org.jetbrains.annotations.Nullable;
 public class AnimatableTicTool3DClientItemExtensions implements IClientItemExtensions {
     AnimatableTicTool3DRenderer renderer = null;
 
-    @Override
-    public @Nullable HumanoidModel.ArmPose getArmPose(LivingEntity entityLiving, InteractionHand hand, ItemStack itemStack) {
-        return IClientItemExtensions.super.getArmPose(entityLiving, hand, itemStack);
-    }
-
     @Override public BlockEntityWithoutLevelRenderer getCustomRenderer() {
         if (renderer == null) {
             var mc = Minecraft.getInstance();

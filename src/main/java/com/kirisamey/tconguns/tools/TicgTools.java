@@ -3,6 +3,7 @@ package com.kirisamey.tconguns.tools;
 import com.kirisamey.tconguns.register.TicgModuleBase;
 import com.kirisamey.tconguns.tools.impl.BulletTool;
 import com.kirisamey.tconguns.tools.impl.GunTool;
+import com.kirisamey.tconguns.tools.impl.guns.HandgunTool;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +31,7 @@ public final class TicgTools extends TicgModuleBase {
     }
 
     public static final ItemObject<ModifiableItem> GUN_SMALL = TIC_ITEMS.register(
-            "gun_small", () -> new GunTool(UNSTACKABLE_PROPS, TicgToolDefinitions.GUN_SMALL));
+            "gun_small", () -> new HandgunTool(UNSTACKABLE_PROPS, TicgToolDefinitions.GUN_SMALL));
 
 
     public static final ItemObject<ModifiableItem> BASE_BULLET = TIC_ITEMS.register(

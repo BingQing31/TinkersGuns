@@ -2,10 +2,10 @@ package com.kirisamey.tconguns.frame.client.models;
 
 import com.google.common.collect.ImmutableList;
 import com.ibm.icu.impl.Pair;
-import com.kirisamey.tconguns.frame.items.AnimatableTicTool3DItem;
 import com.kirisamey.toomanytinkers.rendering.materialmap.MaterialMapsManager;
 import com.kirisamey.toomanytinkers.utils.TmtLookupUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.resources.model.BakedModel;
@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4f;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
+import slimeknights.tconstruct.library.tools.item.ModifiableItem;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@RequiredArgsConstructor
+@Log4j2 @RequiredArgsConstructor
 public class AnimatableTicTool3DModelOverrides extends ItemOverrides {
 
     private final AnimatableTicTool3DOriginalBakedModel original;
@@ -33,7 +34,7 @@ public class AnimatableTicTool3DModelOverrides extends ItemOverrides {
     @Override
     public @Nullable BakedModel resolve(@NotNull BakedModel model, @NotNull ItemStack itemStack, @Nullable ClientLevel level,
                                         @Nullable LivingEntity livingEntity, int seed) {
-        if (!(model instanceof AnimatableTicTool3DOriginalBakedModel originalModel && itemStack.getItem() instanceof AnimatableTicTool3DItem))
+        if (!(itemStack.getItem() instanceof ModifiableItem))
             return super.resolve(model, itemStack, level, livingEntity, seed);
 
         var tool = ToolStack.from(itemStack);

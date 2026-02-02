@@ -2,7 +2,6 @@ package com.kirisamey.tconguns.frame.client.rendering;
 
 import com.kirisamey.tconguns.frame.client.models.AnimatableTicTool3DFinalBakedModel;
 import com.kirisamey.tconguns.frame.client.models.AnimatableTicTool3DOriginalBakedModel;
-import com.kirisamey.tconguns.frame.items.AnimatableTicTool3DItem;
 import com.kirisamey.toomanytinkers.rendering.TmtRenderTypes;
 import com.kirisamey.toomanytinkers.rendering.materialmap.MaterialMapsManager;
 import com.kirisamey.toomanytinkers.utils.TmtLookupUtils;
@@ -20,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.model.data.ModelData;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector4f;
+import slimeknights.tconstruct.library.tools.item.ModifiableItem;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 public class AnimatableTicTool3DRenderer extends BlockEntityWithoutLevelRenderer {
@@ -38,7 +38,7 @@ public class AnimatableTicTool3DRenderer extends BlockEntityWithoutLevelRenderer
 
 
 
-        if (!(itemStack.getItem() instanceof AnimatableTicTool3DItem item)) {
+        if (!(itemStack.getItem() instanceof ModifiableItem)) {
             super.renderByItem(itemStack, itemDisplayContext, poseStack, multiBufferSource, packedLight, packedOverlay);
             return;
         }
@@ -57,7 +57,6 @@ public class AnimatableTicTool3DRenderer extends BlockEntityWithoutLevelRenderer
         model.getParts().forEach(p -> {
             var matNo = p.toolPart();
             var rgba = matNo >= 0 && matNo < rgbaColors.length ? rgbaColors[matNo] : new Vector4f(1);
-//            var rgba = new Vector4f(1);
             var quads = p.model().getQuads(null, null, rd, ModelData.EMPTY, null);
             for (var quad : quads) {
                 buffer.putBulkData(poseStack.last(), quad, rgba.x, rgba.y, rgba.z, rgba.w, packedLight, packedOverlay, false);

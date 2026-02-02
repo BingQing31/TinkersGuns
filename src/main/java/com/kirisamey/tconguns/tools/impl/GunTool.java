@@ -1,6 +1,5 @@
 package com.kirisamey.tconguns.tools.impl;
 
-import com.kirisamey.tconguns.frame.items.AnimatableTicTool3DItem;
 import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.utils.ToolStatShowUtils;
 import net.minecraft.network.chat.Component;
@@ -10,11 +9,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.client.TooltipKey;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
+import slimeknights.tconstruct.library.tools.item.ModifiableItem;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
 import java.util.List;
 
-public class GunTool extends AnimatableTicTool3DItem {
+public abstract class GunTool extends ModifiableItem {
     public GunTool(Properties properties, ToolDefinition toolDefinition) {
         super(properties, toolDefinition);
     }
