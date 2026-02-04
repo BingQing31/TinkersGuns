@@ -33,7 +33,7 @@ public class TicgGunShotServerHandler {
         var handItem = entity.getMainHandItem();
         if (handItem.getItem() instanceof GunTool gun) {
             var gunTool = ToolStack.from(handItem);
-            gun.entityFire(entity, gunTool, oneShot);
+            gun.entityFire(entity, handItem, gunTool, oneShot);
         }
     }
 

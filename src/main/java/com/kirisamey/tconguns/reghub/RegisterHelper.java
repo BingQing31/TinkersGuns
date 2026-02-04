@@ -9,6 +9,7 @@ import com.kirisamey.tconguns.toolparts.TicgToolParts;
 import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.tools.TicgToolTags;
 import com.kirisamey.tconguns.tools.TicgTools;
+import gui.TicgGuiMenus;
 import lombok.SneakyThrows;
 
 import java.util.List;
@@ -22,7 +23,9 @@ public final class RegisterHelper {
             // tools
             TicgTools.class,
             TicgToolTags.class,
-            TicgToolStats.class
+            TicgToolStats.class,
+            // menu
+            TicgGuiMenus.class
     );
 
     public static final List<DynamicMaterialStatsGeneratorBase<?, ?>> REG_DYNAMIC_MATERIALS = List.of(

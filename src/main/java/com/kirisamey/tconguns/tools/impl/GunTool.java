@@ -1,15 +1,27 @@
 package com.kirisamey.tconguns.tools.impl;
 
+import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.tools.TicgToolStats;
+import com.kirisamey.tconguns.tools.impl.capabilities.GunAmmoCapabilityProvider;
+import com.kirisamey.tconguns.tools.impl.capabilities.TicgGunCapabilities;
 import com.kirisamey.tconguns.utils.ToolStatShowUtils;
+import gui.GunAmmoMenu;
 import lombok.extern.log4j.Log4j2;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.client.TooltipKey;
@@ -52,7 +64,50 @@ public abstract class GunTool extends ModifiableItem {
     }
 
 
-    public void entityFire(@NotNull LivingEntity user, @NotNull IToolStackView gunTool, boolean firstPress) {
+    @Override public @NotNull InteractionResultHolder<ItemStack> use(
+            @NotNull Level worldIn, Player playerIn, @NotNull InteractionHand hand) {
+        var item = playerIn.getItemInHand(hand);
+        playerIn.startUsingItem(hand);
+        return InteractionResultHolder.consume(item);
+    }
+
+    @Override public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack) {
+        return UseAnim.CUSTOM;
+    }
+
+    @Override public int getUseDuration(@NotNull ItemStack stack) {
+        return 72000;
+    }
+
+    @Override
+    public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity, int timeLeft) {
+        super.releaseUsing(stack, level, entity, timeLeft);
+        if (timeLeft > 72000 - 3 && !level.isClientSide() && entity instanceof ServerPlayer player) {
+            if (player.isCrouching()) {
+                var name = stack.getHoverName();
+                player.openMenu(GunAmmoMenu.getProvider(name));
+            }
+        }
+    }
+
+    public void entityFire(@NotNull LivingEntity user, @NotNull ItemStack gun, @NotNull IToolStackView gunTool, boolean firstPress) {
+        var ammo_cap = gun.getCapability(TicgGunCapabilities.GUN_AMMO).resolve();
+        if (ammo_cap.isEmpty()) {
+            log.warn("Ammo inventory is absent in gun item stack: {}", gun);
+            return;
+        }
+        var ammo_inv = ammo_cap.get();
         // todo: implement
+    }
+
+
+    @Mod.EventBusSubscriber(modid = TconGuns.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    public static class CapabilityAppender {
+
+        @SubscribeEvent
+        public static void onAttachCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
+            if (!(event.getObject().getItem() instanceof GunTool)) return;
+            event.addCapability(GunAmmoCapabilityProvider.ID, new GunAmmoCapabilityProvider());
+        }
     }
 }
