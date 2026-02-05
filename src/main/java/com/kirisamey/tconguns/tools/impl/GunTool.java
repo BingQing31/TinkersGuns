@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -82,10 +83,13 @@ public abstract class GunTool extends ModifiableItem {
     @Override
     public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity, int timeLeft) {
         super.releaseUsing(stack, level, entity, timeLeft);
-        if (timeLeft > 72000 - 3 && !level.isClientSide() && entity instanceof ServerPlayer player) {
+        if (timeLeft > 72000 - 4 && !level.isClientSide() && entity instanceof ServerPlayer player) {
             if (player.isCrouching()) {
                 var name = stack.getHoverName();
-                player.openMenu(GunAmmoMenu.getProvider(name));
+                var slot = player.getInventory().selected;
+                if (player.getInventory().getItem(slot) != stack) slot = Inventory.SLOT_OFFHAND;
+                if (player.getInventory().getItem(slot) == stack)
+                    GunAmmoMenu.open(player, name, slot);
             }
         }
     }
@@ -97,7 +101,9 @@ public abstract class GunTool extends ModifiableItem {
             return;
         }
         var ammo_inv = ammo_cap.get();
+        var ammo = ammo_inv.getStackInSlot(0);
         // todo: implement
+
     }
 
 

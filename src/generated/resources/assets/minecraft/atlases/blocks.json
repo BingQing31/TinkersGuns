@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:directory",
+      "prefix": "gui/item_pattern/",
+      "source": "gui/item_pattern"
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import com.kirisamey.tconguns.tools.data.TicgStationSlotLayoutProvider;
 import com.kirisamey.tconguns.tools.data.TicgToolDefinitionDataProvider;
 import com.kirisamey.tconguns.tools.data.TicgToolRecipeProvider;
 import com.kirisamey.tconguns.tools.data.TicgToolTagProvider;
+import gui.data.TicgGuiSpriteSourceProvider;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -47,5 +48,8 @@ public final class DataGenHelper {
         generator.addProvider(isServer, new TicgToolRecipeProvider(packOutput));
         generator.addProvider(isServer, new TicgStationSlotLayoutProvider(packOutput));
         generator.addProvider(isServer, new TicgToolTagProvider(packOutput, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
+
+        // for gui
+        generator.addProvider(isClient, new TicgGuiSpriteSourceProvider(packOutput, existingFileHelper));
     }
 }
