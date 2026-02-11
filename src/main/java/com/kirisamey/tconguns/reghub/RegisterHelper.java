@@ -5,12 +5,15 @@ import com.kirisamey.tconguns.materials.dynamics.bullet.DynamicBulletShellStatsG
 import com.kirisamey.tconguns.materials.dynamics.DynamicMaterialStatsGeneratorBase;
 import com.kirisamey.tconguns.materials.dynamics.gun.*;
 import com.kirisamey.tconguns.misc.TicgMiscItems;
+import com.kirisamey.tconguns.entity.TicgProjectileEntities;
+import com.kirisamey.tconguns.register.TicgModuleBase;
 import com.kirisamey.tconguns.toolparts.TicgToolParts;
 import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.tools.TicgToolTags;
 import com.kirisamey.tconguns.tools.TicgTools;
-import gui.TicgGuiMenus;
+import com.kirisamey.tconguns.gui.TicgGuiMenus;
 import lombok.SneakyThrows;
+import net.minecraftforge.eventbus.api.IEventBus;
 
 import java.util.List;
 
@@ -24,6 +27,8 @@ public final class RegisterHelper {
             TicgTools.class,
             TicgToolTags.class,
             TicgToolStats.class,
+            // entities
+            TicgProjectileEntities.class,
             // menu
             TicgGuiMenus.class
     );
@@ -39,7 +44,8 @@ public final class RegisterHelper {
             new DynamicBulletShellStatsGenerator()
     );
 
-    @SneakyThrows public static void initRegisters() {
+    @SneakyThrows public static void initRegisters(IEventBus modEventBus) {
+        TicgModuleBase.initRegisters(modEventBus);
         for (var clas : REG_CLASSES) {
             Class.forName(clas.getName());
         }

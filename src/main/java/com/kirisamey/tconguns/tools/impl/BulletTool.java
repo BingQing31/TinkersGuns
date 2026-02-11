@@ -14,7 +14,7 @@ import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
 import java.util.List;
 
-public class BulletTool extends ModifiableItem {
+public abstract class BulletTool extends ModifiableItem {
     public BulletTool(Properties properties, ToolDefinition toolDefinition) {
         super(properties, toolDefinition);
     }

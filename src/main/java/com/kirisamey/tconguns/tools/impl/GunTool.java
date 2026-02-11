@@ -1,11 +1,13 @@
 package com.kirisamey.tconguns.tools.impl;
 
 import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.entity.TicgProjectileEntities;
+import com.kirisamey.tconguns.entity.projectiles.BulletProjectile;
 import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.tools.impl.capabilities.GunAmmoCapabilityProvider;
 import com.kirisamey.tconguns.tools.impl.capabilities.TicgGunCapabilities;
 import com.kirisamey.tconguns.utils.ToolStatShowUtils;
-import gui.GunAmmoMenu;
+import com.kirisamey.tconguns.gui.GunAmmoMenu;
 import lombok.extern.log4j.Log4j2;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -20,6 +22,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -100,10 +103,30 @@ public abstract class GunTool extends ModifiableItem {
             log.warn("Ammo inventory is absent in gun item stack: {}", gun);
             return;
         }
+
         var ammo_inv = ammo_cap.get();
         var ammo = ammo_inv.getStackInSlot(0);
-        // todo: implement
+        if (ammo.isEmpty()) return;
+        var ammoItem = ammo.getItem();
+        if (!(ammoItem instanceof BulletTool)) {
+            log.error("Ammo item is not an bullet tool item: {} of {}", ammoItem, ammo);
+            return;
+        }
 
+        // todo: full-auto
+
+        if (firstPress) { // semi-auto
+            var level = user.level();
+            var projectile = new BulletProjectile(TicgProjectileEntities.BULLET.get(), level);
+            projectile.setOwner(user);
+            projectile.setGun(gun);
+            projectile.setAmmo(ammo);
+            var shotDir = Vec3.directionFromRotation(user.getViewXRot(1f), user.getViewYRot(1f));
+            projectile.setPos(user.getEyePosition());
+            projectile.shoot(shotDir.x, shotDir.y, shotDir.z, 50, 0);
+
+            level.addFreshEntity(projectile);
+        }
     }
 
 

@@ -8,12 +8,10 @@ import com.kirisamey.tconguns.tools.data.TicgStationSlotLayoutProvider;
 import com.kirisamey.tconguns.tools.data.TicgToolDefinitionDataProvider;
 import com.kirisamey.tconguns.tools.data.TicgToolRecipeProvider;
 import com.kirisamey.tconguns.tools.data.TicgToolTagProvider;
-import gui.data.TicgGuiSpriteSourceProvider;
+import com.kirisamey.tconguns.gui.data.TicgGuiSpriteSourceProvider;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import slimeknights.tconstruct.tools.data.sprite.TinkerMaterialSpriteProvider;
-import slimeknights.tconstruct.tools.data.sprite.TinkerPartSpriteProvider;
 
 @Mod.EventBusSubscriber(modid = TconGuns.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class DataGenHelper {

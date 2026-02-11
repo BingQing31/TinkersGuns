@@ -3,6 +3,7 @@ package com.kirisamey.tconguns.tools;
 import com.kirisamey.tconguns.register.TicgModuleBase;
 import com.kirisamey.tconguns.tools.impl.BulletTool;
 import com.kirisamey.tconguns.tools.impl.GunTool;
+import com.kirisamey.tconguns.tools.impl.bullets.BaseBulletTool;
 import com.kirisamey.tconguns.tools.impl.guns.HandgunTool;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -35,7 +36,7 @@ public final class TicgTools extends TicgModuleBase {
 
 
     public static final ItemObject<ModifiableItem> BASE_BULLET = TIC_ITEMS.register(
-            "base_bullet", () -> new BulletTool(UNSTACKABLE_PROPS, TicgToolDefinitions.BASE_BULLET));
+            "base_bullet", () -> new BaseBulletTool(UNSTACKABLE_PROPS, TicgToolDefinitions.BASE_BULLET));
 
 
     public static final RegistryObject<CreativeModeTab> TAB_GUNS = CREATIVE_TABS.register(

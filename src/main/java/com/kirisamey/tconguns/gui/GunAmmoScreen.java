@@ -1,4 +1,4 @@
-package gui;
+package com.kirisamey.tconguns.gui;
 
 import com.kirisamey.tconguns.TconGuns;
 import net.minecraft.client.gui.GuiGraphics;

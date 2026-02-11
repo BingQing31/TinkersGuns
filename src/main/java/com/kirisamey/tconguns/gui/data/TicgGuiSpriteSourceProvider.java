@@ -1,10 +1,9 @@
-package gui.data;
+package com.kirisamey.tconguns.gui.data;
 
 import com.kirisamey.tconguns.TconGuns;
-import gui.TicgGuiTextures;
+import com.kirisamey.tconguns.gui.TicgGuiTextures;
 import net.minecraft.client.renderer.texture.atlas.sources.DirectoryLister;
 import net.minecraft.data.PackOutput;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.SpriteSourceProvider;
 

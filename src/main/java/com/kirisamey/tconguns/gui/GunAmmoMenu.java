@@ -1,4 +1,4 @@
-package gui;
+package com.kirisamey.tconguns.gui;
 
 import com.kirisamey.tconguns.tools.TicgToolTags;
 import com.kirisamey.tconguns.tools.impl.capabilities.TicgGunCapabilities;

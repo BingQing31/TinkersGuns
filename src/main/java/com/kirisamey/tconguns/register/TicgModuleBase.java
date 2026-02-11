@@ -3,6 +3,7 @@ package com.kirisamey.tconguns.register;
 import com.kirisamey.tconguns.TconGuns;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -23,6 +24,8 @@ public abstract class TicgModuleBase {
         CREATIVE_TABS.register(modEventBus);
 
         MENUS.register(modEventBus);
+
+        ENTITY_TYPES.register(modEventBus);
     }
 
     protected static final ItemDeferredRegisterExtension TIC_ITEMS = new ItemDeferredRegisterExtension(TconGuns.MODID);
@@ -32,6 +35,7 @@ public abstract class TicgModuleBase {
 
     protected static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, TconGuns.MODID);
 
+    protected static DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, TconGuns.MODID);
 
     protected static final Item.Properties ITEM_PROPS = new Item.Properties();
     protected static final Item.Properties UNSTACKABLE_PROPS = new Item.Properties().stacksTo(1);

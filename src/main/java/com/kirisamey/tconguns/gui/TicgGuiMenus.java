@@ -1,4 +1,4 @@
-package gui;
+package com.kirisamey.tconguns.gui;
 
 import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.register.TicgModuleBase;
