@@ -32,6 +32,7 @@ import slimeknights.mantle.client.TooltipKey;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
 import slimeknights.tconstruct.library.tools.item.ModifiableItem;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
+import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 import java.util.List;
 
@@ -112,6 +113,7 @@ public abstract class GunTool extends ModifiableItem {
             log.error("Ammo item is not an bullet tool item: {} of {}", ammoItem, ammo);
             return;
         }
+        var ammoTool = ToolStack.from(ammo);
 
         // todo: full-auto
 
@@ -121,9 +123,14 @@ public abstract class GunTool extends ModifiableItem {
             projectile.setOwner(user);
             projectile.setGun(gun);
             projectile.setAmmo(ammo);
+
+            float initV = ammoTool.getStats().get(TicgToolStats.BULLET_VELOCITY);
+            initV *= gunTool.getStats().get(TicgToolStats.GUN_VELOCITY) + 1;
+            initV /= 20;
+
             var shotDir = Vec3.directionFromRotation(user.getViewXRot(1f), user.getViewYRot(1f));
             projectile.setPos(user.getEyePosition());
-            projectile.shoot(shotDir.x, shotDir.y, shotDir.z, 50, 0);
+            projectile.shoot(shotDir.x, shotDir.y, shotDir.z, initV, 0);
 
             level.addFreshEntity(projectile);
         }

@@ -1,35 +1,37 @@
 package com.kirisamey.tconguns.entity.projectiles;
 
+import com.kirisamey.tconguns.tools.TicgToolStats;
 import lombok.extern.log4j.Log4j2;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.util.ParticleUtils;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ItemSupplier;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.apache.commons.lang3.RandomUtils;
 import org.jetbrains.annotations.NotNull;
+import slimeknights.tconstruct.library.tools.nbt.ToolStack;
+
+import java.util.Random;
 
 @Log4j2
 public class BulletProjectile extends Projectile implements ItemSupplier {
     //<editor-fold desc="Lifetime">
 
-    // todo: 池化
     public BulletProjectile(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
     }
@@ -95,14 +97,14 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
 
     //<editor-fold desc="Projectile Logic">
 
-    private boolean inGround;
-
-    // 以下代码由 Gemini 3.0 提供，
+    // 以下代码由 Gemini 3.0 preview 提供，
     // 但AI给那玩意儿依旧根本没法直接用
+    // 于是现在基本都是我写的了
     @Override public void tick() {
         super.tick();
 
-        if (this.inGround) {
+        if (toDiscard) {
+            discard();
             return;
         }
 
@@ -128,6 +130,7 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
             // 如果击中实体，我们也把移动终点定在击中点，防止穿模
             // (如果你希望箭矢穿过实体继续飞，可以注释掉下面这行)
             finalTarget = entityHitResult.getLocation();
+            // todo：回头做穿透的话这里应该有一个排除列表
         }
 
         // 执行移动 (关键修改！)
@@ -142,17 +145,9 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
         }
 
         // 如果击中后实体没了，就不用算旋转和阻力了
-        if (this.isRemoved() || this.inGround) {
+        if (this.isRemoved()) {
             return;
         }
-
-        // 更新旋转 (朝向运动方向)
-        // 依然使用原始 motion 来计算方向，这样即使贴脸射击（位移极小）朝向也不会乱
-        double horizontalDist = motion.horizontalDistance();
-        this.setYRot((float) (Mth.atan2(motion.x, motion.z) * (double) (180F / (float) Math.PI)));
-        this.setXRot((float) (Mth.atan2(motion.y, horizontalDist) * (double) (180F / (float) Math.PI)));
-        this.setXRot(lerpRotation(this.xRotO, this.getXRot()));
-        this.setYRot(lerpRotation(this.yRotO, this.getYRot()));
 
         // 速度衰减
         double friction = 0.99F;
@@ -167,12 +162,12 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
                     getY() - serverLevel.getMinBuildHeight()
             ) <= -128;
 
-            if (outXZ) {
+            if (outXZ && outY) {
                 log.debug("bullet in {} out of range, discard.", position());
                 discard();
             }
 
-            if(vNew.lengthSqr() <= 0.0025){
+            if (vNew.lengthSqr() <= 0.0025) {
                 log.debug("bullet in {} lost velocity, discard.", position());
                 discard();
             }
@@ -190,18 +185,53 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
     @Override protected void onHitEntity(@NotNull EntityHitResult pResult) {
         log.debug("hit entity: {} - {}", pResult.getType(), pResult.getEntity());
 
-        this.discard();
+        var owner = getOwner();
+        var target = pResult.getEntity();
+
+        var gunTool = ToolStack.from(getGun());
+        var bulletTool = ToolStack.from(getAmmo());
+
+        var atk = (double) bulletTool.getStats().get(TicgToolStats.BULLET_ATTACK);
+        atk *= gunTool.getStats().get(TicgToolStats.GUN_ATTACK) + 1;
+        atk *= getDeltaMovement().length() * 20d * 2d / 3d / 100d; // 秒速度/100，另修正2/3
+
+        target.hurt(level().damageSources().mobAttack((LivingEntity) owner), (float) atk);
+
+        onHitMakeParticle(level(), position(), getDeltaMovement());
+
+        this.delay_discard();
     }
 
-    @Override protected void onHitBlock(BlockHitResult pResult) {
+    @Override protected void onHitBlock(@NotNull BlockHitResult pResult) {
         log.debug("hit block: {} - {} - {}", pResult.getType(), pResult.getBlockPos(), level().getBlockState(pResult.getBlockPos()));
         super.onHitBlock(pResult);
 
-        this.discard();
+        onHitMakeParticle(level(), position(), getDeltaMovement());
+
+        this.delay_discard();
     }
 
     @Override public boolean shouldBeSaved() {
         return false;
+    }
+
+    private void onHitMakeParticle(Level level, Vec3 pos, Vec3 velocity) {
+        if (!(level instanceof ServerLevel serverLevel)) return;
+        var dir = velocity.normalize().scale(-1);
+        // todo: just make this a packet send to client
+        for (int i = 0; i < 8; i++) {
+            var dr = 0.25f;
+            var dx = RandomUtils.nextFloat() * dr;
+            var dy = RandomUtils.nextFloat() * dr;
+            var dz = RandomUtils.nextFloat() * dr;
+            serverLevel.sendParticles(ParticleTypes.CLOUD, pos.x, pos.y, pos.z, 1, dir.x + dx, dir.y + dy, dir.z + dz, 0.1);
+        }
+    }
+
+    private boolean toDiscard = false;
+
+    private void delay_discard() {
+        toDiscard = true;
     }
 
     //</editor-fold>
