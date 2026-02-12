@@ -41,11 +41,11 @@ public class TicgGunAttackInputRedirector {
 
         var atkDown = atkKey.isDown();
         if (!lastTickAtkIsDown && atkDown) {
-            TicgGunSyncing.CHANNEL.send(PacketDistributor.SERVER.noArg(), TicgGunPackets.ShotPressed.INSTANCE);
+            TicgGunSyncing.CHANNEL2S.send(PacketDistributor.SERVER.noArg(), TicgGunPacketsS.ShotPressed.INSTANCE);
         } else if (lastTickAtkIsDown && !atkDown) {
-            TicgGunSyncing.CHANNEL.send(PacketDistributor.SERVER.noArg(), TicgGunPackets.ShotReleased.INSTANCE);
+            TicgGunSyncing.CHANNEL2S.send(PacketDistributor.SERVER.noArg(), TicgGunPacketsS.ShotReleased.INSTANCE);
         } else if (!atkDown && atkKey.consumeClick()) {
-            TicgGunSyncing.CHANNEL.send(PacketDistributor.SERVER.noArg(), TicgGunPackets.ShotSingle.INSTANCE);
+            TicgGunSyncing.CHANNEL2S.send(PacketDistributor.SERVER.noArg(), TicgGunPacketsS.ShotSingle.INSTANCE);
         }
 
         lastTickAtkIsDown = atkDown;

@@ -1,15 +1,15 @@
 package com.kirisamey.tconguns.entity.projectiles;
 
+import com.kirisamey.tconguns.syncing.gun.TicgGunPacketsC;
+import com.kirisamey.tconguns.syncing.gun.TicgGunSyncing;
 import com.kirisamey.tconguns.tools.TicgToolStats;
 import lombok.extern.log4j.Log4j2;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.ParticleUtils;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ItemSupplier;
@@ -22,11 +22,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import org.apache.commons.lang3.RandomUtils;
+import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
-
-import java.util.Random;
 
 @Log4j2
 public class BulletProjectile extends Projectile implements ItemSupplier {
@@ -128,8 +126,15 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
         if (entityHitResult != null) {
             hitResult = entityHitResult;
             // 如果击中实体，我们也把移动终点定在击中点，防止穿模
-            // (如果你希望箭矢穿过实体继续飞，可以注释掉下面这行)
-            finalTarget = entityHitResult.getLocation();
+            // 但是就连Gemini都想不到死妈 mojang 给 EntityHitResult 写了用实体的坐标当做击中的点
+            // FUCK OJNG
+            // 我自己写一个吧
+            var box = entityHitResult.getEntity().getBoundingBox();
+            var hitPos = box.clip(currentPos, finalTarget);
+            if (hitPos.isPresent()) {
+                finalTarget = hitPos.get();
+            }
+
             // todo：回头做穿透的话这里应该有一个排除列表
         }
 
@@ -217,15 +222,12 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
 
     private void onHitMakeParticle(Level level, Vec3 pos, Vec3 velocity) {
         if (!(level instanceof ServerLevel serverLevel)) return;
-        var dir = velocity.normalize().scale(-1);
-        // todo: just make this a packet send to client
-        for (int i = 0; i < 8; i++) {
-            var dr = 0.25f;
-            var dx = RandomUtils.nextFloat() * dr;
-            var dy = RandomUtils.nextFloat() * dr;
-            var dz = RandomUtils.nextFloat() * dr;
-            serverLevel.sendParticles(ParticleTypes.CLOUD, pos.x, pos.y, pos.z, 1, dir.x + dx, dir.y + dy, dir.z + dz, 0.1);
-        }
+        TicgGunSyncing.CHANNEL2C.send(
+                PacketDistributor.NEAR.with(Holder.direct(
+                        new PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 64, serverLevel.dimension())
+                )),
+                new TicgGunPacketsC.BulletHitParticle(serverLevel, getAmmo().getItem(), pos, velocity)
+        );
     }
 
     private boolean toDiscard = false;

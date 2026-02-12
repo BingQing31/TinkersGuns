@@ -13,8 +13,15 @@ import java.util.Optional;
 
 public class TicgGunSyncing {
     private static final String PROTOCOL_VERSION = "1";
-    public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-            ResourceLocation.fromNamespaceAndPath(TconGuns.MODID, "gun"),
+    public static final SimpleChannel CHANNEL2S = NetworkRegistry.newSimpleChannel(
+            ResourceLocation.fromNamespaceAndPath(TconGuns.MODID, "gun2s"),
+            () -> PROTOCOL_VERSION,
+            PROTOCOL_VERSION::equals,
+            PROTOCOL_VERSION::equals
+    );
+
+    public static final SimpleChannel CHANNEL2C = NetworkRegistry.newSimpleChannel(
+            ResourceLocation.fromNamespaceAndPath(TconGuns.MODID, "gun2c"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals
@@ -22,32 +29,42 @@ public class TicgGunSyncing {
 
     @SuppressWarnings("UnusedAssignment")
     public static void init() {
-        int packetId = 0;
+        int packetIdS = 0;
         // FUCK JVAV, i need interface abstract method to solve this automatically, but u know.
         // FUCK JVAV
-        CHANNEL.registerMessage(
-                packetId++,
-                TicgGunPackets.ShotPressed.class,
-                TicgGunPackets.ShotPressed::encode,
-                TicgGunPackets.ShotPressed::decode,
-                TicgGunPackets.ShotPressed::handle,
+        CHANNEL2S.registerMessage(
+                packetIdS++,
+                TicgGunPacketsS.ShotPressed.class,
+                TicgGunPacketsS.ShotPressed::encode,
+                TicgGunPacketsS.ShotPressed::decode,
+                TicgGunPacketsS.ShotPressed::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER)
         );
-        CHANNEL.registerMessage(
-                packetId++,
-                TicgGunPackets.ShotReleased.class,
-                TicgGunPackets.ShotReleased::encode,
-                TicgGunPackets.ShotReleased::decode,
-                TicgGunPackets.ShotReleased::handle,
+        CHANNEL2S.registerMessage(
+                packetIdS++,
+                TicgGunPacketsS.ShotReleased.class,
+                TicgGunPacketsS.ShotReleased::encode,
+                TicgGunPacketsS.ShotReleased::decode,
+                TicgGunPacketsS.ShotReleased::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER)
         );
-        CHANNEL.registerMessage(
-                packetId++,
-                TicgGunPackets.ShotSingle.class,
-                TicgGunPackets.ShotSingle::encode,
-                TicgGunPackets.ShotSingle::decode,
-                TicgGunPackets.ShotSingle::handle,
+        CHANNEL2S.registerMessage(
+                packetIdS++,
+                TicgGunPacketsS.ShotSingle.class,
+                TicgGunPacketsS.ShotSingle::encode,
+                TicgGunPacketsS.ShotSingle::decode,
+                TicgGunPacketsS.ShotSingle::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER)
+        );
+
+        int packetIdC = 0;
+        CHANNEL2C.registerMessage(
+                packetIdC++,
+                TicgGunPacketsC.BulletHitParticle.class,
+                TicgGunPacketsC.BulletHitParticle::encode,
+                TicgGunPacketsC.BulletHitParticle::decode,
+                TicgGunPacketsC.BulletHitParticle::handle,
+                Optional.of(NetworkDirection.PLAY_TO_CLIENT)
         );
     }
 

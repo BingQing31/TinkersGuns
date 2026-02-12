@@ -5,7 +5,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class TicgGunPackets {
+public class TicgGunPacketsS {
     @SuppressWarnings("InstantiationOfUtilityClass")
     public static class ShotPressed {
         private ShotPressed() {
