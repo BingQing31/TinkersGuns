@@ -8,12 +8,12 @@ import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
 
-@Mod.EventBusSubscriber(modid = TconGuns.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class TicgProjectileEntities extends TicgModuleBase {
     public static final RegistryObject<EntityType<BulletProjectile>> BULLET = ENTITY_TYPES.register("bullet",
             () -> EntityType.Builder.of(BulletProjectile::new, MobCategory.MISC)
@@ -23,10 +23,13 @@ public class TicgProjectileEntities extends TicgModuleBase {
                     .setShouldReceiveVelocityUpdates(true)
                     .build("bullet"));
 
-    @SubscribeEvent
-    public static void onClientSetup(FMLClientSetupEvent event) {
-        // 注册渲染器
-        EntityRenderers.register(BULLET.get(), context ->
-                new ThrownItemRenderer<>(context, 1.0F, true));
+    @OnlyIn(Dist.CLIENT)
+    @Mod.EventBusSubscriber(modid = TconGuns.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class RendererRegisterer {
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event) {
+            EntityRenderers.register(BULLET.get(), context ->
+                    new ThrownItemRenderer<>(context, 1.0F, true));
+        }
     }
 }
