@@ -5,10 +5,12 @@ import com.kirisamey.tconguns.entity.TicgProjectileEntities;
 import com.kirisamey.tconguns.entity.projectiles.BulletProjectile;
 import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.tools.impl.capabilities.GunAmmoCapabilityProvider;
+import com.kirisamey.tconguns.tools.impl.capabilities.GunTempCapabilityProvider;
 import com.kirisamey.tconguns.tools.impl.capabilities.TicgGunCapabilities;
 import com.kirisamey.tconguns.utils.ToolStatShowUtils;
 import com.kirisamey.tconguns.gui.GunAmmoMenu;
 import lombok.extern.log4j.Log4j2;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -104,6 +106,18 @@ public abstract class GunTool extends ModifiableItem {
             log.warn("Ammo inventory is absent in gun item stack: {}", gun);
             return;
         }
+        var tmp_stats_opt = gun.getCapability(TicgGunCapabilities.GUN_TMP_STATS).resolve();
+        if (tmp_stats_opt.isEmpty()) {
+            log.warn("Temp stats capability is absent in gun item stack: {}", gun);
+            return;
+        }
+        var tmp_stats = tmp_stats_opt.get();
+
+        var level = user.level();
+        var currentTick = level.getGameTime();
+
+        if (currentTick - tmp_stats.getLastShot() < 20f / gunTool.getStats().get(TicgToolStats.GUN_SHOT_SPEED))
+            return;
 
         var ammo_inv = ammo_cap.get();
         var ammo = ammo_inv.getStackInSlot(0);
@@ -118,7 +132,6 @@ public abstract class GunTool extends ModifiableItem {
         // todo: full-auto
 
         if (firstPress) { // semi-auto
-            var level = user.level();
             var projectile = new BulletProjectile(TicgProjectileEntities.BULLET.get(), level);
             projectile.setOwner(user);
             projectile.setGun(gun);
@@ -133,6 +146,8 @@ public abstract class GunTool extends ModifiableItem {
             projectile.shoot(shotDir.x, shotDir.y, shotDir.z, initV, 0);
 
             level.addFreshEntity(projectile);
+
+            tmp_stats.setLastShot(currentTick);
         }
     }
 
@@ -144,6 +159,7 @@ public abstract class GunTool extends ModifiableItem {
         public static void onAttachCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
             if (!(event.getObject().getItem() instanceof GunTool)) return;
             event.addCapability(GunAmmoCapabilityProvider.ID, new GunAmmoCapabilityProvider());
+            event.addCapability(GunTempCapabilityProvider.ID, new GunTempCapabilityProvider());
         }
     }
 }

@@ -109,6 +109,8 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
         Vec3 currentPos = this.position();
         Vec3 motion = this.getDeltaMovement();
 
+        var bulletTool = ToolStack.from(getAmmo());
+
         // 初始预测终点 = 当前位置 + 速度
         Vec3 finalTarget = currentPos.add(motion);
 
@@ -155,7 +157,8 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
         }
 
         // 速度衰减
-        double friction = 0.99F;
+        var va = bulletTool.getStats().get(TicgToolStats.BULLET_VELOCITY_ATTENUATION);
+        double friction = Math.pow(0.8, va);
         var vNew = motion.scale(friction);
         this.setDeltaMovement(vNew);
 

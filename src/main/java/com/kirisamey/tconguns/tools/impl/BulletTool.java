@@ -44,7 +44,8 @@ public abstract class BulletTool extends ModifiableItem {
 
         for (int i = 0; i < 8; i++) {
             var dr = 0.125;
-            // 再说一次 Jvav 就是一坨
+            // FUCK JVAV
+            // 只能说 Jvav 就是一坨
             // nextDouble() 返回 0 到他妈 MaxValue
             // nextDouble(min, max) 的最小值不能小于0
             // 并且他们扯的这个强异常检查强在哪？
@@ -55,9 +56,7 @@ public abstract class BulletTool extends ModifiableItem {
             var dy = (RandomUtils.nextDouble(0, 2) - 1) * dr;
             var dz = (RandomUtils.nextDouble(0, 2) - 1) * dr;
             var dx = (RandomUtils.nextDouble(0, 2) - 1) * dr;
-            log.debug("dx{} dy{} dz{}", dx, dy, dz);
             level.addParticle(ParticleTypes.CRIT, pos.x, pos.y, pos.z, spd.x + dx, spd.y + dy, spd.z + dz);
-//            level.addParticle(ParticleTypes.CRIT, pos.x, pos.y, pos.z, spd.x, spd.y, spd.z);
         }
     }
 }
