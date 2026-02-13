@@ -2,6 +2,7 @@ package com.kirisamey.tconguns.syncing.gun;
 
 import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.tools.impl.GunTool;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,7 +34,8 @@ public class TicgGunShotServerHandler {
         var handItem = entity.getMainHandItem();
         if (handItem.getItem() instanceof GunTool gun) {
             var gunTool = ToolStack.from(handItem);
-            gun.entityFire(entity, handItem, gunTool, oneShot);
+            var hand = InteractionHand.MAIN_HAND; // todo: 副手&双持适配
+            gun.entityFire(entity, hand, handItem, gunTool, oneShot);
         }
     }
 

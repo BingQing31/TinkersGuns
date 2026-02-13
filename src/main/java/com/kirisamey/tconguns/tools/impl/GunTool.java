@@ -32,6 +32,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.client.TooltipKey;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
+import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.item.ModifiableItem;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
@@ -100,7 +101,9 @@ public abstract class GunTool extends ModifiableItem {
         }
     }
 
-    public void entityFire(@NotNull LivingEntity user, @NotNull ItemStack gun, @NotNull IToolStackView gunTool, boolean firstPress) {
+    public void entityFire(@NotNull LivingEntity user, InteractionHand hand, @NotNull ItemStack gun, @NotNull IToolStackView gunTool, boolean firstPress) {
+        if (gunTool.isBroken()) return;
+
         var ammo_cap = gun.getCapability(TicgGunCapabilities.GUN_AMMO).resolve();
         if (ammo_cap.isEmpty()) {
             log.warn("Ammo inventory is absent in gun item stack: {}", gun);
@@ -129,6 +132,8 @@ public abstract class GunTool extends ModifiableItem {
         }
         var ammoTool = ToolStack.from(ammo);
 
+        if (ammoTool.isBroken()) return;
+
         // todo: full-auto
 
         if (firstPress) { // semi-auto
@@ -148,6 +153,9 @@ public abstract class GunTool extends ModifiableItem {
             level.addFreshEntity(projectile);
 
             tmp_stats.setLastShot(currentTick);
+
+            ToolDamageUtil.damageAnimated(gunTool, 1, user, hand);
+            ToolDamageUtil.damage(ammoTool, 1, user, ammo);
         }
     }
 
