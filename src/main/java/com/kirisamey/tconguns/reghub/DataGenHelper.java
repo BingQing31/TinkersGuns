@@ -49,5 +49,8 @@ public final class DataGenHelper {
 
         // for gui
         generator.addProvider(isClient, new TicgGuiSpriteSourceProvider(packOutput, existingFileHelper));
+
+        // datapack
+        generator.addProvider(isServer, new TicgDataPackProvider(packOutput, lookupProvider));
     }
 }

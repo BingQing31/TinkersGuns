@@ -192,6 +192,10 @@ dependencies {
     // tools
     runtimeOnly fg.deobf("curse.maven:jei-238222:7270446")
     runtimeOnly fg.deobf("curse.maven:tconjei-974154:7372437")
+
+    runtimeOnly fg.deobf("curse.maven:selene-499980:7664875")
+    runtimeOnly fg.deobf("curse.maven:mmmmmmmmmmmm-225738:6860192")
+
     // runtimeOnly fg.deobf("curse.maven:imblocker-483760:7310351")
 
     // For more info:
@@ -201,7 +205,7 @@ dependencies {
 
 tasks.configureEach { task ->
     // 只要发现名字叫 'runClient' 的任务出现
-    if (task.name == 'runClient') {
+    if (task.name == 'runClient' || task.name == 'runData') {
         // 就把我们的自定义库加进去
         task.classpath += configurations.clientRunOnly
     }

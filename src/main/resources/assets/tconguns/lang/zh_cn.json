@@ -75,5 +75,13 @@
 
     "material.tconguns.blaze_powder": "烈焰粉",
     "material.tconguns.blaze_powder.flavor": "它本能被用来酿些酒…",
-    "material.tconguns.blaze_powder.gunpowder": "大威力火药，强烈的推进力，以及同样凶猛的后坐力。"
+    "material.tconguns.blaze_powder.gunpowder": "大威力火药，强烈的推进力，以及同样凶猛的后坐力。",
+
+
+    "death.attack.tconguns.gun_shot": "%1$s 被枪杀了",
+    "death.attack.tconguns.gun_shot.gun": "%1$s 被使用 %2$s 击毙",
+    "death.attack.tconguns.gun_shot.gun_ammo": "%1$s 被 %2$s 中射出的 %3$s 击毙",
+    "death.attack.tconguns.gun_shot.src": "%1$s 被 %2$s 击毙",
+    "death.attack.tconguns.gun_shot.src.gun": "%1$s 被 %2$s 使用 %3$s 击毙",
+    "death.attack.tconguns.gun_shot.src.gun_ammo": "%1$s 被 %2$s 的 %3$s 中射出的 %4$s 击毙"
 }

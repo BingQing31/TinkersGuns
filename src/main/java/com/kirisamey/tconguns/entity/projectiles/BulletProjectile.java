@@ -3,6 +3,7 @@ package com.kirisamey.tconguns.entity.projectiles;
 import com.kirisamey.tconguns.syncing.gun.TicgGunPacketsC;
 import com.kirisamey.tconguns.syncing.gun.TicgGunSyncing;
 import com.kirisamey.tconguns.tools.TicgToolStats;
+import com.kirisamey.tconguns.attacking.BulletAttackUtils;
 import lombok.extern.log4j.Log4j2;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
@@ -106,16 +107,16 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
             return;
         }
 
-        Vec3 currentPos = this.position();
+        Vec3 startPos = this.position();
         Vec3 motion = this.getDeltaMovement();
 
         var bulletTool = ToolStack.from(getAmmo());
 
         // 初始预测终点 = 当前位置 + 速度
-        Vec3 finalTarget = currentPos.add(motion);
+        Vec3 finalTarget = startPos.add(motion);
 
         // 射线检测 (方块)
-        HitResult hitResult = this.level().clip(new ClipContext(currentPos, finalTarget, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+        HitResult hitResult = this.level().clip(new ClipContext(startPos, finalTarget, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
 
         // 如果检测到方块碰撞，将“最终移动目标”修正为碰撞点
         if (hitResult.getType() != HitResult.Type.MISS) {
@@ -124,7 +125,7 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
 
         // 射线检测 (实体)
         // 在 当前位置 -> (已经被方块截断的)终点 之间检测实体
-        EntityHitResult entityHitResult = this.findHitEntity(currentPos, finalTarget);
+        EntityHitResult entityHitResult = this.findHitEntity(startPos, finalTarget);
         if (entityHitResult != null) {
             hitResult = entityHitResult;
             // 如果击中实体，我们也把移动终点定在击中点，防止穿模
@@ -132,7 +133,7 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
             // FUCK OJNG
             // 我自己写一个吧
             var box = entityHitResult.getEntity().getBoundingBox();
-            var hitPos = box.clip(currentPos, finalTarget);
+            var hitPos = box.clip(startPos, finalTarget);
             if (hitPos.isPresent()) {
                 finalTarget = hitPos.get();
             }
@@ -145,24 +146,25 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
         // 这样如果撞墙，位置就刚好停在墙面上
         this.setPos(finalTarget.x, finalTarget.y, finalTarget.z);
 
+        // 先计算速度衰减再计算命中
+        var va = bulletTool.getStats().get(TicgToolStats.BULLET_VELOCITY_ATTENUATION);
+        double loss = 1 - Math.pow(0.8, va);
+        double friction = 1 - loss * finalTarget.subtract(startPos).length() / motion.length();
+        var vNew = motion.scale(friction);
+        this.setDeltaMovement(vNew);
+
         // 处理碰撞事件
         if (hitResult.getType() != HitResult.Type.MISS) {
             this.onHit(hitResult); // 内部通常会设置 inGround=true 或销毁实体
             this.hasImpulse = true;
         }
 
-        // 如果击中后实体没了，就不用算旋转和阻力了
+        // 若击中后被移除，则略过后续判定
         if (this.isRemoved()) {
             return;
         }
 
-        // 速度衰减
-        var va = bulletTool.getStats().get(TicgToolStats.BULLET_VELOCITY_ATTENUATION);
-        double friction = Math.pow(0.8, va);
-        var vNew = motion.scale(friction);
-        this.setDeltaMovement(vNew);
-
-        // 越界 & 动能检测
+        // 越界 & 失能检测
         if (!this.level().isClientSide && this.level() instanceof ServerLevel serverLevel) {
             var outXZ = !serverLevel.shouldTickBlocksAt(blockPosition());
             var outY = Math.min(
@@ -203,12 +205,13 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
         atk *= gunTool.getStats().get(TicgToolStats.GUN_ATTACK) + 1;
         atk *= getDeltaMovement().length() * 20d * 2d / 3d / 100d; // 秒速度/100，另修正2/3
 
-        target.hurt(level().damageSources().mobAttack((LivingEntity) owner), (float) atk);
+        BulletAttackUtils.performBulletAttack(this, (LivingEntity) owner, target, getGun(), getAmmo(), gunTool, bulletTool, (float) atk);
 
         onHitMakeParticle(level(), position(), getDeltaMovement());
 
         this.delay_discard();
     }
+
 
     @Override protected void onHitBlock(@NotNull BlockHitResult pResult) {
         log.debug("hit block: {} - {} - {}", pResult.getType(), pResult.getBlockPos(), level().getBlockState(pResult.getBlockPos()));

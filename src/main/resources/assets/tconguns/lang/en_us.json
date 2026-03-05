@@ -75,5 +75,13 @@
 
     "material.tconguns.blaze_powder": "Blaze Powder",
     "material.tconguns.blaze_powder.flavor": "It could have been used to make some wine...",
-    "material.tconguns.blaze_powder.gunpowder": "High-powered gunpowder, delivering powerful propulsion and equally formidable recoil."
+    "material.tconguns.blaze_powder.gunpowder": "High-powered gunpowder, delivering powerful propulsion and equally formidable recoil.",
+
+
+    "death.attack.tconguns.gun_shot": "%1$s was shot dead",
+    "death.attack.tconguns.gun_shot.gun": "%1$s was shot dead by %2$s",
+    "death.attack.tconguns.gun_shot.gun_ammo": "%1$s was killed by %3$s fired from %2$s",
+    "death.attack.tconguns.gun_shot.src": "%1$s was shot dead by %2$s",
+    "death.attack.tconguns.gun_shot.src.gun": "%1$s was shot dead by %2$s's %3$s",
+    "death.attack.tconguns.gun_shot.src.gun_ammo": "%1$s was killed by %4$s fired from %2$s's %3$s"
 }
