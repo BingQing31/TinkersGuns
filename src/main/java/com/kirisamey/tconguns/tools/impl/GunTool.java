@@ -137,20 +137,13 @@ public abstract class GunTool extends ModifiableItem {
         // todo: full-auto
 
         if (firstPress) { // semi-auto
-            var projectile = new BulletProjectile(TicgProjectileEntities.BULLET.get(), level);
-            projectile.setOwner(user);
-            projectile.setGun(gun);
-            projectile.setAmmo(ammo);
-
             float initV = ammoTool.getStats().get(TicgToolStats.BULLET_VELOCITY);
             initV *= gunTool.getStats().get(TicgToolStats.GUN_VELOCITY) + 1;
             initV /= 20;
 
             var shotDir = Vec3.directionFromRotation(user.getViewXRot(1f), user.getViewYRot(1f));
-            projectile.setPos(user.getEyePosition());
-            projectile.shoot(shotDir.x, shotDir.y, shotDir.z, initV, 0);
 
-            level.addFreshEntity(projectile);
+            BulletProjectile.shot(gun, ammo, gunTool, ammoTool, user, level, initV, shotDir);
 
             tmp_stats.setLastShot(currentTick);
 

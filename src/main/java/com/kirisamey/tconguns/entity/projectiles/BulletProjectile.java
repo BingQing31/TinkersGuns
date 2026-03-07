@@ -1,5 +1,7 @@
 package com.kirisamey.tconguns.entity.projectiles;
 
+import com.google.common.collect.ImmutableList;
+import com.kirisamey.tconguns.entity.TicgProjectileEntities;
 import com.kirisamey.tconguns.syncing.gun.TicgGunPacketsC;
 import com.kirisamey.tconguns.syncing.gun.TicgGunSyncing;
 import com.kirisamey.tconguns.tools.TicgToolStats;
@@ -23,9 +25,25 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
+import slimeknights.tconstruct.library.modifiers.ModifierEntry;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
+import slimeknights.tconstruct.library.modifiers.hook.ranged.ProjectileLaunchModifierHook;
+import slimeknights.tconstruct.library.tools.capability.EntityModifierCapability;
+import slimeknights.tconstruct.library.tools.capability.PersistentDataCapability;
+import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
+import slimeknights.tconstruct.library.tools.nbt.ModifierNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
+import slimeknights.tconstruct.tools.logic.ToolEvents;
+
+import javax.naming.OperationNotSupportedException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collector;
 
 @Log4j2
 public class BulletProjectile extends Projectile implements ItemSupplier {
@@ -33,6 +51,58 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
 
     public BulletProjectile(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public static @NotNull BulletProjectile shot(@NotNull ItemStack gun, @NotNull ItemStack ammo,
+                                                 @NotNull IToolStackView gunTool, @NotNull IToolStackView ammoTool,
+                                                 @NotNull LivingEntity user,
+                                                 Level level, float initV, Vec3 shotDir) {
+        var projectile = new BulletProjectile(TicgProjectileEntities.BULLET.get(), level);
+        projectile.setOwner(user);
+        projectile.setGun(gun);
+        projectile.setAmmo(ammo);
+        projectile.setPos(user.getEyePosition());
+        projectile.shoot(shotDir.x, shotDir.y, shotDir.z, initV, 0);
+
+        // gun modifiers
+        // 骑士史莱姆做得不错，这个会被附加到所有Projectile上，所以我可以直接往上放词条~
+        var modifierCap = projectile.getCapability(EntityModifierCapability.CAPABILITY).resolve().orElseThrow();
+        modifierCap.setModifiers(
+                new ModifierNBT(gunTool.getModifiers().getModifiers().stream().collect(
+                        () -> new ArrayList<>(modifierCap.getModifiers().getModifiers()),
+                        (list, newEntry) -> {
+                            for (int i = 0; i < list.size(); i++) {
+                                var entry = list.get(i);
+                                if (entry.matches(newEntry.getModifier())) {
+                                    list.set(i, entry.withLevel(
+                                            entry.getLevel() + newEntry.getLevel()
+                                    ));
+                                    return;
+                                }
+                            }
+                            // if not found
+                            list.add(newEntry);
+                        },
+                        (list1, list2) -> {
+                            // FUCK JVAV
+                            // JVAV 的设计理念及其曹丹，你甚至没法只进行一个串行的 Aggregate 操作。
+                            // 而且如你所见它的 Exception 机制也是一坨达芬
+                            // FUCK JVAV
+                            throw new RuntimeException(new OperationNotSupportedException());
+                        }
+                ).stream().toList())
+        );
+
+        var bulletData = PersistentDataCapability.getOrWarn(projectile);
+
+        for (ModifierEntry entry : gunTool.getModifiers()) {
+            entry.getHook(ModifierHooks.PROJECTILE_LAUNCH).onProjectileLaunch(gunTool, entry, user, ammo, projectile, null, bulletData, true);
+        }
+
+        level.addFreshEntity(projectile);
+
+        return projectile;
     }
 
     //</editor-fold>
@@ -155,7 +225,7 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
 
         // 处理碰撞事件
         if (hitResult.getType() != HitResult.Type.MISS) {
-            this.onHit(hitResult); // 内部通常会设置 inGround=true 或销毁实体
+            handleHit(hitResult);
             this.hasImpulse = true;
         }
 
@@ -184,6 +254,16 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
         }
     }
 
+    private void handleHit(HitResult hitResult) {
+        if (level().isClientSide) return;
+        // post forge event
+        ProjectileImpactEvent event = new ProjectileImpactEvent(this, hitResult);
+        boolean canceled = MinecraftForge.EVENT_BUS.post(event);
+        if (canceled) return;
+        // run onHit()
+        this.onHit(hitResult);
+    }
+
     private EntityHitResult findHitEntity(Vec3 pStartVec, Vec3 pEndVec) {
         return ProjectileUtil.getEntityHitResult(
                 this.level(), this, pStartVec, pEndVec,
@@ -193,7 +273,7 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
     }
 
     @Override protected void onHitEntity(@NotNull EntityHitResult pResult) {
-        log.debug("hit entity: {} - {}", pResult.getType(), pResult.getEntity());
+//        log.debug("hit entity: {} - {}", pResult.getType(), pResult.getEntity());
 
         var owner = getOwner();
         var target = pResult.getEntity();
@@ -214,7 +294,7 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
 
 
     @Override protected void onHitBlock(@NotNull BlockHitResult pResult) {
-        log.debug("hit block: {} - {} - {}", pResult.getType(), pResult.getBlockPos(), level().getBlockState(pResult.getBlockPos()));
+//        log.debug("hit block: {} - {} - {}", pResult.getType(), pResult.getBlockPos(), level().getBlockState(pResult.getBlockPos()));
         super.onHitBlock(pResult);
 
         onHitMakeParticle(level(), position(), getDeltaMovement());
