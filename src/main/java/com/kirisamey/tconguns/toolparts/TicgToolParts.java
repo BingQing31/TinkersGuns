@@ -1,9 +1,11 @@
 package com.kirisamey.tconguns.toolparts;
 
+import com.kirisamey.tconguns.datatype.LanguageEntry;
 import com.kirisamey.tconguns.register.TicgModuleBase;
 import com.kirisamey.tconguns.toolparts.materialstats.*;
 import com.kirisamey.tconguns.tools.TicgTools;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -11,56 +13,53 @@ import net.minecraftforge.registries.RegistryObject;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
+import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
 import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
 import slimeknights.tconstruct.library.tools.part.IMaterialItem;
 import slimeknights.tconstruct.library.tools.part.ToolPartItem;
 import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class TicgToolParts extends TicgModuleBase {
 
-    public static final ItemObject<ToolPartItem> BARREL = TIC_ITEMS.register(
-            "barrel",
-            () -> new ToolPartItem(ITEM_PROPS, BarrelMaterialStats.ID)
-    );
-
-    public static final ItemObject<ToolPartItem> BOLT = TIC_ITEMS.register(
-            "bolt",
-            () -> new ToolPartItem(ITEM_PROPS, BoltMaterialStats.ID)
-    );
-
-    public static final ItemObject<ToolPartItem> GUN_HANDLE = TIC_ITEMS.register(
-            "gun_handle",
-            () -> new ToolPartItem(ITEM_PROPS, GunHandleMaterialStats.ID)
-    );
-
-    public static final ItemObject<ToolPartItem> MAGAZINE = TIC_ITEMS.register(
-            "magazine",
-            () -> new ToolPartItem(ITEM_PROPS, MagazineMaterialStats.ID)
-    );
-
-    public static final ItemObject<ToolPartItem> GUNBODY_SMALL = TIC_ITEMS.register(
-            "gunbody_small",
-            () -> new ToolPartItem(ITEM_PROPS, GunbodyMaterialStats.ID)
-    );
+    public static final List<ItemObject<ToolPartItem>> FULL_LIST = new ArrayList<>();
+    public static final Map<ResourceLocation, LanguageEntry> LANGUAGE_ENTRIES = new HashMap<>();
 
 
-    public static final ItemObject<ToolPartItem> BASE_BULLET_HEAD = TIC_ITEMS.register(
-            "base_bullet_head",
-            () -> new ToolPartItem(ITEM_PROPS, BulletHeadMaterialStats.ID)
-    );
+    public static final ItemObject<ToolPartItem> BARREL = part("barrel", BarrelMaterialStats.ID,
+            new LanguageEntry("Barrel", "枪管"));
+    public static final ItemObject<ToolPartItem> BOLT = part("bolt", BoltMaterialStats.ID,
+            new LanguageEntry("Bolt", "枪机"));
+    public static final ItemObject<ToolPartItem> GUN_HANDLE = part("gun_handle", GunHandleMaterialStats.ID,
+            new LanguageEntry("Gun Handle", "枪柄"));
+    public static final ItemObject<ToolPartItem> MAGAZINE = part("magazine", MagazineMaterialStats.ID,
+            new LanguageEntry("Magazine", "弹匣"));
+    public static final ItemObject<ToolPartItem> GUNBODY_SMALL = part("gunbody_small", GunbodyMaterialStats.ID,
+            new LanguageEntry("Small Gunbody", "小型枪体"));
 
-    public static final ItemObject<ToolPartItem> BASE_BULLET_SHELL = TIC_ITEMS.register(
-            "base_bullet_shell",
-            () -> new ToolPartItem(ITEM_PROPS, BulletShellMaterialStats.ID)
-    );
+    public static final ItemObject<ToolPartItem> BASE_BULLET_HEAD = part("base_bullet_head", BulletHeadMaterialStats.ID,
+            new LanguageEntry("Basic Bullet Head", "基础弹头"));
+    public static final ItemObject<ToolPartItem> BASE_BULLET_SHELL = part("base_bullet_shell", BulletShellMaterialStats.ID,
+            new LanguageEntry("Basic Bullet Shell", "基础弹壳"));
+    public static final ItemObject<ToolPartItem> GUNPOWDER = part("gunpowder", GunpowderMaterialStats.ID,
+            new LanguageEntry("Gunpowder", "火药"));
 
-    public static final ItemObject<ToolPartItem> GUNPOWDER = TIC_ITEMS.register(
-            "gunpowder",
-            () -> new ToolPartItem(ITEM_PROPS, GunpowderMaterialStats.ID)
-    );
+
+    private static ItemObject<ToolPartItem> part(String name, MaterialStatsId stats, LanguageEntry lang) {
+        var part = TIC_ITEMS.register(
+                name,
+                () -> new ToolPartItem(ITEM_PROPS, stats)
+        );
+        FULL_LIST.add(part);
+        LANGUAGE_ENTRIES.put(part.getId(), lang);
+        return part;
+    }
 
 
     public static final RegistryObject<CreativeModeTab> TAB_TOOL_PARTS = CREATIVE_TABS.register(
@@ -83,15 +82,7 @@ public class TicgToolParts extends TicgModuleBase {
     private static void addTabItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output tab) {
         Consumer<ItemStack> output = tab::accept;
 
-        acceptToolPart(output, BARREL);
-        acceptToolPart(output, BOLT);
-        acceptToolPart(output, GUN_HANDLE);
-        acceptToolPart(output, MAGAZINE);
-        acceptToolPart(output, GUNBODY_SMALL);
-
-        acceptToolPart(output, BASE_BULLET_HEAD);
-        acceptToolPart(output, BASE_BULLET_SHELL);
-        acceptToolPart(output, GUNPOWDER);
+        FULL_LIST.forEach(part -> acceptToolPart(output, part));
     }
 
     private static void acceptToolPart(Consumer<ItemStack> output, Supplier<? extends IMaterialItem> item) {

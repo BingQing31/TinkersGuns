@@ -3,6 +3,7 @@ package com.kirisamey.tconguns.reghub;
 import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.materials.data.*;
 import com.kirisamey.tconguns.register.data.TicgBlockTagProvider;
+import com.kirisamey.tconguns.register.data.TicgLangProvider;
 import com.kirisamey.tconguns.toolparts.data.TicgToolPartCastTagProvider;
 import com.kirisamey.tconguns.toolparts.data.TicgToolPartItemModelProvider;
 import com.kirisamey.tconguns.toolparts.data.TicgToolPartRecipeProvider;
@@ -15,6 +16,8 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.List;
+
 @Mod.EventBusSubscriber(modid = TconGuns.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class DataGenHelper {
     @SubscribeEvent
@@ -25,6 +28,10 @@ public final class DataGenHelper {
         var existingFileHelper = event.getExistingFileHelper();
         var isServer = event.includeServer();
         var isClient = event.includeClient();
+
+        // lang
+        var languages = List.of("en_us", "zh_cn");
+        languages.forEach(l -> generator.addProvider(isClient, new TicgLangProvider(packOutput, l, LangModulesHub.GETTERS)));
 
         // tags
         var blockTags = new TicgBlockTagProvider(packOutput, lookupProvider, existingFileHelper);
@@ -41,9 +48,9 @@ public final class DataGenHelper {
         generator.addProvider(isClient, new TicgMaterialRenderInfoProvider(packOutput, materialSprites, existingFileHelper));
 
         // for tool parts & casts
-        generator.addProvider(isClient, new TicgToolPartItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(isServer, new TicgToolPartRecipeProvider(packOutput));
         generator.addProvider(isServer, new TicgToolPartCastTagProvider(packOutput, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
+        generator.addProvider(isClient, new TicgToolPartItemModelProvider(packOutput, existingFileHelper));
 
         // for tools
         generator.addProvider(isServer, new TicgToolDefinitionDataProvider(packOutput));
