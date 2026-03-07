@@ -1,9 +1,9 @@
 package com.kirisamey.tconguns.register;
 
 import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.misc.TicgMiscItems;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -11,9 +11,12 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import slimeknights.mantle.registration.deferred.MenuTypeDeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 import slimeknights.mantle.registration.deferred.SynchronizedDeferredRegister;
 import slimeknights.tconstruct.common.registration.ItemDeferredRegisterExtension;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class TicgModuleBase {
     protected TicgModuleBase() {
@@ -41,4 +44,23 @@ public abstract class TicgModuleBase {
 
     protected static final Item.Properties ITEM_PROPS = new Item.Properties();
     protected static final Item.Properties UNSTACKABLE_PROPS = new Item.Properties().stacksTo(1);
+
+
+    public static final RegistryObject<CreativeModeTab> TAB_MISC = CREATIVE_TABS.register(
+            "misc", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.tconguns.misc"))
+                    .icon(() -> TicgMiscItems.TEST_ITEM.get().getDefaultInstance())
+                    .displayItems(TicgModuleBase::addMiscTabItems)
+                    .build());
+
+    private static final List<CreativeModeTab.DisplayItemsGenerator> miscTabBuilders = new ArrayList<>();
+
+    protected static CreativeModeTab.DisplayItemsGenerator miscTabDisplayItems(CreativeModeTab.DisplayItemsGenerator i) {
+        miscTabBuilders.add(i);
+        return i;
+    }
+
+    private static void addMiscTabItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output tab) {
+        miscTabBuilders.forEach(b -> b.accept(itemDisplayParameters, tab));
+    }
 }

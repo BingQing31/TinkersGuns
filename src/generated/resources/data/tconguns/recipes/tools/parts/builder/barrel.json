@@ -1,0 +1,16 @@
+{
+  "type": "tconstruct:part_builder",
+  "cost": 2,
+  "pattern": "tconguns:barrel",
+  "pattern_item": [
+    {
+      "tag": "tconstruct:patterns/default"
+    },
+    {
+      "item": "tconguns:barrel_cast"
+    }
+  ],
+  "result": {
+    "item": "tconguns:barrel"
+  }
+}

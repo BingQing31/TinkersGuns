@@ -1,0 +1,8 @@
+{
+  "type": "tconstruct:table_casting_material",
+  "cast": {
+    "tag": "tconguns:casts/multi_use/gun_handle"
+  },
+  "item_cost": 2,
+  "result": "tconguns:gun_handle"
+}

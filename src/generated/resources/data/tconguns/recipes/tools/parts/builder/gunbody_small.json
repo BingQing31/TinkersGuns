@@ -1,0 +1,16 @@
+{
+  "type": "tconstruct:part_builder",
+  "cost": 5,
+  "pattern": "tconguns:gunbody_small",
+  "pattern_item": [
+    {
+      "tag": "tconstruct:patterns/default"
+    },
+    {
+      "item": "tconguns:gunbody_small_cast"
+    }
+  ],
+  "result": {
+    "item": "tconguns:gunbody_small"
+  }
+}

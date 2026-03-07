@@ -1,0 +1,12 @@
+{
+  "values": [
+    "tconguns:base_bullet_head_cast",
+    "tconguns:base_bullet_shell_cast",
+    "tconguns:gunpowder_cast",
+    "tconguns:barrel_cast",
+    "tconguns:bolt_cast",
+    "tconguns:gun_handle_cast",
+    "tconguns:magazine_cast",
+    "tconguns:gunbody_small_cast"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "values": [
+    "#tconguns:casts/multi_use/base_bullet_head",
+    "#tconguns:casts/multi_use/base_bullet_shell",
+    "#tconguns:casts/multi_use/gunpowder",
+    "#tconguns:casts/multi_use/barrel",
+    "#tconguns:casts/multi_use/bolt",
+    "#tconguns:casts/multi_use/gun_handle",
+    "#tconguns:casts/multi_use/magazine",
+    "#tconguns:casts/multi_use/gunbody_small"
+  ]
+}

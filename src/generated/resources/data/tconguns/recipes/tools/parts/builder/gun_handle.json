@@ -1,0 +1,16 @@
+{
+  "type": "tconstruct:part_builder",
+  "cost": 2,
+  "pattern": "tconguns:gun_handle",
+  "pattern_item": [
+    {
+      "tag": "tconstruct:patterns/default"
+    },
+    {
+      "item": "tconguns:gun_handle_cast"
+    }
+  ],
+  "result": {
+    "item": "tconguns:gun_handle"
+  }
+}

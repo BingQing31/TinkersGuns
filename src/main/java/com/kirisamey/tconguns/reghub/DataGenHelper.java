@@ -3,7 +3,9 @@ package com.kirisamey.tconguns.reghub;
 import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.materials.data.*;
 import com.kirisamey.tconguns.register.data.TicgBlockTagProvider;
+import com.kirisamey.tconguns.toolparts.data.TicgToolPartCastTagProvider;
 import com.kirisamey.tconguns.toolparts.data.TicgToolPartItemModelProvider;
+import com.kirisamey.tconguns.toolparts.data.TicgToolPartRecipeProvider;
 import com.kirisamey.tconguns.tools.data.TicgStationSlotLayoutProvider;
 import com.kirisamey.tconguns.tools.data.TicgToolDefinitionDataProvider;
 import com.kirisamey.tconguns.tools.data.TicgToolRecipeProvider;
@@ -38,8 +40,10 @@ public final class DataGenHelper {
         var materialSprites = new TicgMaterialSpriteProvider();
         generator.addProvider(isClient, new TicgMaterialRenderInfoProvider(packOutput, materialSprites, existingFileHelper));
 
-        // for tool parts
-        generator.addProvider(isServer, new TicgToolPartItemModelProvider(packOutput, existingFileHelper));
+        // for tool parts & casts
+        generator.addProvider(isClient, new TicgToolPartItemModelProvider(packOutput, existingFileHelper));
+        generator.addProvider(isServer, new TicgToolPartRecipeProvider(packOutput));
+        generator.addProvider(isServer, new TicgToolPartCastTagProvider(packOutput, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
 
         // for tools
         generator.addProvider(isServer, new TicgToolDefinitionDataProvider(packOutput));

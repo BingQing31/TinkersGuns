@@ -1,0 +1,16 @@
+{
+  "type": "tconstruct:part_builder",
+  "cost": 1,
+  "pattern": "tconguns:base_bullet_head",
+  "pattern_item": [
+    {
+      "tag": "tconstruct:patterns/default"
+    },
+    {
+      "item": "tconguns:base_bullet_head_cast"
+    }
+  ],
+  "result": {
+    "item": "tconguns:base_bullet_head"
+  }
+}

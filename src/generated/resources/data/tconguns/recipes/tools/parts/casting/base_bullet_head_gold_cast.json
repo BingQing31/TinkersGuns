@@ -1,0 +1,8 @@
+{
+  "type": "tconstruct:table_casting_material",
+  "cast": {
+    "tag": "tconguns:casts/multi_use/base_bullet_head"
+  },
+  "item_cost": 1,
+  "result": "tconguns:base_bullet_head"
+}

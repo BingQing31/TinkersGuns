@@ -1,0 +1,16 @@
+{
+  "type": "tconstruct:part_builder",
+  "cost": 2,
+  "pattern": "tconguns:magazine",
+  "pattern_item": [
+    {
+      "tag": "tconstruct:patterns/default"
+    },
+    {
+      "item": "tconguns:magazine_cast"
+    }
+  ],
+  "result": {
+    "item": "tconguns:magazine"
+  }
+}
