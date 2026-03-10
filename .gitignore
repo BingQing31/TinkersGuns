@@ -1,6 +1,9 @@
 # build files
 mcmodsrepo
 
+# local libs
+libs
+
 # misc files
 .design
 

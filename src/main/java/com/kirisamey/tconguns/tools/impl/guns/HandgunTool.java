@@ -1,8 +1,8 @@
 package com.kirisamey.tconguns.tools.impl.guns;
 
-import com.kirisamey.tconguns.frame.client.rendering.AnimatableTicTool3DClientItemExtensions;
 import com.kirisamey.tconguns.misc.TicgArmPoses;
 import com.kirisamey.tconguns.tools.impl.GunTool;
+import com.kirisamey.toomanytinkers.models.rendering.AnimatableTicTool3DClientItemExtensions;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;

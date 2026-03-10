@@ -144,6 +144,11 @@ repositories {
         name = "Parchment"
         url = "https://maven.parchmentmc.org"
     }
+
+    flatDir {
+        name 'files'
+        dirs 'libs'
+    }
 }
 
 dependencies {
@@ -183,8 +188,8 @@ dependencies {
     // mods
     implementation fg.deobf("curse.maven:tinkers-construct-74072:6777068")
 
-    compileOnly fg.deobf("curse.maven:too-many-tinkers-1437457:7488907")
-    clientRunOnly fg.deobf("curse.maven:too-many-tinkers-1437457:7488907")
+    compileOnly fg.deobf("files:TooManyTinkers:1.0.0")
+    clientRunOnly fg.deobf("files:TooManyTinkers:1.0.0")
 
     compileOnly fg.deobf("curse.maven:mantle-74924:6819217")
     runtimeOnly fg.deobf("curse.maven:mantle-74924:6819217")
