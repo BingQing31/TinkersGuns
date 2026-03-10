@@ -72,7 +72,12 @@ public class BulletAttackUtils {
                 knockback = entry.getHook(ModifierHooks.MELEE_HIT).beforeMeleeHit(ammoTool, entry, context, damage, baseKnockback, knockback);
             }
 
+            // 造成伤害时暂时重置无敌帧
+            var invulnerableTime = target.invulnerableTime;
+            target.invulnerableTime = 0;
             var didHit = MeleeHitToolHook.dealDamage(ammoTool, context, damage);
+            target.invulnerableTime = invulnerableTime;
+
             if (!didHit) {
                 level.playSound(
                         null, projectile.getX(), projectile.getY(), projectile.getZ(),

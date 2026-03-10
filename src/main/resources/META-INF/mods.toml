@@ -79,7 +79,7 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="toomanytinkers"
 mandatory=true
-versionRange="[0.2.2,)"
+versionRange="[0.2.2]"
 ordering="AFTER"
 side="CLIENT"
 
