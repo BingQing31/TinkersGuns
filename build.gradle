@@ -185,11 +185,13 @@ dependencies {
         jarJar.ranged(it, "[0.5.0,)")
     }
 
+    compileOnly("io.vavr:vavr:1.0.1")
+
     // mods
     implementation fg.deobf("curse.maven:tinkers-construct-74072:6777068")
 
-    compileOnly fg.deobf("files:TooManyTinkers:1.0.0")
-    clientRunOnly fg.deobf("files:TooManyTinkers:1.0.0")
+    compileOnly fg.deobf("files:TooManyTinkers:1.0.2b6-all")
+    clientRunOnly fg.deobf("files:TooManyTinkers:1.0.2b6-all")
 
     compileOnly fg.deobf("curse.maven:mantle-74924:6819217")
     runtimeOnly fg.deobf("curse.maven:mantle-74924:6819217")

@@ -2,6 +2,10 @@ package com.kirisamey.tconguns.register;
 
 import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.misc.TicgMiscItems;
+import com.kirisamey.toomanytinkers.TmtRegistries;
+import com.kirisamey.toomanytinkers.models.AnimatableTicTool3DUnbakedModel;
+import com.kirisamey.toomanytinkers.models.pose.IAnimatableTicTool3DBoneController;
+import com.kirisamey.toomanytinkers.models.pose.ITmtAnimationController;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
@@ -30,6 +34,9 @@ public abstract class TicgModuleBase {
         MENUS.register(modEventBus);
 
         ENTITY_TYPES.register(modEventBus);
+
+        BONE_CONTROLLERS.register(modEventBus);
+        ANIM_CONTROLLERS.register(modEventBus);
     }
 
 
@@ -41,6 +48,11 @@ public abstract class TicgModuleBase {
     protected static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, TconGuns.MODID);
 
     protected static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, TconGuns.MODID);
+
+    protected static final DeferredRegister<IAnimatableTicTool3DBoneController> BONE_CONTROLLERS =
+            DeferredRegister.create(TmtRegistries.BONE_CONTROLLERS_REGKEY, TconGuns.MODID);
+    protected static final DeferredRegister<ITmtAnimationController> ANIM_CONTROLLERS =
+            DeferredRegister.create(TmtRegistries.ANIM_CONTROLLERS_REGKEY, TconGuns.MODID);
 
     protected static final Item.Properties ITEM_PROPS = new Item.Properties();
     protected static final Item.Properties UNSTACKABLE_PROPS = new Item.Properties().stacksTo(1);
