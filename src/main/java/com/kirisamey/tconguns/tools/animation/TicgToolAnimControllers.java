@@ -13,10 +13,10 @@ public class TicgToolAnimControllers extends TicgModuleBase {
             BONE_CONTROLLERS.register("gun_small", () -> new GunSmallBoneController(
                     new TmtAnimationBoneController(
                             ResourceLocation.fromNamespaceAndPath(TconGuns.MODID, "gun_small"),
-                            ResourceLocation.fromNamespaceAndPath(TconGuns.MODID, "gun")
+                            ResourceLocation.fromNamespaceAndPath(TconGuns.MODID, "gun_small")
                     )
             ));
 
-    public static final RegistryObject<ITmtAnimationController> GUN_ANIM =
-            ANIM_CONTROLLERS.register("gun", GunsAnimController::new);
+    public static final RegistryObject<ITmtAnimationController> GUN_SMALL_ANIM =
+            ANIM_CONTROLLERS.register("gun_small", GunSmallAnimController::new);
 }
