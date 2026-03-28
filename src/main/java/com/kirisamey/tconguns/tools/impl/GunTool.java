@@ -3,19 +3,24 @@ package com.kirisamey.tconguns.tools.impl;
 import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.entity.TicgProjectileEntities;
 import com.kirisamey.tconguns.entity.projectiles.BulletProjectile;
+import com.kirisamey.tconguns.syncing.gun.TicgGunPackets2C;
+import com.kirisamey.tconguns.syncing.gun.TicgGunSyncing;
 import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.tools.impl.capabilities.GunAmmoCapabilityProvider;
 import com.kirisamey.tconguns.tools.impl.capabilities.GunTempCapabilityProvider;
 import com.kirisamey.tconguns.tools.impl.capabilities.TicgGunCapabilities;
+import com.kirisamey.tconguns.tools.impl.capabilities.containers.GunTempStats;
 import com.kirisamey.tconguns.utils.ToolStatShowUtils;
 import com.kirisamey.tconguns.gui.GunAmmoMenu;
 import lombok.extern.log4j.Log4j2;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -28,8 +33,10 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 import slimeknights.mantle.client.TooltipKey;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
@@ -137,19 +144,37 @@ public abstract class GunTool extends ModifiableItem {
         // todo: full-auto
 
         if (firstPress) { // semi-auto
-            float initV = ammoTool.getStats().get(TicgToolStats.BULLET_VELOCITY);
-            initV *= gunTool.getStats().get(TicgToolStats.GUN_VELOCITY) + 1;
-            initV /= 20;
-
-            var shotDir = Vec3.directionFromRotation(user.getViewXRot(1f), user.getViewYRot(1f));
-
-            BulletProjectile.shot(gun, ammo, gunTool, ammoTool, user, level, initV, shotDir);
-
-            tmp_stats.setLastShot(currentTick);
-
-            ToolDamageUtil.damageAnimated(gunTool, 1, user, hand);
-            ToolDamageUtil.damage(ammoTool, 1, user, ammo);
+            shot(user, hand, gun, gunTool, ammo, ammoTool, level, tmp_stats, currentTick);
         }
+    }
+
+    protected static void shot(
+            @NonNull LivingEntity user, InteractionHand hand,
+            @NonNull ItemStack gun, @NonNull IToolStackView gunTool,
+            ItemStack ammo, @NotNull ToolStack ammoTool,
+            Level level, @NotNull GunTempStats tmp_stats, long currentTick) {
+
+        var slot = hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+
+        float initV = ammoTool.getStats().get(TicgToolStats.BULLET_VELOCITY);
+        initV *= gunTool.getStats().get(TicgToolStats.GUN_VELOCITY) + 1;
+        initV /= 20;
+
+        var shotDir = Vec3.directionFromRotation(user.getViewXRot(1f), user.getViewYRot(1f));
+
+        BulletProjectile.shot(gun, ammo, gunTool, ammoTool, user, level, initV, shotDir);
+
+        tmp_stats.setLastShot(currentTick);
+
+        ToolDamageUtil.damageAnimated(gunTool, 1, user, hand);
+        ToolDamageUtil.damage(ammoTool, 1, user, ammo);
+
+        TicgGunSyncing.CHANNEL2C.send(
+                PacketDistributor.NEAR.with(Holder.direct(
+                        new PacketDistributor.TargetPoint(user.getX(), user.getY(), user.getZ(), 64, level.dimension())
+                )),
+                new TicgGunPackets2C.GunShot(user, slot)
+        );
     }
 
 

@@ -34,36 +34,44 @@ public class TicgGunSyncing {
         // FUCK JVAV
         CHANNEL2S.registerMessage(
                 packetIdS++,
-                TicgGunPacketsS.ShotPressed.class,
-                TicgGunPacketsS.ShotPressed::encode,
-                TicgGunPacketsS.ShotPressed::decode,
-                TicgGunPacketsS.ShotPressed::handle,
+                TicgGunPackets2S.ShotPressed.class,
+                TicgGunPackets2S.ShotPressed::encode,
+                TicgGunPackets2S.ShotPressed::decode,
+                TicgGunPackets2S.ShotPressed::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER)
         );
         CHANNEL2S.registerMessage(
                 packetIdS++,
-                TicgGunPacketsS.ShotReleased.class,
-                TicgGunPacketsS.ShotReleased::encode,
-                TicgGunPacketsS.ShotReleased::decode,
-                TicgGunPacketsS.ShotReleased::handle,
+                TicgGunPackets2S.ShotReleased.class,
+                TicgGunPackets2S.ShotReleased::encode,
+                TicgGunPackets2S.ShotReleased::decode,
+                TicgGunPackets2S.ShotReleased::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER)
         );
         CHANNEL2S.registerMessage(
                 packetIdS++,
-                TicgGunPacketsS.ShotSingle.class,
-                TicgGunPacketsS.ShotSingle::encode,
-                TicgGunPacketsS.ShotSingle::decode,
-                TicgGunPacketsS.ShotSingle::handle,
+                TicgGunPackets2S.ShotSingle.class,
+                TicgGunPackets2S.ShotSingle::encode,
+                TicgGunPackets2S.ShotSingle::decode,
+                TicgGunPackets2S.ShotSingle::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER)
         );
 
         int packetIdC = 0;
         CHANNEL2C.registerMessage(
                 packetIdC++,
-                TicgGunPacketsC.BulletHitParticle.class,
-                TicgGunPacketsC.BulletHitParticle::encode,
-                TicgGunPacketsC.BulletHitParticle::decode,
-                TicgGunPacketsC.BulletHitParticle::handle,
+                TicgGunPackets2C.BulletHitParticle.class,
+                TicgGunPackets2C.BulletHitParticle::encode,
+                TicgGunPackets2C.BulletHitParticle::decode,
+                TicgGunPackets2C.BulletHitParticle::handle,
+                Optional.of(NetworkDirection.PLAY_TO_CLIENT)
+        );
+        CHANNEL2C.registerMessage(
+                packetIdC++,
+                TicgGunPackets2C.GunShot.class,
+                TicgGunPackets2C.GunShot::encode,
+                TicgGunPackets2C.GunShot::decode,
+                TicgGunPackets2C.GunShot::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT)
         );
     }

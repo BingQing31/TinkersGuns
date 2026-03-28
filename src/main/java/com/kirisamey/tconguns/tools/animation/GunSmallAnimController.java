@@ -29,14 +29,13 @@ public class GunSmallAnimController implements ITmtAnimationController {
         var lastShot = tmpStats.getLastShot();
         var currentTime = Minecraft.getInstance().getFrameTime() + cLevel.getGameTime();
 
-//        var afterShot = currentTime - lastShot;
-//        log.debug("afterShot:{}, lastShot:{}, currentTime:{}, shotSpeed:{}", afterShot, lastShot, currentTime, shotSpeed);
-//        if (afterShot >= 0 && afterShot < (1 / shotSpeed)) {
-//            return Tuple.of("shot", afterShot * shotSpeed * 20);
-//        }
+        var afterShot = currentTime - lastShot;
+        if (afterShot >= 0 && afterShot < (20 / shotSpeed)) {
+            return Tuple.of("shot", afterShot * shotSpeed);
+        }
 
 //        if (true) return Tuple.of("_test", currentTime % 20f);
-        if (true) return Tuple.of("shot", currentTime % 20f);
+//        if (true) return Tuple.of("shot", currentTime % 20f);
 
         return Tuple.of("idle", 0f);
     }

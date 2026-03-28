@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = TconGuns.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class TicgGunShotServerHandler {
+public class TicgGunSyncServerHandler {
     private static final List<LivingEntity> SHOOTING_ENTITIES = new ArrayList<>();
 
 

@@ -40,7 +40,7 @@ public class TicgToolStats {
     ));
 
     public static final FloatToolStat GUN_SHOT_SPEED = ToolStats.register(new FloatToolStat(
-            statId("gun_shot_speed"), 0xff5500cc, 1, 0, Float.MAX_VALUE, TicgToolTags.GUN
+            statId("gun_shot_speed"), 0xff5500cc, 1, 0, 20f, TicgToolTags.GUN
     ));
 
     public static final FloatToolStat GUN_ACCURACY = ToolStats.register(new FloatToolStat(

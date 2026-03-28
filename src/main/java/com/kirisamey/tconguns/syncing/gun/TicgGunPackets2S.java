@@ -5,7 +5,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class TicgGunPacketsS {
+public class TicgGunPackets2S {
     @SuppressWarnings("InstantiationOfUtilityClass")
     public static class ShotPressed {
         private ShotPressed() {
@@ -25,7 +25,7 @@ public class TicgGunPacketsS {
             ctx.enqueueWork(() -> {
                 var player = ctx.getSender();
                 if (player == null) return;
-                TicgGunShotServerHandler.startShooting(player);
+                TicgGunSyncServerHandler.startShooting(player);
             });
             ctx.setPacketHandled(true);
         }
@@ -50,7 +50,7 @@ public class TicgGunPacketsS {
             ctx.enqueueWork(() -> {
                 var player = ctx.getSender();
                 if (player == null) return;
-                TicgGunShotServerHandler.stopShooting(player);
+                TicgGunSyncServerHandler.stopShooting(player);
             });
             ctx.setPacketHandled(true);
         }
@@ -75,7 +75,7 @@ public class TicgGunPacketsS {
             ctx.enqueueWork(() -> {
                 var player = ctx.getSender();
                 if (player == null) return;
-                TicgGunShotServerHandler.singleShot(player);
+                TicgGunSyncServerHandler.singleShot(player);
             });
             ctx.setPacketHandled(true);
         }

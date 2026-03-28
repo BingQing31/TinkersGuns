@@ -1,8 +1,7 @@
 package com.kirisamey.tconguns.entity.projectiles;
 
-import com.google.common.collect.ImmutableList;
 import com.kirisamey.tconguns.entity.TicgProjectileEntities;
-import com.kirisamey.tconguns.syncing.gun.TicgGunPacketsC;
+import com.kirisamey.tconguns.syncing.gun.TicgGunPackets2C;
 import com.kirisamey.tconguns.syncing.gun.TicgGunSyncing;
 import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.attacking.BulletAttackUtils;
@@ -31,19 +30,14 @@ import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
-import slimeknights.tconstruct.library.modifiers.hook.ranged.ProjectileLaunchModifierHook;
 import slimeknights.tconstruct.library.tools.capability.EntityModifierCapability;
 import slimeknights.tconstruct.library.tools.capability.PersistentDataCapability;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModifierNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
-import slimeknights.tconstruct.tools.logic.ToolEvents;
 
 import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collector;
 
 @Log4j2
 public class BulletProjectile extends Projectile implements ItemSupplier {
@@ -312,7 +306,7 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
                 PacketDistributor.NEAR.with(Holder.direct(
                         new PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 64, serverLevel.dimension())
                 )),
-                new TicgGunPacketsC.BulletHitParticle(serverLevel, getAmmo().getItem(), pos, velocity)
+                new TicgGunPackets2C.BulletHitParticle(serverLevel, getAmmo().getItem(), pos, velocity)
         );
     }
 
