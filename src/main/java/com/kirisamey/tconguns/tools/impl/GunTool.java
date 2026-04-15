@@ -1,8 +1,6 @@
 package com.kirisamey.tconguns.tools.impl;
 
 import com.kirisamey.tconguns.TconGuns;
-import com.kirisamey.tconguns.client.rendering.CrosshairBlocker;
-import com.kirisamey.tconguns.entity.TicgProjectileEntities;
 import com.kirisamey.tconguns.entity.projectiles.BulletProjectile;
 import com.kirisamey.tconguns.syncing.gun.TicgGunPackets2C;
 import com.kirisamey.tconguns.syncing.gun.TicgGunSyncing;
@@ -31,6 +29,10 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -86,7 +88,7 @@ public abstract class GunTool extends ModifiableItem {
         var item = player.getItemInHand(hand);
         player.startUsingItem(hand);
 
-        if (level.isClientSide) CrosshairBlocker.setBlocking(true);
+        if (level.isClientSide) CrosshairBlocker.checkBlocking();
 
         return InteractionResultHolder.consume(item);
     }
@@ -104,8 +106,6 @@ public abstract class GunTool extends ModifiableItem {
 
         super.releaseUsing(stack, level, entity, timeLeft);
 
-        if (level.isClientSide) CrosshairBlocker.setBlocking(false);
-
         if (timeLeft > 72000 - 4 && !level.isClientSide() && entity instanceof ServerPlayer player) {
             if (player.isCrouching()) {
                 var name = stack.getHoverName();
@@ -115,6 +115,9 @@ public abstract class GunTool extends ModifiableItem {
                     GunAmmoMenu.open(player, name, slot);
             }
         }
+
+        entity.stopUsingItem();
+        if (level.isClientSide) CrosshairBlocker.checkBlocking();
     }
 
     public void entityFire(@NotNull LivingEntity user, InteractionHand hand, @NotNull ItemStack gun, @NotNull IToolStackView gunTool, boolean firstPress) {
@@ -187,6 +190,9 @@ public abstract class GunTool extends ModifiableItem {
     }
 
 
+    protected abstract boolean dualWieldable();
+
+
     @Mod.EventBusSubscriber(modid = TconGuns.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class CapabilityAppender {
 
@@ -195,6 +201,49 @@ public abstract class GunTool extends ModifiableItem {
             if (!(event.getObject().getItem() instanceof GunTool)) return;
             event.addCapability(GunAmmoCapabilityProvider.ID, new GunAmmoCapabilityProvider());
             event.addCapability(GunTempCapabilityProvider.ID, new GunTempCapabilityProvider());
+        }
+    }
+
+    @Mod.EventBusSubscriber(modid = TconGuns.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    public static class CrosshairBlocker {
+
+        private static boolean blocking;
+
+        private static void checkBlocking() {
+            blocking = false;
+
+            var mc = Minecraft.getInstance();
+            var player = mc.player;
+            if (player != null && player.isUsingItem()) {
+                var dual = true;
+                var main = false;
+                var off = false;
+
+                if (player.getMainHandItem().getItem() instanceof GunTool mainGun) {
+                    main = true;
+                    dual &= mainGun.dualWieldable();
+                }
+                if (player.getOffhandItem().getItem() instanceof GunTool offGun) {
+                    off = true;
+                    dual &= offGun.dualWieldable();
+                }
+
+                dual &= main && off;
+
+                if (!dual) {
+                    if (player.getUsedItemHand() == InteractionHand.MAIN_HAND && main) blocking = true;
+                    else if (player.getUsedItemHand() == InteractionHand.OFF_HAND && off) blocking = true;
+                }
+            }
+        }
+
+        @OnlyIn(Dist.CLIENT)
+        @SubscribeEvent
+        public static void onRenderGuiOverlayPre(RenderGuiOverlayEvent.Pre event) {
+            if (!event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id()))
+                return;
+
+            if (blocking) event.setCanceled(true);
         }
     }
 }

@@ -21,6 +21,10 @@ public class HandgunTool extends GunTool {
         super(properties, toolDefinition);
     }
 
+    @Override protected boolean dualWieldable() {
+        return true;
+    }
+
     @Override public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new ClientItemExtensions());
     }
