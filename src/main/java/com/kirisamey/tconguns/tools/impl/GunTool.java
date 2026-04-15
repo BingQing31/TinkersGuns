@@ -1,6 +1,7 @@
 package com.kirisamey.tconguns.tools.impl;
 
 import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.client.rendering.CrosshairBlocker;
 import com.kirisamey.tconguns.entity.TicgProjectileEntities;
 import com.kirisamey.tconguns.entity.projectiles.BulletProjectile;
 import com.kirisamey.tconguns.syncing.gun.TicgGunPackets2C;
@@ -80,9 +81,13 @@ public abstract class GunTool extends ModifiableItem {
 
 
     @Override public @NotNull InteractionResultHolder<ItemStack> use(
-            @NotNull Level worldIn, Player playerIn, @NotNull InteractionHand hand) {
-        var item = playerIn.getItemInHand(hand);
-        playerIn.startUsingItem(hand);
+            @NotNull Level level, Player player, @NotNull InteractionHand hand) {
+
+        var item = player.getItemInHand(hand);
+        player.startUsingItem(hand);
+
+        if (level.isClientSide) CrosshairBlocker.setBlocking(true);
+
         return InteractionResultHolder.consume(item);
     }
 
@@ -96,7 +101,11 @@ public abstract class GunTool extends ModifiableItem {
 
     @Override
     public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity, int timeLeft) {
+
         super.releaseUsing(stack, level, entity, timeLeft);
+
+        if (level.isClientSide) CrosshairBlocker.setBlocking(false);
+
         if (timeLeft > 72000 - 4 && !level.isClientSide() && entity instanceof ServerPlayer player) {
             if (player.isCrouching()) {
                 var name = stack.getHoverName();
