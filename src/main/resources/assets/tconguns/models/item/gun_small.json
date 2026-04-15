@@ -85,5 +85,8 @@
             "translation": [0, 2, 0]
         }
     },
+    "marks": {
+        "sight": [-10.2, 3.1, 0]
+    },
     "large_tex": true
 }
