@@ -21,7 +21,7 @@ public class HandgunTool extends GunTool {
         super(properties, toolDefinition);
     }
 
-    @Override protected boolean dualWieldable() {
+    @Override public boolean dualWieldable() {
         return true;
     }
 
@@ -39,9 +39,19 @@ public class HandgunTool extends GunTool {
         public boolean applyForgeHandTransform(
                 PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand,
                 float partialTick, float equipProcess, float swingProcess) {
-            if (player.getUseItem() == itemInHand) {
-                poseStack.translate(0, -0.1, 0);
+            var useItem = player.getUseItem();
+            if (useItem == itemInHand) {
+                poseStack.translate(0, 0, 0);
+                return true;
+            } else if (player.isUsingItem() && player.getUsedItemHand() == InteractionHand.MAIN_HAND &&
+                    player.getOffhandItem() == itemInHand &&
+                    useItem.getItem() instanceof GunTool gun0 && gun0.dualWieldable() &&
+                    itemInHand.getItem() instanceof GunTool gun1 && gun1.dualWieldable()
+            ) {
+                poseStack.translate(0, 0, 0);
+                return true;
             }
+
             return false;
         }
     }

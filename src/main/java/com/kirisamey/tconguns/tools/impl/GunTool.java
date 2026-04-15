@@ -190,7 +190,7 @@ public abstract class GunTool extends ModifiableItem {
     }
 
 
-    protected abstract boolean dualWieldable();
+    public abstract boolean dualWieldable();
 
 
     @Mod.EventBusSubscriber(modid = TconGuns.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)

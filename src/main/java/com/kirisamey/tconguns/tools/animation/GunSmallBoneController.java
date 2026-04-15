@@ -1,5 +1,6 @@
 package com.kirisamey.tconguns.tools.animation;
 
+import com.kirisamey.tconguns.tools.impl.GunTool;
 import com.kirisamey.toomanytinkers.models.AnimatableTicTool3DFinalBakedModel;
 import com.kirisamey.toomanytinkers.models.AnimatableTicTool3DModelData;
 import com.kirisamey.toomanytinkers.models.pose.IAnimatableTicTool3DBoneController;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.jspecify.annotations.NonNull;
 
 import java.util.HashMap;
 
@@ -31,15 +33,40 @@ public class GunSmallBoneController implements IAnimatableTicTool3DBoneControlle
             if (player.isUsingItem()) {
                 // todo: 副手和双持的判定以后要考虑
                 if (player.getUsedItemHand() == InteractionHand.MAIN_HAND && player.getMainHandItem() == itemStack) {
-                    var modelTransform = model.getTransforms().getTransform(itemDisplayContext);
-                    var tr = reverseTranslation(modelTransform, false);
-                    transform.translate(tr);
-                    var t = model.getMarks().get("sight").getOrElse(new Vector3f());
-                    transform.translate(t.negate(new Vector3f()).mul(1f, 0.5f, 1f));
+                    //noinspection RedundantIfStatement
+                    if (itemStack.getItem() instanceof GunTool gun0 && gun0.dualWieldable() &&
+                            player.getOffhandItem().getItem() instanceof GunTool gun1 && gun1.dualWieldable()
+                    ) {
+                        transformIt(model, itemDisplayContext, transform, false, true);
+                    } else {
+                        transformIt(model, itemDisplayContext, transform, false, false);
+                    }
+                } else if (player.getOffhandItem() == itemStack) {
+                    if (player.getUsedItemHand() == InteractionHand.OFF_HAND) {
+                        transformIt(model, itemDisplayContext, transform, true, false);
+
+                    } else if (itemStack.getItem() instanceof GunTool gun1 && gun1.dualWieldable() &&
+                            player.getMainHandItem().getItem() instanceof GunTool gun0 && gun0.dualWieldable()
+                    ) {
+                        transformIt(model, itemDisplayContext, transform, true, true);
+                    }
                 }
             }
         }
         return controller.pose(itemStack, model, itemDisplayContext, transform);
+    }
+
+    // 方法名暂定
+    private void transformIt(AnimatableTicTool3DFinalBakedModel model, @NonNull ItemDisplayContext itemDisplayContext,
+                             Matrix4f transform, boolean isLeftHand, boolean isDual) {
+        var modelTransform = model.getTransforms().getTransform(itemDisplayContext);
+        var tr = reverseTranslation(modelTransform, isLeftHand);
+        transform.translate(tr);
+        var t = model.getMarks().get("sight").getOrElse(new Vector3f());
+        transform.translate(t.negate(new Vector3f()));
+        if (isDual) {
+            transform.translate(0f, -1.25f / 16f, 0.25f * (isLeftHand ? -1f : 1f));
+        }
     }
 
 
