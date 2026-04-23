@@ -45,7 +45,6 @@ public class TicgGunAttackInputRedirector {
     @SubscribeEvent
     public static void OnClientTick(TickEvent.ClientTickEvent event) {
         var mc = Minecraft.getInstance();
-        var player = mc.player;
 
         if (!shouldShot()) return;
 

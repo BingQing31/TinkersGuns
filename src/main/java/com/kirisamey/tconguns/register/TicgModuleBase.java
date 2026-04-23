@@ -8,6 +8,7 @@ import com.kirisamey.toomanytinkers.models.pose.IAnimatableTicTool3DBoneControll
 import com.kirisamey.toomanytinkers.models.pose.ITmtAnimationController;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -37,22 +38,27 @@ public abstract class TicgModuleBase {
 
         BONE_CONTROLLERS.register(modEventBus);
         ANIM_CONTROLLERS.register(modEventBus);
+
+        SOUNDS.register(modEventBus);
     }
 
 
-    protected static final ItemDeferredRegisterExtension TIC_ITEMS = new ItemDeferredRegisterExtension(TconGuns.MODID);
-    protected static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, TconGuns.MODID);
-    protected static final SynchronizedDeferredRegister<CreativeModeTab> CREATIVE_TABS =
+    public static final ItemDeferredRegisterExtension TIC_ITEMS = new ItemDeferredRegisterExtension(TconGuns.MODID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, TconGuns.MODID);
+    public static final SynchronizedDeferredRegister<CreativeModeTab> CREATIVE_TABS =
             SynchronizedDeferredRegister.create(Registries.CREATIVE_MODE_TAB, TconGuns.MODID);
 
-    protected static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, TconGuns.MODID);
+    public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, TconGuns.MODID);
 
-    protected static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, TconGuns.MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, TconGuns.MODID);
 
-    protected static final DeferredRegister<IAnimatableTicTool3DBoneController> BONE_CONTROLLERS =
+    public static final DeferredRegister<IAnimatableTicTool3DBoneController> BONE_CONTROLLERS =
             DeferredRegister.create(TmtRegistries.BONE_CONTROLLERS_REGKEY, TconGuns.MODID);
-    protected static final DeferredRegister<ITmtAnimationController> ANIM_CONTROLLERS =
+    public static final DeferredRegister<ITmtAnimationController> ANIM_CONTROLLERS =
             DeferredRegister.create(TmtRegistries.ANIM_CONTROLLERS_REGKEY, TconGuns.MODID);
+
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, TconGuns.MODID);
+
 
     protected static final Item.Properties ITEM_PROPS = new Item.Properties();
     protected static final Item.Properties UNSTACKABLE_PROPS = new Item.Properties().stacksTo(1);

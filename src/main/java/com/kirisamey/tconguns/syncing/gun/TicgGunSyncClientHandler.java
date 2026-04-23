@@ -1,8 +1,10 @@
 package com.kirisamey.tconguns.syncing.gun;
 
+import com.kirisamey.tconguns.sounds.TicgSounds;
 import com.kirisamey.tconguns.tools.tools.bullets.BulletTool;
 import com.kirisamey.tconguns.tools.tools.guns.capabilities.TicgGunCapabilities;
 import net.minecraft.client.Minecraft;
+import net.minecraft.sounds.SoundSource;
 
 import java.util.Objects;
 
@@ -22,12 +24,23 @@ public class TicgGunSyncClientHandler {
 
     public static void HandleShot(TicgGunPackets2C.GunShot packet) {
         if (packet.owner() != null) {
+            // put stat
             var gun = packet.owner().getItemBySlot(packet.slot());
             gun.getCapability(TicgGunCapabilities.GUN_TMP_STATS).resolve().ifPresent(stats -> {
                 stats.setLastShot(
                         Objects.requireNonNull(Minecraft.getInstance().level).getGameTime()
                 );
             });
+
+            // sound
+            if (Minecraft.getInstance().level != null) {
+                var pos = packet.owner().position();
+                Minecraft.getInstance().level.playLocalSound(
+                        pos.x, pos.y, pos.z,
+                        TicgSounds.SHOT_DEFAULT.get(), SoundSource.PLAYERS,
+                        1f, 1f, true
+                );
+            }
         }
     }
 }

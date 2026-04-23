@@ -64,6 +64,7 @@
   "stat.tconguns.gunbody": "Gunbody",
   "stat.tconguns.gunpowder": "Gunpowder",
   "stat.tconguns.magazine": "Magazine",
+  "subtitles.tconguns.shot_default": "Tinkers Gun: Shot",
   "tool_stat.tconguns.bullet_attack": "Bullet Atk: ",
   "tool_stat.tconguns.bullet_attack.description": "The base damage dealt when ammunition hits; the final damage will be affected by the projectile's velocity at impact.",
   "tool_stat.tconguns.bullet_recoil": "Recoil: ",

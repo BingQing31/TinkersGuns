@@ -1,0 +1,8 @@
+{
+  "shot_default": {
+    "sounds": [
+      "tconguns:shot_default"
+    ],
+    "subtitle": "subtitles.tconguns.shot_default"
+  }
+}

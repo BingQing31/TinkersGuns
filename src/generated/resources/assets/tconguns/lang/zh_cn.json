@@ -64,6 +64,7 @@
   "stat.tconguns.gunbody": "枪体",
   "stat.tconguns.gunpowder": "火药",
   "stat.tconguns.magazine": "弹匣",
+  "subtitles.tconguns.shot_default": "工匠枪械：射击",
   "tool_stat.tconguns.bullet_attack": "弹药基伤：",
   "tool_stat.tconguns.bullet_attack.description": "弹药击中时造成的伤害的基础值，最终伤害将受到击中时的弹头速度影响",
   "tool_stat.tconguns.bullet_recoil": "后坐力：",
