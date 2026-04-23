@@ -1,4 +1,4 @@
-package com.kirisamey.tconguns.tools.impl;
+package com.kirisamey.tconguns.tools.tools.bullets;
 
 import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.utils.ToolStatShowUtils;
@@ -18,7 +18,6 @@ import slimeknights.tconstruct.library.tools.item.ModifiableItem;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
 import java.util.List;
-import java.util.logging.Level;
 
 @Log4j2
 public abstract class BulletTool extends ModifiableItem {

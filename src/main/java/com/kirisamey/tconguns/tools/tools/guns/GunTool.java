@@ -1,14 +1,15 @@
-package com.kirisamey.tconguns.tools.impl;
+package com.kirisamey.tconguns.tools.tools.guns;
 
 import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.entity.projectiles.BulletProjectile;
 import com.kirisamey.tconguns.syncing.gun.TicgGunPackets2C;
 import com.kirisamey.tconguns.syncing.gun.TicgGunSyncing;
 import com.kirisamey.tconguns.tools.TicgToolStats;
-import com.kirisamey.tconguns.tools.impl.capabilities.GunAmmoCapabilityProvider;
-import com.kirisamey.tconguns.tools.impl.capabilities.GunTempCapabilityProvider;
-import com.kirisamey.tconguns.tools.impl.capabilities.TicgGunCapabilities;
-import com.kirisamey.tconguns.tools.impl.capabilities.containers.GunTempStats;
+import com.kirisamey.tconguns.tools.tools.guns.capabilities.GunAmmoCapabilityProvider;
+import com.kirisamey.tconguns.tools.tools.guns.capabilities.GunTempCapabilityProvider;
+import com.kirisamey.tconguns.tools.tools.guns.capabilities.TicgGunCapabilities;
+import com.kirisamey.tconguns.tools.tools.guns.capabilities.containers.GunTempStats;
+import com.kirisamey.tconguns.tools.tools.bullets.BulletTool;
 import com.kirisamey.tconguns.utils.ToolStatShowUtils;
 import com.kirisamey.tconguns.gui.GunAmmoMenu;
 import lombok.extern.log4j.Log4j2;
@@ -120,7 +121,9 @@ public abstract class GunTool extends ModifiableItem {
         if (level.isClientSide) CrosshairBlocker.checkBlocking();
     }
 
-    public void entityFire(@NotNull LivingEntity user, InteractionHand hand, @NotNull ItemStack gun, @NotNull IToolStackView gunTool, boolean firstPress) {
+    public abstract boolean dualWieldable();
+
+    public void entityFire(@NotNull LivingEntity user, InteractionHand hand, @NotNull ItemStack gun, @NotNull IToolStackView gunTool, GunInputType inputType) {
         if (gunTool.isBroken()) return;
 
         var ammo_cap = gun.getCapability(TicgGunCapabilities.GUN_AMMO).resolve();
@@ -155,7 +158,7 @@ public abstract class GunTool extends ModifiableItem {
 
         // todo: full-auto
 
-        if (firstPress) { // semi-auto
+        if (inputType == GunInputType.Start) { // semi-auto
             shot(user, hand, gun, gunTool, ammo, ammoTool, level, tmp_stats, currentTick);
         }
     }
@@ -190,9 +193,7 @@ public abstract class GunTool extends ModifiableItem {
     }
 
 
-    public abstract boolean dualWieldable();
-
-
+    //<editor-fold desc="Event Subscribers">
     @Mod.EventBusSubscriber(modid = TconGuns.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class CapabilityAppender {
 
@@ -246,4 +247,5 @@ public abstract class GunTool extends ModifiableItem {
             if (blocking) event.setCanceled(true);
         }
     }
+    //</editor-fold>
 }

@@ -1,7 +1,7 @@
 package com.kirisamey.tconguns.syncing.gun;
 
-import com.kirisamey.tconguns.tools.impl.BulletTool;
-import com.kirisamey.tconguns.tools.impl.capabilities.TicgGunCapabilities;
+import com.kirisamey.tconguns.tools.tools.bullets.BulletTool;
+import com.kirisamey.tconguns.tools.tools.guns.capabilities.TicgGunCapabilities;
 import net.minecraft.client.Minecraft;
 
 import java.util.Objects;

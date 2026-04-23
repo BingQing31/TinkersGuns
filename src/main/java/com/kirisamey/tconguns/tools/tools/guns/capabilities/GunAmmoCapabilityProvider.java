@@ -1,4 +1,4 @@
-package com.kirisamey.tconguns.tools.impl.capabilities;
+package com.kirisamey.tconguns.tools.tools.guns.capabilities;
 
 import com.kirisamey.tconguns.TconGuns;
 import net.minecraft.core.Direction;

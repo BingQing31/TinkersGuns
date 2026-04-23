@@ -1,8 +1,8 @@
 package com.kirisamey.tconguns.tools.animation;
 
 import com.kirisamey.tconguns.tools.TicgToolStats;
-import com.kirisamey.tconguns.tools.impl.GunTool;
-import com.kirisamey.tconguns.tools.impl.capabilities.TicgGunCapabilities;
+import com.kirisamey.tconguns.tools.tools.guns.GunTool;
+import com.kirisamey.tconguns.tools.tools.guns.capabilities.TicgGunCapabilities;
 import com.kirisamey.toomanytinkers.models.pose.ITmtAnimationController;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;

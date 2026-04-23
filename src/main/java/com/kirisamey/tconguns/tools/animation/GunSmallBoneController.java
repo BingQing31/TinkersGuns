@@ -1,6 +1,6 @@
 package com.kirisamey.tconguns.tools.animation;
 
-import com.kirisamey.tconguns.tools.impl.GunTool;
+import com.kirisamey.tconguns.tools.tools.guns.GunTool;
 import com.kirisamey.toomanytinkers.models.AnimatableTicTool3DFinalBakedModel;
 import com.kirisamey.toomanytinkers.models.AnimatableTicTool3DModelData;
 import com.kirisamey.toomanytinkers.models.pose.IAnimatableTicTool3DBoneController;
@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
-import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.jspecify.annotations.NonNull;
 

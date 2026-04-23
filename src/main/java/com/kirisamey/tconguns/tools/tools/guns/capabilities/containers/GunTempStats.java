@@ -1,4 +1,4 @@
-package com.kirisamey.tconguns.tools.impl.capabilities.containers;
+package com.kirisamey.tconguns.tools.tools.guns.capabilities.containers;
 
 import lombok.Getter;
 import lombok.Setter;

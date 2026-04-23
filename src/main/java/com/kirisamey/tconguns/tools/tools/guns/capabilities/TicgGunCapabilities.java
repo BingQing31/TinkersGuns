@@ -1,6 +1,6 @@
-package com.kirisamey.tconguns.tools.impl.capabilities;
+package com.kirisamey.tconguns.tools.tools.guns.capabilities;
 
-import com.kirisamey.tconguns.tools.impl.capabilities.containers.GunTempStats;
+import com.kirisamey.tconguns.tools.tools.guns.capabilities.containers.GunTempStats;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;

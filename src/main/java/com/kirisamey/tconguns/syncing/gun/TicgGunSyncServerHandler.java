@@ -1,7 +1,8 @@
 package com.kirisamey.tconguns.syncing.gun;
 
 import com.kirisamey.tconguns.TconGuns;
-import com.kirisamey.tconguns.tools.impl.GunTool;
+import com.kirisamey.tconguns.tools.tools.guns.GunInputType;
+import com.kirisamey.tconguns.tools.tools.guns.GunTool;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.TickEvent;
@@ -18,24 +19,37 @@ public class TicgGunSyncServerHandler {
 
 
     public static void startShooting(LivingEntity entity) {
-        shot(entity, true);
+        shot(entity, GunInputType.Start);
         SHOOTING_ENTITIES.add(entity);
     }
 
     public static void stopShooting(LivingEntity entity) {
         SHOOTING_ENTITIES.remove(entity);
+        shot(entity, GunInputType.Stop);
     }
 
     public static void singleShot(LivingEntity entity) {
-        shot(entity, true);
+        shot(entity, GunInputType.Start);
+        shot(entity, GunInputType.Stop);
     }
 
-    private static void shot(LivingEntity entity, boolean oneShot) {
+    private static void shot(LivingEntity entity, GunInputType inputType) {
         var handItem = entity.getMainHandItem();
+        var offhandItem = entity.getOffhandItem();
         if (handItem.getItem() instanceof GunTool gun) {
             var gunTool = ToolStack.from(handItem);
-            var hand = InteractionHand.MAIN_HAND; // todo: 副手&双持适配
-            gun.entityFire(entity, hand, handItem, gunTool, oneShot);
+            var hand = InteractionHand.MAIN_HAND;
+            gun.entityFire(entity, hand, handItem, gunTool, inputType);
+            if (gun.dualWieldable() && offhandItem.getItem() instanceof GunTool gun1 && gun1.dualWieldable()) {
+                var gunTool1 = ToolStack.from(offhandItem);
+                var hand1 = InteractionHand.OFF_HAND;
+                gun1.entityFire(entity, hand1, offhandItem, gunTool1, inputType);
+            }
+        } else if (offhandItem.getItem() instanceof GunTool gun &&
+                entity.isUsingItem() && entity.getUsedItemHand() == InteractionHand.OFF_HAND) {
+            var gunTool = ToolStack.from(offhandItem);
+            var hand = InteractionHand.OFF_HAND;
+            gun.entityFire(entity, hand, offhandItem, gunTool, inputType);
         }
     }
 
@@ -43,7 +57,7 @@ public class TicgGunSyncServerHandler {
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         for (var entity : SHOOTING_ENTITIES) {
-            shot(entity, false);
+            shot(entity, GunInputType.Continue);
         }
     }
 }

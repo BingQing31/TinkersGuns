@@ -1,7 +1,7 @@
-package com.kirisamey.tconguns.tools.impl.guns;
+package com.kirisamey.tconguns.tools.tools.guns.impl;
 
 import com.kirisamey.tconguns.misc.TicgArmPoses;
-import com.kirisamey.tconguns.tools.impl.GunTool;
+import com.kirisamey.tconguns.tools.tools.guns.GunTool;
 import com.kirisamey.toomanytinkers.models.rendering.AnimatableTicTool3DClientItemExtensions;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HumanoidModel;

@@ -1,7 +1,7 @@
-package com.kirisamey.tconguns.tools.impl.capabilities;
+package com.kirisamey.tconguns.tools.tools.guns.capabilities;
 
 import com.kirisamey.tconguns.TconGuns;
-import com.kirisamey.tconguns.tools.impl.capabilities.containers.GunTempStats;
+import com.kirisamey.tconguns.tools.tools.guns.capabilities.containers.GunTempStats;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;

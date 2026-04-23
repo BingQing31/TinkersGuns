@@ -1,7 +1,7 @@
 package com.kirisamey.tconguns.gui;
 
 import com.kirisamey.tconguns.tools.TicgToolTags;
-import com.kirisamey.tconguns.tools.impl.capabilities.TicgGunCapabilities;
+import com.kirisamey.tconguns.tools.tools.guns.capabilities.TicgGunCapabilities;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;

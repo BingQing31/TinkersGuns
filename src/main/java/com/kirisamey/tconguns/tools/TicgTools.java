@@ -1,10 +1,8 @@
 package com.kirisamey.tconguns.tools;
 
 import com.kirisamey.tconguns.register.TicgModuleBase;
-import com.kirisamey.tconguns.tools.impl.BulletTool;
-import com.kirisamey.tconguns.tools.impl.GunTool;
-import com.kirisamey.tconguns.tools.impl.bullets.BaseBulletTool;
-import com.kirisamey.tconguns.tools.impl.guns.HandgunTool;
+import com.kirisamey.tconguns.tools.tools.bullets.impl.BaseBulletTool;
+import com.kirisamey.tconguns.tools.tools.guns.impl.HandgunTool;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
