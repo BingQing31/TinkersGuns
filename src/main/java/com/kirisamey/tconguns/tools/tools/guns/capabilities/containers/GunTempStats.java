@@ -5,4 +5,5 @@ import lombok.Setter;
 
 public class GunTempStats {
     @Getter @Setter private long lastShot = 0;
+    @Getter @Setter private long lastReload = 0;
 }

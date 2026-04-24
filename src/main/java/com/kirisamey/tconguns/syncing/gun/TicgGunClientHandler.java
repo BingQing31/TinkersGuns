@@ -2,13 +2,14 @@ package com.kirisamey.tconguns.syncing.gun;
 
 import com.kirisamey.tconguns.sounds.TicgSounds;
 import com.kirisamey.tconguns.tools.tools.bullets.BulletTool;
+import com.kirisamey.tconguns.tools.tools.guns.GunTool;
 import com.kirisamey.tconguns.tools.tools.guns.capabilities.TicgGunCapabilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundSource;
 
 import java.util.Objects;
 
-public class TicgGunSyncClientHandler {
+public class TicgGunClientHandler {
     public static void AddHitParticle(TicgGunPackets2C.BulletHitParticle packet) {
         var level = Minecraft.getInstance().level;
         if (level == null || !level.dimension().location().equals(packet.dimension())) return;
@@ -32,6 +33,10 @@ public class TicgGunSyncClientHandler {
                 );
             });
 
+            gun.getCapability(TicgGunCapabilities.GUN_STATS).resolve().ifPresent(stats -> {
+                stats.setAmmoLoaded(stats.getAmmoLoaded() - 1);
+            });
+
             // sound
             if (Minecraft.getInstance().level != null) {
                 var pos = packet.owner().position();
@@ -41,6 +46,29 @@ public class TicgGunSyncClientHandler {
                         1f, 1f, true
                 );
             }
+        }
+    }
+
+    public static void HandleReload(TicgGunPackets2C.GunReload packet) {
+        var owner = packet.owner();
+        var slot = packet.slot();
+        var ammo = packet.state();
+
+        var gunStack = owner.getItemBySlot(slot);
+        var caps = GunTool.getCapacities(gunStack);
+        if (caps == null) return;
+
+        var stats = caps._1;
+        var tmpStats = caps._2;
+
+
+        if (ammo == 0) {
+            var time = owner.level().getGameTime();
+            tmpStats.setLastReload(time);
+        } else if (ammo < 0) {
+            tmpStats.setLastReload(0);
+        } else {
+            stats.setAmmoLoaded(ammo);
         }
     }
 }

@@ -1,6 +1,8 @@
-package com.kirisamey.tconguns.syncing.gun;
+package com.kirisamey.tconguns.input;
 
 import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.syncing.gun.TicgGunPackets2S;
+import com.kirisamey.tconguns.syncing.gun.TicgGunSyncing;
 import com.kirisamey.tconguns.tools.tools.guns.GunTool;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;

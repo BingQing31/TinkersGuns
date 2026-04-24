@@ -1,5 +1,6 @@
 package com.kirisamey.tconguns.reghub;
 
+import com.kirisamey.tconguns.input.data.TicgKeyMappingsLangModule;
 import com.kirisamey.tconguns.misc.data.TicgMiscLanguageModule;
 import com.kirisamey.tconguns.register.data.TicgLangModule;
 import com.kirisamey.tconguns.sounds.data.TicgSoundsLangModule;
@@ -12,6 +13,7 @@ class LangModulesHub {
     public static final List<Supplier<TicgLangModule>> GETTERS = List.of(
             TicgToolPartLangModule::new,
             TicgSoundsLangModule::new,
+            TicgKeyMappingsLangModule::new,
             TicgMiscLanguageModule::new
     );
 }

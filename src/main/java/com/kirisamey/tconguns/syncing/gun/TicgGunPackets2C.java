@@ -16,6 +16,7 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
+import java.security.InvalidParameterException;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -45,7 +46,7 @@ public class TicgGunPackets2C {
         public static void handle(BulletHitParticle packet, Supplier<NetworkEvent.Context> network) {
             var ctx = network.get();
             ctx.enqueueWork(() -> {
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> TicgGunSyncClientHandler.AddHitParticle(packet));
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> TicgGunClientHandler.AddHitParticle(packet));
             });
             ctx.setPacketHandled(true);
         }
@@ -79,7 +80,50 @@ public class TicgGunPackets2C {
         public static void handle(GunShot packet, Supplier<NetworkEvent.Context> network) {
             var ctx = network.get();
             ctx.enqueueWork(() -> {
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> TicgGunSyncClientHandler.HandleShot(packet));
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> TicgGunClientHandler.HandleShot(packet));
+            });
+            ctx.setPacketHandled(true);
+        }
+    }
+
+
+    public record GunReload(LivingEntity owner, EquipmentSlot slot, int state) {
+
+        public static GunReload start(LivingEntity owner, EquipmentSlot slot) {
+            return new GunReload(owner, slot, 0);
+        }
+
+        public static GunReload abort(LivingEntity owner, EquipmentSlot slot) {
+            return new GunReload(owner, slot, -1);
+        }
+
+        public static GunReload finish(LivingEntity owner, EquipmentSlot slot, int ammo) {
+            return new GunReload(owner, slot, ammo);
+        }
+
+        public static void encode(GunReload packet, FriendlyByteBuf buf) {
+            buf.writeInt(packet.owner.getId());
+            buf.writeEnum(packet.slot);
+            buf.writeInt(packet.state);
+        }
+
+        public static GunReload decode(FriendlyByteBuf buf) {
+            var ownerId = buf.readInt();
+            var slot = buf.readEnum(EquipmentSlot.class);
+            var state = buf.readInt();
+
+            var level = Minecraft.getInstance().level;
+            if (level == null || !(level.getEntity(ownerId) instanceof LivingEntity owner)) {
+                throw new InvalidParameterException("No owner living entity found");
+            } else {
+                return new GunReload(owner, slot, state);
+            }
+        }
+
+        public static void handle(GunReload packet, Supplier<NetworkEvent.Context> network) {
+            var ctx = network.get();
+            ctx.enqueueWork(() -> {
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> TicgGunClientHandler.HandleReload(packet));
             });
             ctx.setPacketHandled(true);
         }

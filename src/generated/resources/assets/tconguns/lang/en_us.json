@@ -46,6 +46,8 @@
   "itemGroup.tconguns.guns": "TiCG: Guns",
   "itemGroup.tconguns.misc": "TiCG: Misc",
   "itemGroup.tconguns.tool_parts": "TiCG: Tool Parts",
+  "key.category.tconguns.tinkers_guns": "Tinkers Guns",
+  "key.tconguns.tinkers_guns.reload": "Reload",
   "material.tconguns.blaze_powder": "Blaze Powder",
   "material.tconguns.blaze_powder.flavor": "It could have been used to make some wine...",
   "material.tconguns.blaze_powder.gunpowder": "High-powered gunpowder, delivering powerful propulsion and equally formidable recoil.",

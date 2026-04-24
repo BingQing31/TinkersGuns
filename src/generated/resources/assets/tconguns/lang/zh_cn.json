@@ -46,6 +46,8 @@
   "itemGroup.tconguns.guns": "匠魂枪械：枪械",
   "itemGroup.tconguns.misc": "匠魂枪械：杂项",
   "itemGroup.tconguns.tool_parts": "匠魂枪械：部件",
+  "key.category.tconguns.tinkers_guns": "匠魂枪械",
+  "key.tconguns.tinkers_guns.reload": "装填弹药",
   "material.tconguns.blaze_powder": "烈焰粉",
   "material.tconguns.blaze_powder.flavor": "它本能被用来酿些酒…",
   "material.tconguns.blaze_powder.gunpowder": "大威力火药，强烈的推进力，以及同样凶猛的后坐力。",

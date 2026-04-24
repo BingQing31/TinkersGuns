@@ -29,9 +29,11 @@ public class TicgGunSyncing {
 
     @SuppressWarnings("UnusedAssignment")
     public static void init() {
+        //<editor-fold desc="2S">
         int packetIdS = 0;
         // FUCK JVAV, i need interface abstract method to solve this automatically, but u know.
         // FUCK JVAV
+        // shooting
         CHANNEL2S.registerMessage(
                 packetIdS++,
                 TicgGunPackets2S.ShotPressed.class,
@@ -56,8 +58,20 @@ public class TicgGunSyncing {
                 TicgGunPackets2S.ShotSingle::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER)
         );
+        // reloading
+        CHANNEL2S.registerMessage(
+                packetIdS++,
+                TicgGunPackets2S.ReloadPressed.class,
+                TicgGunPackets2S.ReloadPressed::encode,
+                TicgGunPackets2S.ReloadPressed::decode,
+                TicgGunPackets2S.ReloadPressed::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER)
+        );
+        //</editor-fold>
 
+        //<editor-fold desc="2C">
         int packetIdC = 0;
+        //shooting
         CHANNEL2C.registerMessage(
                 packetIdC++,
                 TicgGunPackets2C.BulletHitParticle.class,
@@ -74,6 +88,16 @@ public class TicgGunSyncing {
                 TicgGunPackets2C.GunShot::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT)
         );
+        // reloading
+        CHANNEL2C.registerMessage(
+                packetIdC++,
+                TicgGunPackets2C.GunReload.class,
+                TicgGunPackets2C.GunReload::encode,
+                TicgGunPackets2C.GunReload::decode,
+                TicgGunPackets2C.GunReload::handle,
+                Optional.of(NetworkDirection.PLAY_TO_CLIENT)
+        );
+        //</editor-fold>
     }
 
     @Mod.EventBusSubscriber(modid = TconGuns.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)

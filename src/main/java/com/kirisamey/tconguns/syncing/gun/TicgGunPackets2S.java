@@ -6,6 +6,8 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class TicgGunPackets2S {
+    //<editor-fold desc="Shooting">
+
     @SuppressWarnings("InstantiationOfUtilityClass")
     public static class ShotPressed {
         private ShotPressed() {
@@ -25,7 +27,7 @@ public class TicgGunPackets2S {
             ctx.enqueueWork(() -> {
                 var player = ctx.getSender();
                 if (player == null) return;
-                TicgGunSyncServerHandler.startShooting(player);
+                TicgGunShootingServerHandler.startShooting(player);
             });
             ctx.setPacketHandled(true);
         }
@@ -50,7 +52,7 @@ public class TicgGunPackets2S {
             ctx.enqueueWork(() -> {
                 var player = ctx.getSender();
                 if (player == null) return;
-                TicgGunSyncServerHandler.stopShooting(player);
+                TicgGunShootingServerHandler.stopShooting(player);
             });
             ctx.setPacketHandled(true);
         }
@@ -75,7 +77,35 @@ public class TicgGunPackets2S {
             ctx.enqueueWork(() -> {
                 var player = ctx.getSender();
                 if (player == null) return;
-                TicgGunSyncServerHandler.singleShot(player);
+                TicgGunShootingServerHandler.singleShot(player);
+            });
+            ctx.setPacketHandled(true);
+        }
+    }
+
+    //</editor-fold>
+
+
+    @SuppressWarnings("InstantiationOfUtilityClass")
+    public static class ReloadPressed {
+        private ReloadPressed() {
+        }
+
+        public final static ReloadPressed INSTANCE = new ReloadPressed();
+
+        public static void encode(ReloadPressed packet, FriendlyByteBuf buf) {
+        }
+
+        public static ReloadPressed decode(FriendlyByteBuf buf) {
+            return INSTANCE;
+        }
+
+        public static void handle(ReloadPressed packet, Supplier<NetworkEvent.Context> network) {
+            var ctx = network.get();
+            ctx.enqueueWork(() -> {
+                var player = ctx.getSender();
+                if (player == null) return;
+                TicgGunReloadingServerHandler.startReloading(player);
             });
             ctx.setPacketHandled(true);
         }
