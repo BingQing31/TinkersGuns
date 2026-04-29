@@ -1,11 +1,13 @@
 package com.kirisamey.tconguns.client.rendering;
 
 import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.gui.TicgGuiTextures;
 import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.tools.tools.bullets.BulletTool;
 import com.kirisamey.tconguns.tools.tools.guns.GunTool;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
@@ -79,22 +81,27 @@ public class GunAmmoHudOverlay {
         var ammoInv = caps._3;
 
         var ammoStack = ammoInv.getStackInSlot(0);
-        if (ammoStack.isEmpty()) return;
+        boolean hasAmmo = !ammoStack.isEmpty();
 
         int ammoLoaded = gunStats.getAmmoLoaded();
         int magazineCapacity = ToolStack.from(gunStack).getStats()
                 .get(TicgToolStats.GUN_MAGAZINE_CAPACITY).intValue();
 
         int totalAmmo = 0;
-        if (ammoStack.getItem() instanceof BulletTool) {
+        if (hasAmmo && ammoStack.getItem() instanceof BulletTool) {
             totalAmmo = ToolStack.from(ammoStack).getCurrentDurability();
         }
 
         var font = Minecraft.getInstance().font;
         int yText = y + (ICON_SIZE - font.lineHeight) / 2;
 
-        // 弹药图标
-        gui.renderItem(ammoStack, x, y);
+        // 弹药图标：无弹药时显示空槽提示框
+        if (hasAmmo) {
+            gui.renderItem(ammoStack, x, y);
+        } else {
+            var pattenIcon = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS).getSprite(TicgGuiTextures.BULLET_PATTERN);
+            gui.blit(x, y, 0, ICON_SIZE, ICON_SIZE, pattenIcon);
+        }
 
         // 装填/容量 文字（渐变颜色，随弹匣见底绿→黄→红）
         float ratio = magazineCapacity > 0 ? (float) ammoLoaded / magazineCapacity : 0f;
