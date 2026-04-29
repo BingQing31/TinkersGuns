@@ -1,5 +1,6 @@
 package com.kirisamey.tconguns.tools.animation;
 
+import com.kirisamey.tconguns.tools.tools.guns.client.ClientTempGunState;
 import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.tools.tools.guns.GunTool;
 import com.kirisamey.tconguns.tools.tools.guns.capabilities.TicgGunCapabilities;
@@ -19,30 +20,29 @@ public class GunSmallAnimController implements ITmtAnimationController {
     @Override
     public Tuple2<String, Float> getPose(ItemStack itemStack, @NotNull ItemDisplayContext itemDisplayContext) {
         if (!(itemStack.getItem() instanceof GunTool)) return Tuple.of("idle", 0f);
-        var tmpStatsOpt = itemStack.getCapability(TicgGunCapabilities.GUN_TMP_STATS).resolve();
-        if (tmpStatsOpt.isEmpty()) return Tuple.of("idle", 0f);
         var statsOpt = itemStack.getCapability(TicgGunCapabilities.GUN_STATS).resolve();
         if (statsOpt.isEmpty()) return Tuple.of("idle", 0f);
 
         var cLevel = Minecraft.getInstance().level;
         if (cLevel == null) return Tuple.of("idle", 0f);
 
-
         var tool = ToolStack.from(itemStack);
         var stats = statsOpt.get();
-        var tmpStats = tmpStatsOpt.get();
 
         var animId = "idle";
         var animT = 0f;
 
         var currentTime = Minecraft.getInstance().getFrameTime() + cLevel.getGameTime();
 
+        // 客户端缓存：ItemStack 因耐久变动被替换后数据不丢失
+        var tempStats = ClientTempGunState.getOrCreate(stats.getGunUuid());
+
         float shotSpeed = tool.getStats().get(TicgToolStats.GUN_SHOT_SPEED);
-        var lastShot = tmpStats.getLastShot();
+        var lastShot = tempStats.getLastShot();
         var afterShot = currentTime - lastShot;
 
         float reloadSpeed = tool.getStats().get(TicgToolStats.GUN_RELOAD_SPEED);
-        var lastReload = tmpStats.getLastReload();
+        var lastReload = tempStats.getLastReload();
         var afterReload = currentTime - lastReload;
 
         if (afterShot >= 0 && afterShot < (20 / shotSpeed)) {

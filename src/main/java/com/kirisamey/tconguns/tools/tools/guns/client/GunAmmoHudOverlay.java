@@ -1,4 +1,4 @@
-package com.kirisamey.tconguns.client.rendering;
+package com.kirisamey.tconguns.tools.tools.guns.client;
 
 import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.gui.TicgGuiTextures;

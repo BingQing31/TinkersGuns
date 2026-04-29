@@ -1,5 +1,6 @@
 package com.kirisamey.tconguns.syncing.gun;
 
+import com.kirisamey.tconguns.tools.tools.guns.client.ClientTempGunState;
 import com.kirisamey.tconguns.sounds.TicgSounds;
 import com.kirisamey.tconguns.tools.tools.bullets.BulletTool;
 import com.kirisamey.tconguns.tools.tools.guns.GunTool;
@@ -37,6 +38,13 @@ public class TicgGunClientHandler {
                 stats.setAmmoLoaded(stats.getAmmoLoaded() - 1);
             });
 
+            // 客户端缓存：按 UUID 存储，ItemStack 被替换后不受影响
+            gun.getCapability(TicgGunCapabilities.GUN_STATS).resolve().ifPresent(stats -> {
+                var tick = Objects.requireNonNull(Minecraft.getInstance().level).getGameTime();
+                var cache = ClientTempGunState.getOrCreate(stats.getGunUuid());
+                cache.setLastShot(tick);
+            });
+
             // sound
             if (Minecraft.getInstance().level != null) {
                 var pos = packet.owner().position();
@@ -61,12 +69,16 @@ public class TicgGunClientHandler {
         var stats = caps._1;
         var tmpStats = caps._2;
 
+        var uuid = stats.getGunUuid();
+        var cache = ClientTempGunState.getOrCreate(uuid);
 
         if (ammo == 0) {
             var time = owner.level().getGameTime();
             tmpStats.setLastReload(time);
+            cache.setLastReload(time);
         } else if (ammo < 0) {
             tmpStats.setLastReload(0);
+            cache.setLastReload(0);
         } else {
             stats.setAmmoLoaded(ammo);
         }
