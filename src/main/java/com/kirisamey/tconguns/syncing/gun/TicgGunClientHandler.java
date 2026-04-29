@@ -71,4 +71,25 @@ public class TicgGunClientHandler {
             stats.setAmmoLoaded(ammo);
         }
     }
+
+    /**
+     * 弹药 GUI 关闭后同步弹药槽和装填量到客户端 HUD
+     */
+    public static void HandleAmmoSynced(TicgGunPackets2C.GunAmmoSynced packet) {
+        var player = Minecraft.getInstance().player;
+        if (player == null) return;
+
+        var gunStack = player.getInventory().getItem(packet.slot());
+        if (!(gunStack.getItem() instanceof GunTool)) return;
+
+        // 更新弹药槽物品
+        gunStack.getCapability(TicgGunCapabilities.GUN_AMMO).resolve().ifPresent(ammoInv -> {
+            ammoInv.setStackInSlot(0, packet.ammoStack());
+        });
+
+        // 更新装填量
+        gunStack.getCapability(TicgGunCapabilities.GUN_STATS).resolve().ifPresent(stats -> {
+            stats.setAmmoLoaded(packet.ammoLoaded());
+        });
+    }
 }

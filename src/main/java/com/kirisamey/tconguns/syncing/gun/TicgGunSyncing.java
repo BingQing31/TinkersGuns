@@ -97,6 +97,15 @@ public class TicgGunSyncing {
                 TicgGunPackets2C.GunReload::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT)
         );
+        // ammo sync
+        CHANNEL2C.registerMessage(
+                packetIdC++,
+                TicgGunPackets2C.GunAmmoSynced.class,
+                TicgGunPackets2C.GunAmmoSynced::encode,
+                TicgGunPackets2C.GunAmmoSynced::decode,
+                TicgGunPackets2C.GunAmmoSynced::handle,
+                Optional.of(NetworkDirection.PLAY_TO_CLIENT)
+        );
         //</editor-fold>
     }
 

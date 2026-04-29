@@ -1,6 +1,10 @@
 package com.kirisamey.tconguns.gui;
 
+import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.syncing.gun.TicgGunPackets2C;
+import com.kirisamey.tconguns.syncing.gun.TicgGunSyncing;
 import com.kirisamey.tconguns.tools.TicgToolTags;
+import com.kirisamey.tconguns.tools.tools.guns.GunTool;
 import com.kirisamey.tconguns.tools.tools.guns.capabilities.TicgGunCapabilities;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -15,6 +19,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 public class GunAmmoMenu extends AbstractContainerMenu {
@@ -25,14 +30,20 @@ public class GunAmmoMenu extends AbstractContainerMenu {
         if (slot < 0) {
             itemStack = null;
             ammoSlots = 1;
+            originalAmmo = ItemStack.EMPTY;
             return;
         }
 
         itemStack = inventory.getItem(slot);
         ammoSlots = 1; // temp
         var ammoOpt = itemStack.getCapability(TicgGunCapabilities.GUN_AMMO).resolve();
-        if (ammoOpt.isEmpty()) return;
+        if (ammoOpt.isEmpty()) {
+            originalAmmo = ItemStack.EMPTY;
+            return;
+        }
         var ammoInv = ammoOpt.get();
+
+        originalAmmo = ammoInv.getStackInSlot(0).copy();
 
 
         { // player inventory
@@ -92,6 +103,7 @@ public class GunAmmoMenu extends AbstractContainerMenu {
     private final int slot;
     private final ItemStack itemStack;
     private final int ammoSlots;
+    private final ItemStack originalAmmo;
 
 
     @Override public @NotNull ItemStack quickMoveStack(@NotNull Player player, int movingIndex) {
@@ -130,5 +142,27 @@ public class GunAmmoMenu extends AbstractContainerMenu {
 
     @Override public boolean stillValid(@NotNull Player player) {
         return slot >= 0 && player.getInventory().getItem(slot) == itemStack;
+    }
+
+    @Override public void removed(@NotNull Player player) {
+        super.removed(player);
+        if (!player.level().isClientSide() && slot >= 0 && player instanceof ServerPlayer sp) {
+            var gunStack = player.getInventory().getItem(slot);
+            // 确保枪械未被更换（同一引用）且类型正确
+            if (gunStack == itemStack && gunStack.getItem() instanceof GunTool) {
+                var caps = GunTool.getCapacities(gunStack);
+                if (caps != null) {
+                    var currentAmmo = caps._3.getStackInSlot(0);
+                    // 弹药被更换 → 清零装填量，同时通过同步包推送到客户端
+                    if (!ItemStack.matches(currentAmmo, originalAmmo)) {
+                        caps._1.setAmmoLoaded(0);
+                    }
+                    TicgGunSyncing.CHANNEL2C.send(
+                            PacketDistributor.PLAYER.with(() -> sp),
+                            new TicgGunPackets2C.GunAmmoSynced(slot, currentAmmo, caps._1.getAmmoLoaded())
+                    );
+                }
+            }
+        }
     }
 }

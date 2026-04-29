@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
@@ -124,6 +125,33 @@ public class TicgGunPackets2C {
             var ctx = network.get();
             ctx.enqueueWork(() -> {
                 DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> TicgGunClientHandler.HandleReload(packet));
+            });
+            ctx.setPacketHandled(true);
+        }
+    }
+
+    /**
+     * 弹药 GUI 关闭时同步弹药状态到客户端 HUD
+     */
+    public record GunAmmoSynced(int slot, ItemStack ammoStack, int ammoLoaded) {
+        public static void encode(GunAmmoSynced packet, FriendlyByteBuf buf) {
+            buf.writeInt(packet.slot);
+            buf.writeItem(packet.ammoStack);
+            buf.writeInt(packet.ammoLoaded);
+        }
+
+        public static GunAmmoSynced decode(FriendlyByteBuf buf) {
+            return new GunAmmoSynced(
+                    buf.readInt(),
+                    buf.readItem(),
+                    buf.readInt()
+            );
+        }
+
+        public static void handle(GunAmmoSynced packet, Supplier<NetworkEvent.Context> network) {
+            var ctx = network.get();
+            ctx.enqueueWork(() -> {
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> TicgGunClientHandler.HandleAmmoSynced(packet));
             });
             ctx.setPacketHandled(true);
         }
