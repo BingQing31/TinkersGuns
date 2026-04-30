@@ -52,6 +52,12 @@
       ]
     },
     {
+      "type": "tconstruct:base_stats",
+      "stats": {
+        "tconguns:gun_dual_wieldable": true
+      }
+    },
+    {
       "type": "tconstruct:modifier_slots",
       "slots": {
         "abilities": 1,

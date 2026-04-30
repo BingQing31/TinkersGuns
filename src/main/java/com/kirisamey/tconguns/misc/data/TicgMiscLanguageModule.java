@@ -75,6 +75,10 @@ public class TicgMiscLanguageModule extends TicgLangModule {
             Pair.of("tool_stat.tconguns.gun_reload_speed", new LanguageEntry("Reload Speed: ", "换弹速度: ")),
             Pair.of("tool_stat.tconguns.gun_reload_speed.description", new LanguageEntry("Speed of reloading", "重新装弹的速度")),
 
+            Pair.of("tool_stat.tconguns.gun_dual_wieldable", new LanguageEntry("Dual-wieldable: ", "可双持")),
+            Pair.of("tool_stat.tconguns.gun_dual_wieldable.disabled", new LanguageEntry("Single-hand Only: ", "仅单持")),
+            Pair.of("tool_stat.tconguns.gun_dual_wieldable.description", new LanguageEntry("Whether can be wielded in both hands at once", "能否双手各持一把使用")),
+
 
             Pair.of("material.tconguns.gunpowder", new LanguageEntry("Gunpowder", "火药")),
             Pair.of("material.tconguns.gunpowder.flavor", new LanguageEntry("Sssss...", "Sssss...")),

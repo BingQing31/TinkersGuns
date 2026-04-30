@@ -1,6 +1,7 @@
 package com.kirisamey.tconguns.tools.tools.guns.impl;
 
 import com.kirisamey.tconguns.misc.TicgArmPoses;
+import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.tools.tools.guns.GunTool;
 import com.kirisamey.toomanytinkers.models.rendering.AnimatableTicTool3DClientItemExtensions;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -13,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
+import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 import java.util.function.Consumer;
 
@@ -21,9 +23,9 @@ public class HandgunTool extends GunTool {
         super(properties, toolDefinition);
     }
 
-    @Override public boolean dualWieldable() {
-        return true;
-    }
+//    @Override public boolean dualWieldable() {
+//        return true;
+//    }
 
     @Override public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new ClientItemExtensions());
@@ -45,8 +47,8 @@ public class HandgunTool extends GunTool {
                 return true;
             } else if (player.isUsingItem() && player.getUsedItemHand() == InteractionHand.MAIN_HAND &&
                     player.getOffhandItem() == itemInHand &&
-                    useItem.getItem() instanceof GunTool gun0 && gun0.dualWieldable() &&
-                    itemInHand.getItem() instanceof GunTool gun1 && gun1.dualWieldable()
+                    useItem.getItem() instanceof GunTool && ToolStack.from(useItem).getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE) &&
+                    itemInHand.getItem() instanceof GunTool && ToolStack.from(itemInHand).getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE)
             ) {
                 poseStack.translate(0, 0, 0);
                 return true;

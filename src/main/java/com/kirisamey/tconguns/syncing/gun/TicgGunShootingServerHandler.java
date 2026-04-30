@@ -1,6 +1,7 @@
 package com.kirisamey.tconguns.syncing.gun;
 
 import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.tools.tools.guns.GunInputType;
 import com.kirisamey.tconguns.tools.tools.guns.GunTool;
 import net.minecraft.world.InteractionHand;
@@ -40,10 +41,12 @@ public class TicgGunShootingServerHandler {
             var gunTool = ToolStack.from(handItem);
             var hand = InteractionHand.MAIN_HAND;
             gun.entityFire(entity, hand, handItem, gunTool, inputType);
-            if (gun.dualWieldable() && offhandItem.getItem() instanceof GunTool gun1 && gun1.dualWieldable()) {
+            if (gunTool.getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE) && offhandItem.getItem() instanceof GunTool gun1) {
                 var gunTool1 = ToolStack.from(offhandItem);
-                var hand1 = InteractionHand.OFF_HAND;
-                gun1.entityFire(entity, hand1, offhandItem, gunTool1, inputType);
+                if (gunTool1.getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE)) {
+                    var hand1 = InteractionHand.OFF_HAND;
+                    gun1.entityFire(entity, hand1, offhandItem, gunTool1, inputType);
+                }
             }
         } else if (offhandItem.getItem() instanceof GunTool gun &&
                 entity.isUsingItem() && entity.getUsedItemHand() == InteractionHand.OFF_HAND) {

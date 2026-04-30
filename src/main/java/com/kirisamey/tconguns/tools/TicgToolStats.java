@@ -1,11 +1,15 @@
 package com.kirisamey.tconguns.tools;
 
 import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.datatype.BoolToolStat;
+import net.minecraft.network.chat.TextColor;
 import slimeknights.tconstruct.library.tools.stat.FloatToolStat;
 import slimeknights.tconstruct.library.tools.stat.ToolStatId;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
 
 public class TicgToolStats {
+
+    // basic values
     public static final FloatToolStat BULLET_ATTACK = ToolStats.register(new FloatToolStat(
             statId("bullet_attack"), 0xffff5500, 1, 0, Float.MAX_VALUE, TicgToolTags.BULLET
     ));
@@ -53,6 +57,12 @@ public class TicgToolStats {
 
     public static final FloatToolStat GUN_RELOAD_SPEED = ToolStats.register(new FloatToolStat(
             statId("gun_reload_speed"), 0xff66ff00, 1, 0, Integer.MAX_VALUE, TicgToolTags.GUN
+    ));
+
+
+    // special properties
+    public static final BoolToolStat GUN_DUAL_WIELDABLE = ToolStats.register(new BoolToolStat(
+            statId("gun_dual_wieldable"), 0xff44ff44, 0xffdd4400, false
     ));
 
 

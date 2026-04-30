@@ -1,5 +1,6 @@
 package com.kirisamey.tconguns.tools.animation;
 
+import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.tools.tools.guns.GunTool;
 import com.kirisamey.toomanytinkers.models.AnimatableTicTool3DFinalBakedModel;
 import com.kirisamey.toomanytinkers.models.AnimatableTicTool3DModelData;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.jspecify.annotations.NonNull;
+import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 import java.util.HashMap;
 
@@ -30,24 +32,32 @@ public class GunSmallBoneController implements IAnimatableTicTool3DBoneControlle
         var player = mc.player;
         if (itemDisplayContext.firstPerson() && player != null) {
             if (player.isUsingItem()) {
-                // todo: 副手和双持的判定以后要考虑
-                if (player.getUsedItemHand() == InteractionHand.MAIN_HAND && player.getMainHandItem() == itemStack) {
-                    //noinspection RedundantIfStatement
-                    if (itemStack.getItem() instanceof GunTool gun0 && gun0.dualWieldable() &&
-                            player.getOffhandItem().getItem() instanceof GunTool gun1 && gun1.dualWieldable()
-                    ) {
-                        transformIt(model, itemDisplayContext, transform, false, true);
-                    } else {
-                        transformIt(model, itemDisplayContext, transform, false, false);
-                    }
-                } else if (player.getOffhandItem() == itemStack) {
-                    if (player.getUsedItemHand() == InteractionHand.OFF_HAND) {
-                        transformIt(model, itemDisplayContext, transform, true, false);
+                if (itemStack.getItem() instanceof GunTool) {
+                    if (player.getUsedItemHand() == InteractionHand.MAIN_HAND && player.getMainHandItem() == itemStack) {
+                        var offStack = player.getOffhandItem();
+                        var mainTool = ToolStack.from(itemStack);
 
-                    } else if (itemStack.getItem() instanceof GunTool gun1 && gun1.dualWieldable() &&
-                            player.getMainHandItem().getItem() instanceof GunTool gun0 && gun0.dualWieldable()
-                    ) {
-                        transformIt(model, itemDisplayContext, transform, true, true);
+                        if (mainTool.getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE) && offStack.getItem() instanceof GunTool) {
+                            var offTool = ToolStack.from(offStack);
+                            if (offTool.getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE)) {
+                                transformIt(model, itemDisplayContext, transform, false, true);
+                            }
+                        } else {
+                            transformIt(model, itemDisplayContext, transform, false, false);
+                        }
+                    } else if (player.getOffhandItem() == itemStack) {
+                        var mainStack = player.getMainHandItem();
+                        var offTool = ToolStack.from(itemStack);
+
+                        if (player.getUsedItemHand() == InteractionHand.OFF_HAND) {
+                            transformIt(model, itemDisplayContext, transform, true, false);
+
+                        } else if (offTool.getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE) && mainStack.getItem() instanceof GunTool) {
+                            var mainTool = ToolStack.from(mainStack);
+                            if (mainTool.getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE)) {
+                                transformIt(model, itemDisplayContext, transform, true, true);
+                            }
+                        }
                     }
                 }
             }

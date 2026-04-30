@@ -33,7 +33,7 @@ public class DynamicMagazineStatsGenerator extends DynamicMaterialStatsGenerator
 
     @Override protected @NotNull MagazineMaterialStats calculateStat(Ctx ctx) {
         var cap = Math.max((int) ctx.headStats.attack() * 4, 1);
-        var spd = 1 + ctx.handleStats.meleeSpeed();
+        var spd = 1 + ctx.handleStats.meleeSpeed() * 2.5f;
         return new MagazineMaterialStats(cap, spd);
     }
 

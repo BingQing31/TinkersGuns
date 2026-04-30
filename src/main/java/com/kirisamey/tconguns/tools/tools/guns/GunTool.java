@@ -86,6 +86,7 @@ public abstract class GunTool extends ModifiableItem {
                 )
         );
         tooltips.add(ToolStatShowUtils.statFormat(tool, TicgToolStats.GUN_RELOAD_SPEED));
+        tooltips.add(ToolStatShowUtils.statFormat(tool, TicgToolStats.GUN_DUAL_WIELDABLE));
         return tooltips;
     }
 
@@ -139,7 +140,8 @@ public abstract class GunTool extends ModifiableItem {
 
     //<editor-fold desc="Custom Properties">
 
-    public abstract boolean dualWieldable();
+    // 替换为工具属性
+//    public abstract boolean dualWieldable();
 
     //</editor-fold>
 
@@ -367,13 +369,15 @@ public abstract class GunTool extends ModifiableItem {
                 var main = false;
                 var off = false;
 
-                if (player.getMainHandItem().getItem() instanceof GunTool mainGun) {
+                var mainItem = player.getMainHandItem();
+                if (mainItem.getItem() instanceof GunTool mainGun) {
                     main = true;
-                    dual &= mainGun.dualWieldable();
+                    dual &= ToolStack.from(mainItem).getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE);
                 }
-                if (player.getOffhandItem().getItem() instanceof GunTool offGun) {
+                var offItem = player.getMainHandItem();
+                if (offItem.getItem() instanceof GunTool offGun) {
                     off = true;
-                    dual &= offGun.dualWieldable();
+                    dual &= ToolStack.from(offItem).getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE);
                 }
 
                 dual &= main && off;

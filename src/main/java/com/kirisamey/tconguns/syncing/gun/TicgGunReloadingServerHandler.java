@@ -1,5 +1,6 @@
 package com.kirisamey.tconguns.syncing.gun;
 
+import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.tools.tools.guns.GunTool;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -17,9 +18,10 @@ public class TicgGunReloadingServerHandler {
         if (mainStack.getItem() instanceof GunTool gun) {
             var gunTool = ToolStack.from(mainStack);
             gun.entityStartReload(mainStack, gunTool, level, entity, InteractionHand.MAIN_HAND);
-            if (gun.dualWieldable() && offStack.getItem() instanceof GunTool gun1 && gun1.dualWieldable()) {
+            if (gunTool.getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE) && offStack.getItem() instanceof GunTool gun1) {
                 var gunTool1 = ToolStack.from(offStack);
-                gun1.entityStartReload(offStack, gunTool1, level, entity, InteractionHand.OFF_HAND);
+                if (gunTool1.getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE))
+                    gun1.entityStartReload(offStack, gunTool1, level, entity, InteractionHand.OFF_HAND);
             }
         } else if (offStack.getItem() instanceof GunTool gun) {
             var gunTool = ToolStack.from(offStack);

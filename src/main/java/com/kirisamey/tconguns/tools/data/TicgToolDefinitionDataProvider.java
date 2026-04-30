@@ -58,6 +58,9 @@ public class TicgToolDefinitionDataProvider extends AbstractToolDefinitionDataPr
                         .build())
                 .module(defT1_3P5)
                 // stats
+                .module(new SetStatsModule(StatsNBT.builder()
+                        .set(TicgToolStats.GUN_DUAL_WIELDABLE, true)
+                        .build()))
                 .smallToolStartingSlots();
 
         define(TicgToolDefinitions.BASE_BULLET)

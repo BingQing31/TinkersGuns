@@ -42,9 +42,9 @@ public class GunAmmoHudOverlay {
 
         boolean dualWield = false;
         if (mainIsGun && offIsGun) {
-            GunTool mainGun = (GunTool) mainHand.getItem();
-            GunTool offGun = (GunTool) offHand.getItem();
-            dualWield = mainGun.dualWieldable() && offGun.dualWieldable();
+            var mainGunTool = ToolStack.from(mainHand);
+            var offGunTool = ToolStack.from(offHand);
+            dualWield = mainGunTool.getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE) && offGunTool.getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE);
         }
 
         var guiGraphics = event.getGuiGraphics();
