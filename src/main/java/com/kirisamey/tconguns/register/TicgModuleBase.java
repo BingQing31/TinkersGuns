@@ -20,6 +20,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import slimeknights.mantle.registration.deferred.SynchronizedDeferredRegister;
 import slimeknights.tconstruct.common.registration.ItemDeferredRegisterExtension;
+import slimeknights.tconstruct.library.modifiers.util.ModifierDeferredRegister;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,8 @@ public abstract class TicgModuleBase {
         TIC_ITEMS.register(modEventBus);
         ITEMS.register(modEventBus);
         CREATIVE_TABS.register(modEventBus);
+
+        MODIFIERS.register(modEventBus);
 
         MENUS.register(modEventBus);
 
@@ -50,6 +53,8 @@ public abstract class TicgModuleBase {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, TconGuns.MODID);
     public static final SynchronizedDeferredRegister<CreativeModeTab> CREATIVE_TABS =
             SynchronizedDeferredRegister.create(Registries.CREATIVE_MODE_TAB, TconGuns.MODID);
+
+    public static final ModifierDeferredRegister MODIFIERS = ModifierDeferredRegister.create(TconGuns.MODID);
 
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, TconGuns.MODID);
 

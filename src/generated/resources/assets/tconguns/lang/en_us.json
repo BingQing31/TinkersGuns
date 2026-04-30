@@ -1,4 +1,5 @@
 {
+  "bolt_type.tconguns.full_auto": "Full-auto",
   "bolt_type.tconguns.semi_auto": "Semi-auto",
   "death.attack.tconguns.gun_shot": "%1$s was shot dead",
   "death.attack.tconguns.gun_shot.gun": "%1$s was shot dead by %2$s",
@@ -59,6 +60,9 @@
   "material.tconguns.redstone.flavor": "*Light*",
   "material.tconguns.redstone.gunpowder": "Low-power gunpowder, offering reduced recoil in exchange for diminished propulsive force.",
   "menu.title.tconguns.gun_ammo": "Magazine of %1$s",
+  "modifier.tconguns.full_auto": "Full Auto",
+  "modifier.tconguns.full_auto.description": "Activate full-auto bolt, hold down LMB!",
+  "modifier.tconguns.full_auto.flavor": "Don't worry, completely legal",
   "stat.tconguns.barrel": "Barrel",
   "stat.tconguns.bolt": "Bolt",
   "stat.tconguns.bullet_head": "Bullet Head",

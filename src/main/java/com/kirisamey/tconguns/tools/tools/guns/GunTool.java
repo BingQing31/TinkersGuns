@@ -57,9 +57,11 @@ import slimeknights.tconstruct.library.tools.item.ModifiableItem;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 @Log4j2
 public abstract class GunTool extends ModifiableItem {
@@ -164,9 +166,9 @@ public abstract class GunTool extends ModifiableItem {
         if (gunStats.getAmmoLoaded() <= 0) return;
 
         var level = user.level();
-        var currentTick = level.getGameTime();
+        if (!(level instanceof ServerLevel serverLevel)) return;
 
-        if (!isFree(gunTool, tmpStats, currentTick)) return;
+        var currentTick = serverLevel.getGameTime();
 
         var ammo = ammoInv.getStackInSlot(0);
         if (ammo.isEmpty()) return;
@@ -179,12 +181,14 @@ public abstract class GunTool extends ModifiableItem {
 
         if (ammoTool.isBroken()) return;
 
-        // todo: full-auto
 
-        if (inputType == GunInputType.Start) { // semi-auto
+        Runnable shot = () -> {
             shot(user, hand, gun, gunTool, ammo, ammoTool, level, tmpStats, currentTick);
             gunStats.setAmmoLoaded(gunStats.getAmmoLoaded() - 1);
-        }
+        };
+
+        var boltType = gunTool.getStats().get(TicgToolStats.GUN_BOLT_TYPE);
+        boltType.handleFire(user, hand, serverLevel, currentTick, gun, gunTool, this, inputType, gunStats, tmpStats, ammo, ammoTool, shot);
     }
 
     protected static void shot(

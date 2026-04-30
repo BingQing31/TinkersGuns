@@ -6,6 +6,7 @@ import com.kirisamey.tconguns.materials.dynamics.DynamicMaterialStatsGeneratorBa
 import com.kirisamey.tconguns.materials.dynamics.gun.*;
 import com.kirisamey.tconguns.misc.TicgMiscItems;
 import com.kirisamey.tconguns.entity.TicgProjectileEntities;
+import com.kirisamey.tconguns.modifiers.TicgModifiers;
 import com.kirisamey.tconguns.register.TicgModuleBase;
 import com.kirisamey.tconguns.sounds.TicgSounds;
 import com.kirisamey.tconguns.toolparts.TicgToolPartCasts;
@@ -32,6 +33,8 @@ public final class RegisterHelper {
             TicgTools.class,
             TicgToolTags.class,
             TicgToolStats.class,
+            // modifiers
+            TicgModifiers.class,
             // entities
             TicgProjectileEntities.class,
             // others
