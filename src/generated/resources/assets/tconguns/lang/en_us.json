@@ -1,4 +1,5 @@
 {
+  "bolt_type.tconguns.semi_auto": "Semi-auto",
   "death.attack.tconguns.gun_shot": "%1$s was shot dead",
   "death.attack.tconguns.gun_shot.gun": "%1$s was shot dead by %2$s",
   "death.attack.tconguns.gun_shot.gun_ammo": "%1$s was killed by %3$s fired from %2$s",
@@ -81,6 +82,8 @@
   "tool_stat.tconguns.gun_accuracy.description": "Shooting accuracy: The lower this value, the greater the probability and degree of deviation from the crosshairs during firing",
   "tool_stat.tconguns.gun_attack": "Bullet Atk: ",
   "tool_stat.tconguns.gun_attack.description": "Base damage adjustment provided by guns",
+  "tool_stat.tconguns.gun_bolt_type": "Bolt Type: ",
+  "tool_stat.tconguns.gun_bolt_type.description": "Operation mode of firing",
   "tool_stat.tconguns.gun_dual_wieldable": "Dual-wieldable: ",
   "tool_stat.tconguns.gun_dual_wieldable.description": "Whether can be wielded in both hands at once",
   "tool_stat.tconguns.gun_dual_wieldable.disabled": "Single-hand Only: ",

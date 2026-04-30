@@ -1,6 +1,7 @@
 package com.kirisamey.tconguns.tools;
 
 import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.datatype.BoltTypeToolStat;
 import com.kirisamey.tconguns.datatype.BoolToolStat;
 import net.minecraft.network.chat.TextColor;
 import slimeknights.tconstruct.library.tools.stat.FloatToolStat;
@@ -61,6 +62,9 @@ public class TicgToolStats {
 
 
     // special properties
+    public static final BoltTypeToolStat GUN_BOLT_TYPE = ToolStats.register(new BoltTypeToolStat(
+            statId("gun_bolt_type"), TicgBoltTypes.SEMI_AUTO
+    ));
     public static final BoolToolStat GUN_DUAL_WIELDABLE = ToolStats.register(new BoolToolStat(
             statId("gun_dual_wieldable"), 0xff44ff44, 0xffdd4400, false
     ));

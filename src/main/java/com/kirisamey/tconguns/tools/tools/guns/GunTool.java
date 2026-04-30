@@ -86,6 +86,7 @@ public abstract class GunTool extends ModifiableItem {
                 )
         );
         tooltips.add(ToolStatShowUtils.statFormat(tool, TicgToolStats.GUN_RELOAD_SPEED));
+        tooltips.add(ToolStatShowUtils.statFormat(tool, TicgToolStats.GUN_BOLT_TYPE));
         tooltips.add(ToolStatShowUtils.statFormat(tool, TicgToolStats.GUN_DUAL_WIELDABLE));
         return tooltips;
     }

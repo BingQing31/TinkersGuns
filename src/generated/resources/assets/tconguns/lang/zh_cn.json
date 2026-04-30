@@ -1,4 +1,5 @@
 {
+  "bolt_type.tconguns.semi_auto": "半自动",
   "death.attack.tconguns.gun_shot": "%1$s 被枪杀了",
   "death.attack.tconguns.gun_shot.gun": "%1$s 被使用 %2$s 击毙",
   "death.attack.tconguns.gun_shot.gun_ammo": "%1$s 被 %2$s 中射出的 %3$s 击毙",
@@ -81,6 +82,8 @@
   "tool_stat.tconguns.gun_accuracy.description": "射击时的精准度：该值越低，则实际弹道偏离准星的概率和程度越大",
   "tool_stat.tconguns.gun_attack": "弹药基伤：",
   "tool_stat.tconguns.gun_attack.description": "枪械提供的弹药基伤修正",
+  "tool_stat.tconguns.gun_bolt_type": "枪机类型：",
+  "tool_stat.tconguns.gun_bolt_type.description": "枪械开火的操作模式",
   "tool_stat.tconguns.gun_dual_wieldable": "可双持",
   "tool_stat.tconguns.gun_dual_wieldable.description": "能否双手各持一把使用",
   "tool_stat.tconguns.gun_dual_wieldable.disabled": "仅单持",
@@ -88,7 +91,7 @@
   "tool_stat.tconguns.gun_magazine_capacity.description": "弹匣能容纳的子弹数量",
   "tool_stat.tconguns.gun_recoil": "后坐力：",
   "tool_stat.tconguns.gun_recoil.description": "枪械提供的后坐力修正",
-  "tool_stat.tconguns.gun_reload_speed": "换弹速度: ",
+  "tool_stat.tconguns.gun_reload_speed": "换弹速度：",
   "tool_stat.tconguns.gun_reload_speed.description": "重新装弹的速度",
   "tool_stat.tconguns.gun_shot_speed": "射速：",
   "tool_stat.tconguns.gun_shot_speed.description": "连续射击的最大频率",

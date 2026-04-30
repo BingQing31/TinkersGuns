@@ -14,6 +14,7 @@ import com.kirisamey.tconguns.tools.animation.TicgToolAnimControllers;
 import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.tools.TicgToolTags;
 import com.kirisamey.tconguns.tools.TicgTools;
+import com.kirisamey.tconguns.tools.TicgBoltTypes;
 import com.kirisamey.tconguns.gui.TicgGuiMenus;
 import lombok.SneakyThrows;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -36,7 +37,8 @@ public final class RegisterHelper {
             // others
             TicgGuiMenus.class,
             TicgToolAnimControllers.class,
-            TicgSounds.class
+            TicgSounds.class,
+            TicgBoltTypes.class
     );
 
     public static final List<DynamicMaterialStatsGeneratorBase<?, ?>> REG_DYNAMIC_MATERIALS = List.of(

@@ -1,9 +1,10 @@
 package com.kirisamey.tconguns.register;
 
 import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.TicgRegistries;
 import com.kirisamey.tconguns.misc.TicgMiscItems;
+import com.kirisamey.tconguns.tools.tools.guns.stats.BoltType;
 import com.kirisamey.toomanytinkers.TmtRegistries;
-import com.kirisamey.toomanytinkers.models.AnimatableTicTool3DUnbakedModel;
 import com.kirisamey.toomanytinkers.models.pose.IAnimatableTicTool3DBoneController;
 import com.kirisamey.toomanytinkers.models.pose.ITmtAnimationController;
 import net.minecraft.core.registries.Registries;
@@ -39,6 +40,8 @@ public abstract class TicgModuleBase {
         BONE_CONTROLLERS.register(modEventBus);
         ANIM_CONTROLLERS.register(modEventBus);
 
+        BOLT_TYPES.register(modEventBus);
+
         SOUNDS.register(modEventBus);
     }
 
@@ -56,6 +59,8 @@ public abstract class TicgModuleBase {
             DeferredRegister.create(TmtRegistries.BONE_CONTROLLERS_REGKEY, TconGuns.MODID);
     public static final DeferredRegister<ITmtAnimationController> ANIM_CONTROLLERS =
             DeferredRegister.create(TmtRegistries.ANIM_CONTROLLERS_REGKEY, TconGuns.MODID);
+
+    public static final DeferredRegister<BoltType> BOLT_TYPES = DeferredRegister.create(TicgRegistries.BOLT_TYPES_KEY, TconGuns.MODID);
 
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, TconGuns.MODID);
 
