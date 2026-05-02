@@ -49,12 +49,20 @@ public class BulletAttackUtils {
         var attackerPlayer = owner instanceof Player ? (Player) owner : null;
         var targetLiving = target instanceof LivingEntity ? (LivingEntity) target : null;
 
-        ToolAttackContext context = new ToolAttackContext(
-                owner, attackerPlayer,
-                InteractionHand.OFF_HAND, EquipmentSlot.OFFHAND,
-                target, targetLiving,
-                false, 1, true
-        );
+//        ToolAttackContext context = new ToolAttackContext(
+//                owner, attackerPlayer,
+//                InteractionHand.OFF_HAND, EquipmentSlot.OFFHAND,
+//                target, targetLiving,
+//                false, 1, true
+//        );
+
+        var context = ToolAttackContext
+                .attacker(owner)
+                .target(target)
+                .hand(InteractionHand.OFF_HAND)
+                .cooldown(1)
+                .extraAttack()
+                .build();
 
         var ammoModifiers = ammoTool.getModifiers();
 
