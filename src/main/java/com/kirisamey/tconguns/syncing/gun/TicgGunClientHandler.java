@@ -63,25 +63,25 @@ public class TicgGunClientHandler {
         var ammo = packet.state();
 
         var gunStack = owner.getItemBySlot(slot);
-        var caps = GunTool.getCapacities(gunStack);
-        if (caps == null) return;
+        GunTool.getCapacities(gunStack).peek(caps->{
 
-        var stats = caps._1;
-        var tmpStats = caps._2;
+            var stats = caps._1;
+            var tmpStats = caps._2;
 
-        var uuid = stats.getGunUuid();
-        var cache = ClientTempGunState.getOrCreate(uuid);
+            var uuid = stats.getGunUuid();
+            var cache = ClientTempGunState.getOrCreate(uuid);
 
-        if (ammo == 0) {
-            var time = owner.level().getGameTime();
-            tmpStats.setLastReload(time);
-            cache.setLastReload(time);
-        } else if (ammo < 0) {
-            tmpStats.setLastReload(0);
-            cache.setLastReload(0);
-        } else {
-            stats.setAmmoLoaded(ammo);
-        }
+            if (ammo == 0) {
+                var time = owner.level().getGameTime();
+                tmpStats.setLastReload(time);
+                cache.setLastReload(time);
+            } else if (ammo < 0) {
+                tmpStats.setLastReload(0);
+                cache.setLastReload(0);
+            } else {
+                stats.setAmmoLoaded(ammo);
+            }
+        });
     }
 
     /**

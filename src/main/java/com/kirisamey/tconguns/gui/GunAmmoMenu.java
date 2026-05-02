@@ -150,8 +150,7 @@ public class GunAmmoMenu extends AbstractContainerMenu {
             var gunStack = player.getInventory().getItem(slot);
             // 确保枪械未被更换（同一引用）且类型正确
             if (gunStack == itemStack && gunStack.getItem() instanceof GunTool) {
-                var caps = GunTool.getCapacities(gunStack);
-                if (caps != null) {
+                GunTool.getCapacities(gunStack).peek(caps -> {
                     var currentAmmo = caps._3.getStackInSlot(0);
                     // 弹药被更换 → 清零装填量，同时通过同步包推送到客户端
                     if (!ItemStack.matches(currentAmmo, originalAmmo)) {
@@ -161,7 +160,7 @@ public class GunAmmoMenu extends AbstractContainerMenu {
                             PacketDistributor.PLAYER.with(() -> sp),
                             new TicgGunPackets2C.GunAmmoSynced(slot, currentAmmo, caps._1.getAmmoLoaded())
                     );
-                }
+                });
             }
         }
     }

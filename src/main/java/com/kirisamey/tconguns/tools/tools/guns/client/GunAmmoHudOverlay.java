@@ -74,45 +74,44 @@ public class GunAmmoHudOverlay {
      * 渲染一行弹药信息：[图标] 装填量/容量 总量
      */
     private static void renderAmmoLine(GuiGraphics gui, ItemStack gunStack, int x, int y) {
-        var caps = GunTool.getCapacities(gunStack);
-        if (caps == null) return;
+        GunTool.getCapacities(gunStack).peek(caps->{
+            var gunStats = caps._1;
+            var ammoInv = caps._3;
 
-        var gunStats = caps._1;
-        var ammoInv = caps._3;
+            var ammoStack = ammoInv.getStackInSlot(0);
+            boolean hasAmmo = !ammoStack.isEmpty();
 
-        var ammoStack = ammoInv.getStackInSlot(0);
-        boolean hasAmmo = !ammoStack.isEmpty();
+            int ammoLoaded = gunStats.getAmmoLoaded();
+            int magazineCapacity = ToolStack.from(gunStack).getStats()
+                    .get(TicgToolStats.GUN_MAGAZINE_CAPACITY).intValue();
 
-        int ammoLoaded = gunStats.getAmmoLoaded();
-        int magazineCapacity = ToolStack.from(gunStack).getStats()
-                .get(TicgToolStats.GUN_MAGAZINE_CAPACITY).intValue();
+            int totalAmmo = 0;
+            if (hasAmmo && ammoStack.getItem() instanceof BulletTool) {
+                totalAmmo = ToolStack.from(ammoStack).getCurrentDurability();
+            }
 
-        int totalAmmo = 0;
-        if (hasAmmo && ammoStack.getItem() instanceof BulletTool) {
-            totalAmmo = ToolStack.from(ammoStack).getCurrentDurability();
-        }
+            var font = Minecraft.getInstance().font;
+            int yText = y + (ICON_SIZE - font.lineHeight) / 2;
 
-        var font = Minecraft.getInstance().font;
-        int yText = y + (ICON_SIZE - font.lineHeight) / 2;
+            // 弹药图标：无弹药时显示空槽提示框
+            if (hasAmmo) {
+                gui.renderItem(ammoStack, x, y);
+            } else {
+                var pattenIcon = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS).getSprite(TicgGuiTextures.BULLET_PATTERN);
+                gui.blit(x, y, 0, ICON_SIZE, ICON_SIZE, pattenIcon);
+            }
 
-        // 弹药图标：无弹药时显示空槽提示框
-        if (hasAmmo) {
-            gui.renderItem(ammoStack, x, y);
-        } else {
-            var pattenIcon = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS).getSprite(TicgGuiTextures.BULLET_PATTERN);
-            gui.blit(x, y, 0, ICON_SIZE, ICON_SIZE, pattenIcon);
-        }
+            // 装填/容量 文字（渐变颜色，随弹匣见底绿→黄→红）
+            float ratio = magazineCapacity > 0 ? (float) ammoLoaded / magazineCapacity : 0f;
+            int ratioColor = gradientColor(ratio);
+            String loadedText = ammoLoaded + "/" + magazineCapacity;
+            int textX = x + ICON_SIZE + ICON_TEXT_GAP;
+            gui.drawString(font, loadedText, textX, yText, ratioColor);
 
-        // 装填/容量 文字（渐变颜色，随弹匣见底绿→黄→红）
-        float ratio = magazineCapacity > 0 ? (float) ammoLoaded / magazineCapacity : 0f;
-        int ratioColor = gradientColor(ratio);
-        String loadedText = ammoLoaded + "/" + magazineCapacity;
-        int textX = x + ICON_SIZE + ICON_TEXT_GAP;
-        gui.drawString(font, loadedText, textX, yText, ratioColor);
-
-        // 弹药总量
-        int totalX = textX + font.width(loadedText) + QUANTITY_GAP;
-        gui.drawString(font, String.valueOf(totalAmmo), totalX, yText, 0xFFFFFFFF);
+            // 弹药总量
+            int totalX = textX + font.width(loadedText) + QUANTITY_GAP;
+            gui.drawString(font, String.valueOf(totalAmmo), totalX, yText, 0xFFFFFFFF);
+        });
     }
 
     /**

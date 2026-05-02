@@ -7,6 +7,7 @@ import com.kirisamey.toomanytinkers.models.rendering.AnimatableTicTool3DClientIt
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
@@ -41,20 +42,11 @@ public class HandgunTool extends GunTool {
         public boolean applyForgeHandTransform(
                 PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand,
                 float partialTick, float equipProcess, float swingProcess) {
-            var useItem = player.getUseItem();
-            if (useItem == itemInHand) {
-                poseStack.translate(0, 0, 0);
-                return true;
-            } else if (player.isUsingItem() && player.getUsedItemHand() == InteractionHand.MAIN_HAND &&
-                    player.getOffhandItem() == itemInHand &&
-                    useItem.getItem() instanceof GunTool && ToolStack.from(useItem).getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE) &&
-                    itemInHand.getItem() instanceof GunTool && ToolStack.from(itemInHand).getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE)
-            ) {
-                poseStack.translate(0, 0, 0);
-                return true;
-            }
 
-            return false;
+            if (equipProcess > 0) {
+                poseStack.translate(0, equipProcess * -0.6f, 0);
+            }
+            return true;
         }
     }
 }

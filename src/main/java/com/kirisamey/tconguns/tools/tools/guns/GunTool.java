@@ -12,12 +12,14 @@ import com.kirisamey.tconguns.tools.tools.guns.capabilities.TicgGunCapabilities;
 import com.kirisamey.tconguns.tools.tools.guns.capabilities.containers.GunStats;
 import com.kirisamey.tconguns.tools.tools.guns.capabilities.containers.GunTempStats;
 import com.kirisamey.tconguns.tools.tools.bullets.BulletTool;
+import com.kirisamey.tconguns.tools.tools.guns.client.ClientTempGunState;
 import com.kirisamey.tconguns.utils.ToolStatShowUtils;
 import com.kirisamey.tconguns.gui.GunAmmoMenu;
 import io.vavr.Tuple;
 import io.vavr.Tuple3;
 import io.vavr.Tuple5;
 import io.vavr.collection.Stream;
+import io.vavr.control.Option;
 import lombok.extern.log4j.Log4j2;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -135,6 +137,7 @@ public abstract class GunTool extends ModifiableItem {
         }
 
         entity.stopUsingItem();
+
         if (level.isClientSide) CrosshairBlocker.checkBlocking();
     }
 
@@ -156,39 +159,40 @@ public abstract class GunTool extends ModifiableItem {
                            @NotNull ItemStack gun, @NotNull IToolStackView gunTool, GunInputType inputType) {
         if (gunTool.isBroken()) return;
 
-        var caps = getCapacities(gun);
-        if (caps == null) return;
+        getCapacities(gun).peek(caps -> {
 
-        var gunStats = caps._1;
-        var tmpStats = caps._2;
-        var ammoInv = caps._3;
+            var gunStats = caps._1;
+            var tmpStats = caps._2;
+            var ammoInv = caps._3;
 
-        if (gunStats.getAmmoLoaded() <= 0) return;
+            if (gunStats.getAmmoLoaded() <= 0) return;
 
-        var level = user.level();
-        if (!(level instanceof ServerLevel serverLevel)) return;
+            var level = user.level();
+            if (!(level instanceof ServerLevel serverLevel)) return;
 
-        var currentTick = serverLevel.getGameTime();
+            var currentTick = serverLevel.getGameTime();
 
-        var ammo = ammoInv.getStackInSlot(0);
-        if (ammo.isEmpty()) return;
-        var ammoItem = ammo.getItem();
-        if (!(ammoItem instanceof BulletTool)) {
-            log.error("Ammo item is not an bullet tool item: {} of {}", ammoItem, ammo);
-            return;
-        }
-        var ammoTool = ToolStack.from(ammo);
+            var ammo = ammoInv.getStackInSlot(0);
+            if (ammo.isEmpty()) return;
+            var ammoItem = ammo.getItem();
+            if (!(ammoItem instanceof BulletTool)) {
+                log.error("Ammo item is not an bullet tool item: {} of {}", ammoItem, ammo);
+                return;
+            }
+            var ammoTool = ToolStack.from(ammo);
 
-        if (ammoTool.isBroken()) return;
+            if (ammoTool.isBroken()) return;
 
 
-        Runnable shot = () -> {
-            shot(user, hand, gun, gunTool, ammo, ammoTool, level, tmpStats, currentTick);
-            gunStats.setAmmoLoaded(gunStats.getAmmoLoaded() - 1);
-        };
+            Runnable shot = () -> {
+                shot(user, hand, gun, gunTool, ammo, ammoTool, level, tmpStats, currentTick);
+                gunStats.setAmmoLoaded(gunStats.getAmmoLoaded() - 1);
+            };
 
-        var boltType = gunTool.getStats().get(TicgToolStats.GUN_BOLT_TYPE);
-        boltType.handleFire(user, hand, serverLevel, currentTick, gun, gunTool, this, inputType, gunStats, tmpStats, ammo, ammoTool, shot);
+            var boltType = gunTool.getStats().get(TicgToolStats.GUN_BOLT_TYPE);
+            boltType.handleFire(user, hand, serverLevel, currentTick, gun, gunTool, this, inputType, gunStats, tmpStats, ammo, ammoTool, shot);
+
+        });
     }
 
     protected static void shot(
@@ -224,34 +228,35 @@ public abstract class GunTool extends ModifiableItem {
     public void entityStartReload(@NonNull ItemStack gun, @NonNull IToolStackView gunTool, @NotNull ServerLevel level,
                                   @NotNull LivingEntity user, @NotNull InteractionHand hand) {
 
-        var caps = getCapacities(gun);
-        if (caps == null) return;
+        getCapacities(gun).peek(caps -> {
+            if (caps == null) return;
 
-        var gunStats = caps._1;
-        var tmpStats = caps._2;
-        var ammoInv = caps._3;
+            var gunStats = caps._1;
+            var tmpStats = caps._2;
+            var ammoInv = caps._3;
 
-        var time = level.getGameTime();
-        if (!isFree(gunTool, tmpStats, time)) return;
+            var time = level.getGameTime();
+            if (!isFree(gunTool, tmpStats, time)) return;
 
-        var ammoStack = ammoInv.getStackInSlot(0);
-        if (ammoStack.isEmpty()) return;
-        var ammoTool = ToolStack.from(ammoStack);
-        if (ammoTool.isBroken()) return;
+            var ammoStack = ammoInv.getStackInSlot(0);
+            if (ammoStack.isEmpty()) return;
+            var ammoTool = ToolStack.from(ammoStack);
+            if (ammoTool.isBroken()) return;
 
-        int maxAmmo = gunTool.getStats().get(TicgToolStats.GUN_MAGAZINE_CAPACITY).intValue();
-        if (gunStats.getAmmoLoaded() >= maxAmmo) return;
+            int maxAmmo = gunTool.getStats().get(TicgToolStats.GUN_MAGAZINE_CAPACITY).intValue();
+            if (gunStats.getAmmoLoaded() >= maxAmmo) return;
 
 
-        long till = time + (int) Math.ceil(20f / gunTool.getStats().get(TicgToolStats.GUN_RELOAD_SPEED));
-        var slot = hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+            long till = time + (int) Math.ceil(20f / gunTool.getStats().get(TicgToolStats.GUN_RELOAD_SPEED));
+            var slot = hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
 
-        ReloadProcessor.PROCESSING.add(Tuple.of(user, slot, gun, gunTool, till));
-        tmpStats.setLastReload(time);
-        TicgGunSyncing.CHANNEL2C.send(
-                PacketDistributor.ALL.noArg(),
-                TicgGunPackets2C.GunReload.start(user, slot)
-        );
+            ReloadProcessor.PROCESSING.add(Tuple.of(user, slot, gun, gunTool, till));
+            tmpStats.setLastReload(time);
+            TicgGunSyncing.CHANNEL2C.send(
+                    PacketDistributor.ALL.noArg(),
+                    TicgGunPackets2C.GunReload.start(user, slot)
+            );
+        });
     }
 
     @Mod.EventBusSubscriber(modid = TconGuns.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -268,7 +273,7 @@ public abstract class GunTool extends ModifiableItem {
                 var level = user.level();
 
                 if (user.getItemBySlot(slot) != gunStack) {
-                    Objects.requireNonNull(getCapacities(gunStack))._2.setLastReload(0);
+                    getCapacities(gunStack).get()._2.setLastReload(0);
                     TicgGunSyncing.CHANNEL2C.send(
                             PacketDistributor.ALL.noArg(),
                             TicgGunPackets2C.GunReload.abort(user, slot)
@@ -276,14 +281,14 @@ public abstract class GunTool extends ModifiableItem {
                     return t;
                 }
 
-                var time = user.level().getGameTime();
+                var time = level.getGameTime();
                 if (time >= till) {
                     var ammo = gunTool.getStats().get(TicgToolStats.GUN_MAGAZINE_CAPACITY).intValue();
 
                     var caps = getCapacities(gunStack);
-                    if (caps == null) return t;
-                    var stats = caps._1;
-                    var ammoInv = caps._3;
+                    if (caps.isEmpty()) return t;
+                    var stats = caps.get()._1;
+                    var ammoInv = caps.get()._3;
 
                     var ammoStack = ammoInv.getStackInSlot(0);
                     if (ammoStack.isEmpty() || !(ammoStack.getItem() instanceof BulletTool)) return t;
@@ -323,30 +328,30 @@ public abstract class GunTool extends ModifiableItem {
         return true;
     }
 
-    public static @Nullable Tuple3<GunStats, GunTempStats, ItemStackHandler> getCapacities(ItemStack item) {
+    public static @NotNull Option<Tuple3<GunStats, GunTempStats, ItemStackHandler>> getCapacities(ItemStack item) {
         var ammoOpt = item.getCapability(TicgGunCapabilities.GUN_AMMO).resolve();
         if (ammoOpt.isEmpty()) {
             log.warn("Ammo inventory is absent in gun item stack: {}", item);
-            return null;
+            return Option.none();
         }
         var statsOpt = item.getCapability(TicgGunCapabilities.GUN_STATS).resolve();
         if (statsOpt.isEmpty()) {
             log.warn("Gun stats capability is absent in gun item stack: {}", item);
-            return null;
+            return Option.none();
         }
         var tmpStatsOpt = item.getCapability(TicgGunCapabilities.GUN_TMP_STATS).resolve();
         if (tmpStatsOpt.isEmpty()) {
             log.warn("Temp stats capability is absent in gun item stack: {}", item);
-            return null;
+            return Option.none();
         }
 
-        return Tuple.of(statsOpt.get(), tmpStatsOpt.get(), ammoOpt.get());
+        return Option.some(Tuple.of(statsOpt.get(), tmpStatsOpt.get(), ammoOpt.get()));
     }
 
     //</editor-fold>
 
 
-    //<editor-fold desc="Event Subscribers">
+    //<editor-fold desc="Event Handlers">
     @Mod.EventBusSubscriber(modid = TconGuns.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class CapabilityAppender {
 
@@ -364,6 +369,7 @@ public abstract class GunTool extends ModifiableItem {
 
         private static boolean blocking;
 
+        // todo: 得做一个枪械的瞄准/取消瞄准事件把这个东西解耦掉
         private static void checkBlocking() {
             blocking = false;
 
@@ -371,25 +377,18 @@ public abstract class GunTool extends ModifiableItem {
             var player = mc.player;
             if (player != null && player.isUsingItem()) {
                 var dual = true;
-                var main = false;
-                var off = false;
 
                 var mainItem = player.getMainHandItem();
-                if (mainItem.getItem() instanceof GunTool mainGun) {
-                    main = true;
-                    dual &= ToolStack.from(mainItem).getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE);
-                }
-                var offItem = player.getMainHandItem();
-                if (offItem.getItem() instanceof GunTool offGun) {
-                    off = true;
-                    dual &= ToolStack.from(offItem).getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE);
+                var offItem = player.getOffhandItem();
+
+                if (!(mainItem.getItem() instanceof GunTool && offItem.getItem() instanceof GunTool)) dual = false;
+                else if (!ToolStack.from(mainItem).getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE) ||
+                        !ToolStack.from(offItem).getStats().get(TicgToolStats.GUN_DUAL_WIELDABLE)) {
+                    dual = false;
                 }
 
-                dual &= main && off;
-
-                if (!dual) {
-                    if (player.getUsedItemHand() == InteractionHand.MAIN_HAND && main) blocking = true;
-                    else if (player.getUsedItemHand() == InteractionHand.OFF_HAND && off) blocking = true;
+                if (!dual && player.getUseItem().getItem() instanceof GunTool) {
+                    blocking = true;
                 }
             }
         }
