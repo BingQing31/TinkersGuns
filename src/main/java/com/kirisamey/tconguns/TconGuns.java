@@ -49,11 +49,13 @@ public class TconGuns {
         log.debug("TicG 666");
 
         LOCK.unlock();
+
+        log.debug("TicG: manba out");
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         // Some common setup code
-        LOGGER.info("TconGuns common setup");
+        LOGGER.info("TicG: TconGuns common setup");
 
         InitializeHelper.init();
     }

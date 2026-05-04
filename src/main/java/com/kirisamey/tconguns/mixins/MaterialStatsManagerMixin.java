@@ -36,17 +36,15 @@ public class MaterialStatsManagerMixin {
     )
     private static Object afterCommonMatStatLoad(Stream<?> instance, Collector<?, ?, ?> arCollector, Operation<?> original) {
 
-        LogUtils.getLogger().debug("TicG: append dynamic materials");
-
-        TconGuns.LOCK.lock();
-
         //noinspection unchecked
         var map = (Map<MaterialId, Map<MaterialStatsId, IMaterialStats>>) original.call(instance, arCollector);
+
+        LogUtils.getLogger().debug("TicG: append dynamic materials");
+        TconGuns.LOCK.lock();
 
         DynamicDataGenHelper.REG_DYNAMIC_MATERIALS.forEach(c -> c.append(map));
 
         TconGuns.LOCK.unlock();
-
         LogUtils.getLogger().debug("TicG: append dynamic materials: done!");
 
         return map;

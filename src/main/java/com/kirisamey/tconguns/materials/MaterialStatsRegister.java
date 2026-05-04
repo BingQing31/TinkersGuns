@@ -16,18 +16,18 @@ public class MaterialStatsRegister {
         if (initialized) return;
         initialized = true;
 
-        LogUtils.getLogger().info("Ticg Material Stats Registering...");
+        LogUtils.getLogger().info("TicG: Ticg Material Stats Registering...");
 
         final var matReg = MaterialRegistry.getInstance();
 
-        matReg.registerStatType(BarrelMaterialStats.TYPE, GUN);
-        matReg.registerStatType(BoltMaterialStats.TYPE, GUN);
-        matReg.registerStatType(GunHandleMaterialStats.TYPE, GUN);
-        matReg.registerStatType(MagazineMaterialStats.TYPE, GUN);
-        matReg.registerStatType(GunbodyMaterialStats.TYPE, GUN);
+        matReg.registerStatType(BarrelMaterialStats.type(), GUN);
+        matReg.registerStatType(BoltMaterialStats.type(), GUN);
+        matReg.registerStatType(GunHandleMaterialStats.type(), GUN);
+        matReg.registerStatType(MagazineMaterialStats.type(), GUN);
+        matReg.registerStatType(GunbodyMaterialStats.type(), GUN);
 
-        matReg.registerStatType(BulletHeadMaterialStats.TYPE, BULLET);
-        matReg.registerStatType(BulletShellMaterialStats.TYPE, BULLET);
-        matReg.registerStatType(GunpowderMaterialStats.TYPE, BULLET);
+        matReg.registerStatType(BulletHeadMaterialStats.type(), BULLET);
+        matReg.registerStatType(BulletShellMaterialStats.type(), BULLET);
+        matReg.registerStatType(GunpowderMaterialStats.type(), BULLET);
     }
 }

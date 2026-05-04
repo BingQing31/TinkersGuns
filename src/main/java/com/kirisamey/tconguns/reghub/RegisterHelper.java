@@ -35,7 +35,7 @@ public final class RegisterHelper {
             // tools
             TicgTools.class,
             TicgToolTags.class,
-            TicgToolStats.class,
+            //TicgToolStats.class,
             // modifiers
             TicgModifiers.class,
             // entities

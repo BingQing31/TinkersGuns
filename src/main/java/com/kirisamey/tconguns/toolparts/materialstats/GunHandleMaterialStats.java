@@ -20,25 +20,25 @@ import java.util.List;
 public record GunHandleMaterialStats(float durability, float accuracy, float recoil) implements IMaterialStats {
     public static final MaterialStatsId ID = new MaterialStatsId(TconGuns.MODID, "gun_handle");
 
-    public static final MaterialStatType<GunHandleMaterialStats> TYPE = new MaterialStatType<>(
-            ID, new GunHandleMaterialStats(0f, 0f, 0f),
-            RecordLoadable.create(
-                    FloatLoadable.ANY.defaultField("durability", 0f, true, GunHandleMaterialStats::durability),
-                    FloatLoadable.ANY.defaultField("accuracy", 0f, true, GunHandleMaterialStats::accuracy),
-                    FloatLoadable.ANY.defaultField("recoil", 0f, true, GunHandleMaterialStats::recoil),
-                    GunHandleMaterialStats::new
-            )
-    );
+    private static MaterialStatType<GunHandleMaterialStats> type;
 
-    private static final List<Component> DESCRIPTIONS = ImmutableList.of(
-            ToolStats.DURABILITY.getDescription(),
-            TicgToolStats.GUN_ACCURACY.getDescription(),
-            TicgToolStats.GUN_RECOIL.getDescription()
-    );
-
+    public static MaterialStatType<GunHandleMaterialStats> type() {
+        if (type == null) {
+            type = new MaterialStatType<>(
+                    ID, new GunHandleMaterialStats(0f, 0f, 0f),
+                    RecordLoadable.create(
+                            FloatLoadable.ANY.defaultField("durability", 0f, true, GunHandleMaterialStats::durability),
+                            FloatLoadable.ANY.defaultField("accuracy", 0f, true, GunHandleMaterialStats::accuracy),
+                            FloatLoadable.ANY.defaultField("recoil", 0f, true, GunHandleMaterialStats::recoil),
+                            GunHandleMaterialStats::new
+                    )
+            );
+        }
+        return type;
+    }
 
     @Override public @NotNull MaterialStatType<?> getType() {
-        return TYPE;
+        return type();
     }
 
     @Override public @NotNull List<Component> getLocalizedInfo() {
@@ -49,8 +49,17 @@ public record GunHandleMaterialStats(float durability, float accuracy, float rec
         return info;
     }
 
+    private static List<Component> descriptions;
+
     @Override public @NotNull List<Component> getLocalizedDescriptions() {
-        return DESCRIPTIONS;
+        if (descriptions == null) {
+            descriptions = ImmutableList.of(
+                    ToolStats.DURABILITY.getDescription(),
+                    TicgToolStats.GUN_ACCURACY.getDescription(),
+                    TicgToolStats.GUN_RECOIL.getDescription()
+            );
+        }
+        return descriptions;
     }
 
     @Override public void apply(@NotNull ModifierStatsBuilder builder, float scale) {

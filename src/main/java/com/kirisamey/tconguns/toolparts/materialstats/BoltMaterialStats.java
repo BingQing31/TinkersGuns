@@ -19,21 +19,23 @@ import java.util.List;
 public record BoltMaterialStats(float shot_speed) implements IMaterialStats {
     public static final MaterialStatsId ID = new MaterialStatsId(TconGuns.MODID, "bolt");
 
-    public static final MaterialStatType<BoltMaterialStats> TYPE = new MaterialStatType<>(
-            ID, new BoltMaterialStats(1f),
-            RecordLoadable.create(
-                    FloatLoadable.FROM_ZERO.defaultField("shot_speed", 1f, true, BoltMaterialStats::shot_speed),
-                    BoltMaterialStats::new
-            )
-    );
+    private static MaterialStatType<BoltMaterialStats> type;
 
-    private static final List<Component> DESCRIPTIONS = ImmutableList.of(
-            TicgToolStats.GUN_SHOT_SPEED.getDescription()
-    );
-
+    public static MaterialStatType<BoltMaterialStats> type() {
+        if (type == null) {
+            type = new MaterialStatType<>(
+                    ID, new BoltMaterialStats(1f),
+                    RecordLoadable.create(
+                            FloatLoadable.FROM_ZERO.defaultField("shot_speed", 1f, true, BoltMaterialStats::shot_speed),
+                            BoltMaterialStats::new
+                    )
+            );
+        }
+        return type;
+    }
 
     @Override public @NotNull MaterialStatType<?> getType() {
-        return TYPE;
+        return type();
     }
 
     @Override public @NotNull List<Component> getLocalizedInfo() {
@@ -42,8 +44,15 @@ public record BoltMaterialStats(float shot_speed) implements IMaterialStats {
         return info;
     }
 
+    private static List<Component> descriptions;
+
     @Override public @NotNull List<Component> getLocalizedDescriptions() {
-        return DESCRIPTIONS;
+        if (descriptions == null) {
+            descriptions = ImmutableList.of(
+                    TicgToolStats.GUN_SHOT_SPEED.getDescription()
+            );
+        }
+        return descriptions;
     }
 
     @Override public void apply(@NotNull ModifierStatsBuilder builder, float scale) {

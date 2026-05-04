@@ -19,23 +19,24 @@ import java.util.List;
 public record MagazineMaterialStats(int capacity, float reloadSpeed) implements IMaterialStats {
     public static final MaterialStatsId ID = new MaterialStatsId(TconGuns.MODID, "magazine");
 
-    public static final MaterialStatType<MagazineMaterialStats> TYPE = new MaterialStatType<>(
-            ID, new MagazineMaterialStats(5, 1f),
-            RecordLoadable.create(
-                    IntLoadable.FROM_ONE.defaultField("capacity", 5, true, MagazineMaterialStats::capacity),
-                    FloatLoadable.FROM_ZERO.defaultField("reloadSpeed", 1f, true, MagazineMaterialStats::reloadSpeed),
-                    MagazineMaterialStats::new
-            )
-    );
+    private static MaterialStatType<MagazineMaterialStats> type;
 
-    private static final List<Component> DESCRIPTIONS = ImmutableList.of(
-            TicgToolStats.GUN_MAGAZINE_CAPACITY.getDescription(),
-            TicgToolStats.GUN_RELOAD_SPEED.getDescription()
-    );
-
+    public static MaterialStatType<MagazineMaterialStats> type() {
+        if (type == null) {
+            type = new MaterialStatType<>(
+                    ID, new MagazineMaterialStats(5, 1f),
+                    RecordLoadable.create(
+                            IntLoadable.FROM_ONE.defaultField("capacity", 5, true, MagazineMaterialStats::capacity),
+                            FloatLoadable.FROM_ZERO.defaultField("reloadSpeed", 1f, true, MagazineMaterialStats::reloadSpeed),
+                            MagazineMaterialStats::new
+                    )
+            );
+        }
+        return type;
+    }
 
     @Override public @NotNull MaterialStatType<?> getType() {
-        return TYPE;
+        return type();
     }
 
     @Override public @NotNull List<Component> getLocalizedInfo() {
@@ -45,8 +46,16 @@ public record MagazineMaterialStats(int capacity, float reloadSpeed) implements 
         return info;
     }
 
+    private static List<Component> descriptions;
+
     @Override public @NotNull List<Component> getLocalizedDescriptions() {
-        return DESCRIPTIONS;
+        if (descriptions == null) {
+            descriptions = ImmutableList.of(
+                    TicgToolStats.GUN_MAGAZINE_CAPACITY.getDescription(),
+                    TicgToolStats.GUN_RELOAD_SPEED.getDescription()
+            );
+        }
+        return descriptions;
     }
 
     @Override public void apply(@NotNull ModifierStatsBuilder builder, float scale) {

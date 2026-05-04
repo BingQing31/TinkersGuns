@@ -68,7 +68,6 @@ public class GunSmallBoneController implements IAnimatableTicTool3DBoneControlle
                 0.56f * (isLeftHand ? -1 : 1) * (1 - useRate)
         );
 
-        //noinspection deprecation
         var modelTransform = model.getTransforms().getTransform(itemDisplayContext);
         var tr = reverseTranslation(modelTransform, isLeftHand);
         transform.translate(tr.mul(useRate, new Vector3f()));

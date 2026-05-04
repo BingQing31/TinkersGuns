@@ -3,7 +3,6 @@ package com.kirisamey.tconguns.mixins;
 
 import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.materials.MaterialStatsRegister;
-import com.kirisamey.tconguns.register.TicgModuleBase;
 import com.mojang.logging.LogUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

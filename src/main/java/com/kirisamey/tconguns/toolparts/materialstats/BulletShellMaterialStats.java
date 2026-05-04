@@ -26,25 +26,25 @@ public record BulletShellMaterialStats(float durability, float velocity, float r
 
     public static final MaterialStatsId ID = new MaterialStatsId(TconGuns.MODID, "bullet_shell");
 
-    public static final MaterialStatType<BulletShellMaterialStats> TYPE = new MaterialStatType<>(
-            ID, new BulletShellMaterialStats(0f, 0f, 0f),
-            RecordLoadable.create(
-                    FloatLoadable.ANY.defaultField("durability", 0f, true, BulletShellMaterialStats::durability),
-                    FloatLoadable.ANY.defaultField("velocity", 0f, true, BulletShellMaterialStats::velocity),
-                    FloatLoadable.ANY.defaultField("recoil", 0f, true, BulletShellMaterialStats::recoil),
-                    BulletShellMaterialStats::new
-            )
-    );
+    private static MaterialStatType<BulletShellMaterialStats> type;
 
-    private static final List<Component> DESCRIPTIONS = ImmutableList.of(
-            ToolStats.DURABILITY.getDescription(),
-            TicgToolStats.BULLET_VELOCITY.getDescription(),
-            TicgToolStats.BULLET_RECOIL.getDescription()
-    );
-
+    public static MaterialStatType<BulletShellMaterialStats> type() {
+        if (type == null) {
+            type = new MaterialStatType<>(
+                    ID, new BulletShellMaterialStats(0f, 0f, 0f),
+                    RecordLoadable.create(
+                            FloatLoadable.ANY.defaultField("durability", 0f, true, BulletShellMaterialStats::durability),
+                            FloatLoadable.ANY.defaultField("velocity", 0f, true, BulletShellMaterialStats::velocity),
+                            FloatLoadable.ANY.defaultField("recoil", 0f, true, BulletShellMaterialStats::recoil),
+                            BulletShellMaterialStats::new
+                    )
+            );
+        }
+        return type;
+    }
 
     @Override public @NotNull MaterialStatType<?> getType() {
-        return TYPE;
+        return type();
     }
 
     @Override public @NotNull List<Component> getLocalizedInfo() {
@@ -55,8 +55,17 @@ public record BulletShellMaterialStats(float durability, float velocity, float r
         return info;
     }
 
+    private static List<Component> descriptions;
+
     @Override public @NotNull List<Component> getLocalizedDescriptions() {
-        return DESCRIPTIONS;
+        if (descriptions == null) {
+            descriptions = ImmutableList.of(
+                    ToolStats.DURABILITY.getDescription(),
+                    TicgToolStats.BULLET_VELOCITY.getDescription(),
+                    TicgToolStats.BULLET_RECOIL.getDescription()
+            );
+        }
+        return descriptions;
     }
 
     @Override public void apply(@NotNull ModifierStatsBuilder builder, float scale) {

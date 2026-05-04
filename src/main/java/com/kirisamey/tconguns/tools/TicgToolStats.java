@@ -3,6 +3,7 @@ package com.kirisamey.tconguns.tools;
 import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.datatype.BoltTypeToolStat;
 import com.kirisamey.tconguns.datatype.BoolToolStat;
+import com.mojang.logging.LogUtils;
 import net.minecraft.network.chat.TextColor;
 import slimeknights.tconstruct.library.tools.stat.FloatToolStat;
 import slimeknights.tconstruct.library.tools.stat.ToolStatId;
@@ -71,6 +72,7 @@ public class TicgToolStats {
 
 
     private static ToolStatId statId(String name) {
+        LogUtils.getLogger().debug("TicG: registering ToolStat: {}", name);
         return new ToolStatId(TconGuns.MODID, name);
     }
 }

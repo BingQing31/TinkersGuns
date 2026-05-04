@@ -18,21 +18,23 @@ public record GunbodyMaterialStats(int durability) implements IRepairableMateria
 
     public static final MaterialStatsId ID = new MaterialStatsId(TconGuns.MODID, "gunbody");
 
-    public static final MaterialStatType<GunbodyMaterialStats> TYPE = new MaterialStatType<>(
-            ID, new GunbodyMaterialStats(1),
-            RecordLoadable.create(
-                    IRepairableMaterialStats.DURABILITY_FIELD,
-                    GunbodyMaterialStats::new
-            )
-    );
+    private static MaterialStatType<GunbodyMaterialStats> type;
 
-    private static final List<Component> DESCRIPTIONS = ImmutableList.of(
-            ToolStats.DURABILITY.getDescription()
-    );
-
+    public static MaterialStatType<GunbodyMaterialStats> type() {
+        if (type == null) {
+            type = new MaterialStatType<>(
+                    ID, new GunbodyMaterialStats(1),
+                    RecordLoadable.create(
+                            IRepairableMaterialStats.DURABILITY_FIELD,
+                            GunbodyMaterialStats::new
+                    )
+            );
+        }
+        return type;
+    }
 
     @Override public @NotNull MaterialStatType<?> getType() {
-        return TYPE;
+        return type();
     }
 
     @Override public @NotNull List<Component> getLocalizedInfo() {
@@ -41,8 +43,15 @@ public record GunbodyMaterialStats(int durability) implements IRepairableMateria
         return info;
     }
 
+    private static List<Component> descriptions;
+
     @Override public @NotNull List<Component> getLocalizedDescriptions() {
-        return DESCRIPTIONS;
+        if (descriptions == null) {
+            descriptions = ImmutableList.of(
+                    ToolStats.DURABILITY.getDescription()
+            );
+        }
+        return descriptions;
     }
 
     @Override public void apply(@NotNull ModifierStatsBuilder builder, float scale) {
