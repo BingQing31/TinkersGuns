@@ -7,6 +7,7 @@ import com.kirisamey.tconguns.tools.tools.guns.stats.BoltType;
 import com.kirisamey.toomanytinkers.TmtRegistries;
 import com.kirisamey.toomanytinkers.models.pose.IAnimatableTicTool3DBoneController;
 import com.kirisamey.toomanytinkers.models.pose.ITmtAnimationController;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
@@ -24,6 +25,9 @@ import slimeknights.tconstruct.library.modifiers.util.ModifierDeferredRegister;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Supplier;
 
 public abstract class TicgModuleBase {
     protected TicgModuleBase() {
@@ -46,6 +50,8 @@ public abstract class TicgModuleBase {
         BOLT_TYPES.register(modEventBus);
 
         SOUNDS.register(modEventBus);
+
+        TMT_RENDER_TYPES_GETTERS.register(modEventBus);
     }
 
 
@@ -68,6 +74,9 @@ public abstract class TicgModuleBase {
     public static final DeferredRegister<BoltType> BOLT_TYPES = DeferredRegister.create(TicgRegistries.BOLT_TYPES_KEY, TconGuns.MODID);
 
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, TconGuns.MODID);
+
+    public static final DeferredRegister<Supplier<RenderType>> TMT_RENDER_TYPES_GETTERS =
+            DeferredRegister.create(TmtRegistries.RENDER_TYPE_GETTERS_REGKEY, TconGuns.MODID);
 
 
     protected static final Item.Properties ITEM_PROPS = new Item.Properties();

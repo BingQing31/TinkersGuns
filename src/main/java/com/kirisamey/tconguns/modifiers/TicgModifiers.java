@@ -13,12 +13,14 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import slimeknights.tconstruct.library.modifiers.Modifier;
+import slimeknights.tconstruct.library.modifiers.impl.NoLevelsModifier;
 import slimeknights.tconstruct.library.modifiers.util.StaticModifier;
 import slimeknights.tconstruct.tools.item.ModifierCrystalItem;
 
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
+@SuppressWarnings("unused")
 public class TicgModifiers extends TicgModuleBase {
     public static final ArrayList<Tuple3<ResourceLocation, StaticModifier<?>, ModifiersLangEntry>> FULL_LIST = new ArrayList<>();
 
@@ -26,6 +28,12 @@ public class TicgModifiers extends TicgModuleBase {
             new LanguageEntry("Full Auto", "全自动"),
             new LanguageEntry("Don't worry, completely legal", "不必担心，完全合法"),
             new LanguageEntry("Activate full-auto bolt, hold down LMB!", "启用全自动枪机，按死鼠标左键！")
+    ));
+
+    public static final StaticModifier<NoLevelsModifier> SIGHT_HOLO = modifier("sight_holo", NoLevelsModifier::new, new ModifiersLangEntry(
+            new LanguageEntry("Holograph Sight", "全息瞄具"),
+            new LanguageEntry("LOREM IPSUM", "请输入文本"),
+            new LanguageEntry("LOREM IPSUM", "请输入文本")
     ));
 
     @SuppressWarnings("SameParameterValue")

@@ -4,6 +4,7 @@ import com.kirisamey.tconguns.datatype.LanguageEntry;
 import com.kirisamey.tconguns.register.TicgModuleBase;
 import com.kirisamey.tconguns.toolparts.materialstats.*;
 import com.kirisamey.tconguns.tools.TicgTools;
+import com.mojang.logging.LogUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -52,12 +53,15 @@ public class TicgToolParts extends TicgModuleBase {
 
 
     private static ItemObject<ToolPartItem> part(String name, MaterialStatsId stats, LanguageEntry lang) {
+        LogUtils.getLogger().debug("TicG: registering tool part: {}", name);
+
         var part = TIC_ITEMS.register(
                 name,
                 () -> new ToolPartItem(ITEM_PROPS, stats)
         );
         FULL_LIST.add(part);
         LANGUAGE_ENTRIES.put(part.getId(), lang);
+
         return part;
     }
 

@@ -88,5 +88,8 @@
     "marks": {
         "sight": [-10.2, 3.1, 0]
     },
+    "modifiers": [
+        "tconguns:item/gun_small/modifiers/sight_holo"
+    ],
     "large_tex": true
 }

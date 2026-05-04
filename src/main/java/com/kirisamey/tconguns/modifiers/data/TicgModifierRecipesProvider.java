@@ -44,6 +44,12 @@ public class TicgModifierRecipesProvider extends RecipeProviderBase {
                 .addInput(Items.COMPARATOR)
                 .saveSalvage(consumer, prefix(TicgModifiers.FULL_AUTO, abilitySalvage))
                 .save(consumer, prefix(TicgModifiers.FULL_AUTO, abilityFolder));
+
+        ModifierRecipeBuilder.modifier(TicgModifiers.SIGHT_HOLO)
+                .setTools(TicgToolTags.GUN)
+                .setMaxLevel(1)
+                .addInput(Items.END_ROD, 13)
+                .save(consumer, prefix(TicgModifiers.SIGHT_HOLO, slotlessFolder));
     }
 
     @Override public @NotNull String getName() {

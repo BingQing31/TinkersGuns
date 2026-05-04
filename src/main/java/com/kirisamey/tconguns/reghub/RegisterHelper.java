@@ -8,6 +8,7 @@ import com.kirisamey.tconguns.misc.TicgMiscItems;
 import com.kirisamey.tconguns.entity.TicgProjectileEntities;
 import com.kirisamey.tconguns.modifiers.TicgModifiers;
 import com.kirisamey.tconguns.register.TicgModuleBase;
+import com.kirisamey.tconguns.rendering.TicgRenderTypeGetters;
 import com.kirisamey.tconguns.sounds.TicgSounds;
 import com.kirisamey.tconguns.toolparts.TicgToolPartCasts;
 import com.kirisamey.tconguns.toolparts.TicgToolParts;
@@ -18,10 +19,12 @@ import com.kirisamey.tconguns.tools.TicgTools;
 import com.kirisamey.tconguns.tools.TicgBoltTypes;
 import com.kirisamey.tconguns.gui.TicgGuiMenus;
 import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 import java.util.List;
 
+@Log4j2
 public final class RegisterHelper {
     private static final List<Class<?>> REG_CLASSES = List.of(
             // idk
@@ -40,24 +43,15 @@ public final class RegisterHelper {
             // others
             TicgGuiMenus.class,
             TicgToolAnimControllers.class,
+            TicgBoltTypes.class,
             TicgSounds.class,
-            TicgBoltTypes.class
-    );
-
-    public static final List<DynamicMaterialStatsGeneratorBase<?, ?>> REG_DYNAMIC_MATERIALS = List.of(
-            new DynamicBarrelStatsGenerator(),
-            new DynamicBoltStatsGenerator(),
-            new DynamicGunHandleStatsGenerator(),
-            new DynamicMagazineStatsGenerator(),
-            new DynamicGunbodyStatsGenerator(),
-
-            new DynamicBulletHeadStatsGenerator(),
-            new DynamicBulletShellStatsGenerator()
+            TicgRenderTypeGetters.class
     );
 
     @SneakyThrows public static void initRegisters(IEventBus modEventBus) {
         TicgModuleBase.initRegisters(modEventBus);
         for (var clas : REG_CLASSES) {
+            log.debug("TicG: loading module: {}", clas.getName());
             Class.forName(clas.getName());
         }
     }

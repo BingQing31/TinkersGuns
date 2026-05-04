@@ -1,0 +1,15 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "amount_needed": 13,
+      "item": "minecraft:end_rod"
+    }
+  ],
+  "level": 1,
+  "result": "tconguns:sight_holo",
+  "tools": {
+    "tag": "tconguns:gun"
+  }
+}

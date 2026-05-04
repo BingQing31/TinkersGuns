@@ -1,0 +1,8 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "model": "tconguns:models/item/sight/holograph/glass.obj",
+  "textures": {
+    "sight_holo": "tconguns:item/tool/sight_holo"
+  }
+}

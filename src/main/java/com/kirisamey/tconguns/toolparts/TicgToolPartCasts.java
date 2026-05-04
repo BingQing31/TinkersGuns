@@ -30,6 +30,7 @@ public class TicgToolPartCasts extends TicgModuleBase {
     private static @NotNull CastItemObject cast(ItemObject<ToolPartItem> part) {
         var cast = TIC_ITEMS.registerCast(part, ITEM_PROPS);
         FULL_LIST.add(cast);
+
         return cast;
     }
 

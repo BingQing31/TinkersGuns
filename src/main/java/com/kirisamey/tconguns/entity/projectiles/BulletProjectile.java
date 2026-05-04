@@ -304,7 +304,7 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
         if (!(level instanceof ServerLevel serverLevel)) return;
         TicgGunSyncing.CHANNEL2C.send(
                 PacketDistributor.NEAR.with(Holder.direct(
-                        new PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 64, serverLevel.dimension())
+                        new PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 512, serverLevel.dimension())
                 )),
                 new TicgGunPackets2C.BulletHitParticle(serverLevel, getAmmo().getItem(), pos, velocity)
         );

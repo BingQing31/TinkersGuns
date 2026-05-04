@@ -75,10 +75,9 @@ public class TicgBoltTypes extends TicgModuleBase {
         var id = ResourceLocation.fromNamespaceAndPath(TconGuns.MODID, name);
         var txtColor = TextColor.fromRgb(color);
 
-        var instance = creator.apply(id, txtColor);
         FULL_LIST.add(Tuple.of(id, lang));
 
-        return BOLT_TYPES.register(name, () -> instance);
+        return BOLT_TYPES.register(name, () -> creator.apply(id, txtColor));
     }
 
 }

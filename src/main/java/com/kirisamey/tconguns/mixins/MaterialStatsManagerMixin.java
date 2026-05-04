@@ -1,8 +1,12 @@
 package com.kirisamey.tconguns.mixins;
 
+import com.kirisamey.tconguns.TconGuns;
+import com.kirisamey.tconguns.reghub.DynamicDataGenHelper;
 import com.kirisamey.tconguns.reghub.RegisterHelper;
+import com.kirisamey.tconguns.register.TicgModuleBase;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.logging.LogUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
@@ -31,10 +35,19 @@ public class MaterialStatsManagerMixin {
             remap = false
     )
     private static Object afterCommonMatStatLoad(Stream<?> instance, Collector<?, ?, ?> arCollector, Operation<?> original) {
+
+        LogUtils.getLogger().debug("TicG: append dynamic materials");
+
+        TconGuns.LOCK.lock();
+
         //noinspection unchecked
         var map = (Map<MaterialId, Map<MaterialStatsId, IMaterialStats>>) original.call(instance, arCollector);
 
-        RegisterHelper.REG_DYNAMIC_MATERIALS.forEach(c -> c.append(map));
+        DynamicDataGenHelper.REG_DYNAMIC_MATERIALS.forEach(c -> c.append(map));
+
+        TconGuns.LOCK.unlock();
+
+        LogUtils.getLogger().debug("TicG: append dynamic materials: done!");
 
         return map;
     }

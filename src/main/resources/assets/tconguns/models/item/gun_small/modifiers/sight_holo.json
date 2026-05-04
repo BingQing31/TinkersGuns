@@ -1,0 +1,37 @@
+{
+    "loader": "toomanytinkers:anim_tool3d_modifier",
+    "id": "tconguns:sight_holo",
+    "parts": {
+        "sight_holo_body": {
+            "model": "tconguns:item/sight/holograph/body",
+            "tool_part": -1,
+            "origin": [0, 8, 0]
+        },
+        "sight_holo_border": {
+            "model": "tconguns:item/sight/holograph/border",
+            "tool_part": 0,
+            "origin": [0, 8, 0]
+        },
+        "sight_holo_knobs": {
+            "model": "tconguns:item/sight/holograph/knobs",
+            "tool_part": -1,
+            "origin": [0, 8, 0]
+        },
+        "sight_holo_glass": {
+            "model": "tconguns:item/sight/holograph/glass",
+            "tool_part": -1,
+            "origin": [0, 8, 0],
+            "render_type": "tconguns:holo_sight_glass"
+        }
+    },
+    "bones": {
+        "body":{
+            "new_parts":[
+                "sight_holo_body", "sight_holo_border", "sight_holo_knobs", "sight_holo_glass"
+            ]
+        }
+    },
+    "marks": {
+        "sight": [-10.2, 3.9, 0]
+    }
+}
