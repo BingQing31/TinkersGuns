@@ -5,7 +5,10 @@ import com.kirisamey.tconguns.syncing.gun.TicgGunPackets2C;
 import com.kirisamey.tconguns.syncing.gun.TicgGunSyncing;
 import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.attacking.BulletAttackUtils;
+import com.kirisamey.tconguns.utils.KrMathUtils;
 import lombok.extern.log4j.Log4j2;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -18,12 +21,17 @@ import net.minecraft.world.entity.projectile.ItemSupplier;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.network.PacketDistributor;
@@ -43,6 +51,8 @@ import java.util.ArrayList;
 public class BulletProjectile extends Projectile implements ItemSupplier {
     //<editor-fold desc="Lifetime">
 
+    public static final float MAX_VELOCITY = 2048;
+
     public BulletProjectile(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
     }
@@ -57,7 +67,9 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
         projectile.setGun(gun);
         projectile.setAmmo(ammo);
         projectile.setPos(user.getEyePosition());
-        projectile.shoot(shotDir.x, shotDir.y, shotDir.z, initV, 0);
+        if (initV > MAX_VELOCITY) projectile.setDamageMultiple(initV / MAX_VELOCITY);
+
+        projectile.shoot(shotDir.x, shotDir.y, shotDir.z, KrMathUtils.clampF(initV, 0, MAX_VELOCITY), 0);
 
         // gun modifiers
         // 骑士史莱姆做得不错，这个会被附加到所有Projectile上，所以我可以直接往上放词条~
@@ -108,11 +120,14 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
             SynchedEntityData.defineId(BulletProjectile.class, EntityDataSerializers.ITEM_STACK);
     private static final EntityDataAccessor<ItemStack> AMMO_STACK =
             SynchedEntityData.defineId(BulletProjectile.class, EntityDataSerializers.ITEM_STACK);
+    private static final EntityDataAccessor<Float> DAMAGE_MULTIPLE =
+            SynchedEntityData.defineId(BulletProjectile.class, EntityDataSerializers.FLOAT);
 
 
     @Override protected void defineSynchedData() {
         entityData.define(GUN_STACK, ItemStack.EMPTY);
         entityData.define(AMMO_STACK, ItemStack.EMPTY);
+        entityData.define(DAMAGE_MULTIPLE, 1f);
     }
 
 
@@ -131,6 +146,15 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
     public ItemStack getAmmo() {
         return this.entityData.get(AMMO_STACK);
     }
+
+    public void setDamageMultiple(float value) {
+        this.entityData.set(DAMAGE_MULTIPLE, value);
+    }
+
+    public float getDamageMultiple() {
+        return this.entityData.get(DAMAGE_MULTIPLE);
+    }
+
 
     @Override public @NotNull ItemStack getItem() {
         return getAmmo();
@@ -180,7 +204,7 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
         Vec3 finalTarget = startPos.add(motion);
 
         // 射线检测 (方块)
-        HitResult hitResult = this.level().clip(new ClipContext(startPos, finalTarget, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+        HitResult hitResult = clipWithLoadedCheck(new ClipContext(startPos, finalTarget, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
 
         // 如果检测到方块碰撞，将“最终移动目标”修正为碰撞点
         if (hitResult.getType() != HitResult.Type.MISS) {
@@ -248,6 +272,41 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
         }
     }
 
+    // 这个方法由 Gemini3.1 生成，Gemini 神力！
+    private BlockHitResult clipWithLoadedCheck(ClipContext context) {
+        return BlockGetter.traverseBlocks(context.getFrom(), context.getTo(), context, (ctx, pos) -> {
+            // 【核心逻辑】：如果预测轨迹上的这个方块未加载
+            if (!this.level().isLoaded(pos)) {
+                // 利用原版的 Shapes.block() 数学方法，算出射线刚好触碰到这个未加载方块表面的精准坐标 (即已加载区的绝对边界)
+                BlockHitResult boundaryHit = Shapes.block().clip(ctx.getFrom(), ctx.getTo(), pos);
+                Vec3 boundaryPos = boundaryHit != null ? boundaryHit.getLocation() : ctx.getFrom();
+
+                // 返回一个 MISS，将这个边界坐标传递出去
+                return BlockHitResult.miss(boundaryPos, Direction.UP, pos);
+            }
+            // --- 以下完全是原版 level().clip() 的原生逻辑 ---
+            BlockState blockstate = this.level().getBlockState(pos);
+            FluidState fluidstate = this.level().getFluidState(pos);
+            Vec3 start = ctx.getFrom();
+            Vec3 end = ctx.getTo();
+
+            VoxelShape blockShape = ctx.getBlockShape(blockstate, this.level(), pos);
+            BlockHitResult blockHit = this.level().clipWithInteractionOverride(start, end, pos, blockShape, blockstate);
+
+            VoxelShape fluidShape = ctx.getFluidShape(fluidstate, this.level(), pos);
+            BlockHitResult fluidHit = fluidShape.clip(start, end, pos);
+
+            double d0 = blockHit == null ? Double.MAX_VALUE : start.distanceToSqr(blockHit.getLocation());
+            double d1 = fluidHit == null ? Double.MAX_VALUE : start.distanceToSqr(fluidHit.getLocation());
+
+            return d0 <= d1 ? blockHit : fluidHit;
+        }, (ctx) -> {
+            // 如果全过程都在空气里（正常飞完），返回终点坐标
+            Vec3 vec3 = ctx.getFrom().subtract(ctx.getTo());
+            return BlockHitResult.miss(ctx.getTo(), Direction.getNearest(vec3.x, vec3.y, vec3.z), BlockPos.containing(ctx.getTo()));
+        });
+    }
+
     private void handleHit(HitResult hitResult) {
         if (level().isClientSide) return;
         // post forge event
@@ -278,6 +337,7 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
         var atk = (double) bulletTool.getStats().get(TicgToolStats.BULLET_ATTACK);
         atk *= gunTool.getStats().get(TicgToolStats.GUN_ATTACK) + 1;
         atk *= getDeltaMovement().length() * 20d * 2d / 3d / 100d; // 秒速度/100，另修正2/3
+        atk *= Math.max(getDamageMultiple(), 1);
 
         BulletAttackUtils.performBulletAttack(this, (LivingEntity) owner, target, getGun(), getAmmo(), gunTool, bulletTool, (float) atk);
 
