@@ -21,7 +21,14 @@ public class TicgMiscLanguageModule extends TicgLangModule {
             Pair.of("item.tconguns.test_item", new LanguageEntry("Tinker Guns - Test Item", "匠魂枪械 - 测试物品")),
 
             Pair.of("item.tconguns.gun_small", new LanguageEntry("Tinker Handgun", "工匠手枪")),
-            Pair.of("item.tconguns.gun_small.description", new LanguageEntry("Tinker Handgun lorem ipsum dolor sit amet consectetur adipiscing elit.", "工匠手枪暗色调飞哥很健康离开家很过分打撒")),
+            Pair.of("item.tconguns.gun_small.description", new LanguageEntry(
+                    "Lightweight tinker gun with a short barrel, causing bullets to lose velocity quickly after leaving the barrel. " +
+                            "However, it is compact and lightweight, making it easy to dual-wield.\n" +
+                            "Note: Requires tinker bullets to function properly. Right-click while sneaking to open the magazine;" +
+                            " after loading artisan bullets, press the reload key to reload (default key: R; see Key Bindings for details).",
+                    "小型的工匠枪械，枪膛较短故而弹药出膛后衰减较快。但小巧轻便，且可以轻易双持使用。\n" +
+                            "注：需要装填工匠子弹才能正常使用，潜行时单击右键即可开启弹仓，装入工匠子弹后按换弹键装弹(默认键位R，详见键位映射)")
+            ),
 
             Pair.of("item.tconguns.base_bullet", new LanguageEntry("Basic Tinker Bullet", "基础工匠子弹")),
             Pair.of("item.tconguns.base_bullet.description", new LanguageEntry("Basic Tinker Bullet, used as ammo for Tinker firearms.\nUsing other types of components allows for the crafting of specialized ammunition at the Tinker Station.", "基础的工匠子弹，用作工匠枪械的弹药。\n使用其他类型的部件可在工匠站上制造出特种弹药。")),
