@@ -35,7 +35,7 @@ public final class RegisterHelper {
             // tools
             TicgTools.class,
             TicgToolTags.class,
-            //TicgToolStats.class,
+            TicgToolStats.class, // 没办法这个必须初始化，不然晚了就注册不进去了，骑士史莱姆全责
             // modifiers
             TicgModifiers.class,
             // entities

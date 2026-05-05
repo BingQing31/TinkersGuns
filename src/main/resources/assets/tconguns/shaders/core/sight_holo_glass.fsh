@@ -44,7 +44,7 @@ void main() {
         discard;
     }
 
-    color *= vertex_color * ColorModulator;
+    //color *= vertex_color * ColorModulator;
     fragColor = color;
 }
 
