@@ -70,6 +70,9 @@ public class TicgMiscLanguageModule extends TicgLangModule {
             Pair.of("tool_stat.tconguns.gun_recoil", new LanguageEntry("Recoil: ", "后坐力：")),
             Pair.of("tool_stat.tconguns.gun_recoil.description", new LanguageEntry("Recoil adjustment provided by guns", "枪械提供的后坐力修正")),
 
+            Pair.of("tool_stat.tconguns.gun_recoil_return", new LanguageEntry("Recoil Return: ", "后坐力回正：")),
+            Pair.of("tool_stat.tconguns.gun_recoil_return.description", new LanguageEntry("Speed coefficient for return to center after recoil", "枪械受后坐力影响后回正的速度系数")),
+
             Pair.of("tool_stat.tconguns.gun_shot_speed", new LanguageEntry("Shot Speed: ", "射速：")),
             Pair.of("tool_stat.tconguns.gun_shot_speed.description", new LanguageEntry("Maximum rate of continuous firing", "连续射击的最大频率")),
 

@@ -1,12 +1,15 @@
 package com.kirisamey.tconguns.syncing.gun;
 
+import com.kirisamey.tconguns.tools.TicgToolStats;
 import com.kirisamey.tconguns.tools.tools.guns.client.ClientTempGunState;
 import com.kirisamey.tconguns.sounds.TicgSounds;
 import com.kirisamey.tconguns.tools.tools.bullets.BulletTool;
 import com.kirisamey.tconguns.tools.tools.guns.GunTool;
 import com.kirisamey.tconguns.tools.tools.guns.capabilities.TicgGunCapabilities;
+import com.kirisamey.tconguns.tools.tools.guns.client.GunRecoilApplier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundSource;
+import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 import java.util.Objects;
 
@@ -26,24 +29,35 @@ public class TicgGunClientHandler {
 
     public static void HandleShot(TicgGunPackets2C.GunShot packet) {
         if (packet.owner() != null) {
-            // put stat
             var gun = packet.owner().getItemBySlot(packet.slot());
-            gun.getCapability(TicgGunCapabilities.GUN_TMP_STATS).resolve().ifPresent(stats -> {
-                stats.setLastShot(
+
+            GunTool.getCapacities(gun).peek(t -> t.apply((stats, tmpStats, ammoContainer) -> {
+
+                // put stat
+                tmpStats.setLastShot(
                         Objects.requireNonNull(Minecraft.getInstance().level).getGameTime()
                 );
-            });
-
-            gun.getCapability(TicgGunCapabilities.GUN_STATS).resolve().ifPresent(stats -> {
                 stats.setAmmoLoaded(stats.getAmmoLoaded() - 1);
-            });
 
-            // 客户端缓存：按 UUID 存储，ItemStack 被替换后不受影响
-            gun.getCapability(TicgGunCapabilities.GUN_STATS).resolve().ifPresent(stats -> {
+                // 客户端缓存：按 UUID 存储，ItemStack 被替换后不受影响
                 var tick = Objects.requireNonNull(Minecraft.getInstance().level).getGameTime();
                 var cache = ClientTempGunState.getOrCreate(stats.getGunUuid());
                 cache.setLastShot(tick);
-            });
+
+                // recoil
+                var gunTool = ToolStack.from(gun);
+                var ammo = ammoContainer.getStackInSlot(0);
+                if (!ammo.isEmpty() && ammo.getItem() instanceof BulletTool) {
+                    var ammoTool = ToolStack.from(ammo);
+                    float recoil = ammoTool.getStats().get(TicgToolStats.BULLET_RECOIL);
+                    recoil *= 1 + gunTool.getStats().get(TicgToolStats.GUN_RECOIL);
+                    recoil *= 5;
+                    float recoilRet = 1 + gunTool.getStats().get(TicgToolStats.GUN_RECOIL_RETURN);
+                    GunRecoilApplier.addRecoil(recoil, recoilRet);
+                }
+
+                return 0;
+            }));
 
             // sound
             if (Minecraft.getInstance().level != null) {
@@ -63,7 +77,7 @@ public class TicgGunClientHandler {
         var ammo = packet.state();
 
         var gunStack = owner.getItemBySlot(slot);
-        GunTool.getCapacities(gunStack).peek(caps->{
+        GunTool.getCapacities(gunStack).peek(caps -> {
 
             var stats = caps._1;
             var tmpStats = caps._2;

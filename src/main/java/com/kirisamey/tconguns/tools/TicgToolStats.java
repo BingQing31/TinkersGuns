@@ -45,6 +45,10 @@ public class TicgToolStats {
             statId("gun_recoil"), 0xffffffff, 0, Float.MIN_VALUE, Float.MAX_VALUE, TicgToolTags.GUN
     ));
 
+    public static final FloatToolStat GUN_RECOIL_RETURN = ToolStats.register(new FloatToolStat(
+            statId("gun_recoil_return"), 0xffffffff, 0, Float.MIN_VALUE, Float.MAX_VALUE, TicgToolTags.GUN
+    ));
+
     public static final FloatToolStat GUN_SHOT_SPEED = ToolStats.register(new FloatToolStat(
             statId("gun_shot_speed"), 0xff5500cc, 1, 0, 20f, TicgToolTags.GUN
     ));
@@ -58,7 +62,7 @@ public class TicgToolStats {
     ));
 
     public static final FloatToolStat GUN_RELOAD_SPEED = ToolStats.register(new FloatToolStat(
-            statId("gun_reload_speed"), 0xff66ff00, 1, 0, Integer.MAX_VALUE, TicgToolTags.GUN
+            statId("gun_reload_speed"), 0xff66ff00, 1, 0, 20f, TicgToolTags.GUN
     ));
 
 

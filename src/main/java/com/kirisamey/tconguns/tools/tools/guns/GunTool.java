@@ -27,6 +27,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -82,6 +83,7 @@ public abstract class GunTool extends ModifiableItem {
         tooltips.add(ToolStatShowUtils.percentStatFormat(tool, TicgToolStats.GUN_ATTACK));
         tooltips.add(ToolStatShowUtils.percentStatFormat(tool, TicgToolStats.GUN_VELOCITY));
         tooltips.add(ToolStatShowUtils.reversedPercentStatFormat(tool, TicgToolStats.GUN_RECOIL));
+        tooltips.add(ToolStatShowUtils.percentStatFormat(tool, TicgToolStats.GUN_RECOIL_RETURN));
         tooltips.add(ToolStatShowUtils.statFormat(tool, TicgToolStats.GUN_SHOT_SPEED));
         tooltips.add(ToolStatShowUtils.statFormat(tool, TicgToolStats.GUN_ACCURACY));
         tooltips.add(TicgToolStats.GUN_MAGAZINE_CAPACITY.formatValue(
@@ -185,8 +187,19 @@ public abstract class GunTool extends ModifiableItem {
 
 
             Runnable shot = () -> {
+                var slot = hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+
                 shot(user, hand, gun, gunTool, ammo, ammoTool, level, tmpStats, currentTick);
                 gunStats.setAmmoLoaded(gunStats.getAmmoLoaded() - 1);
+                tmpStats.setLastShot(currentTick);
+
+                ToolDamageUtil.damageAnimated(gunTool, 1, user, hand);
+                ToolDamageUtil.damage(ammoTool, 1, user, ammo);
+
+                TicgGunSyncing.CHANNEL2C.send(
+                        PacketDistributor.ALL.noArg(),
+                        new TicgGunPackets2C.GunShot(user, slot)
+                );
             };
 
             var boltType = gunTool.getStats().get(TicgToolStats.GUN_BOLT_TYPE);
@@ -201,26 +214,68 @@ public abstract class GunTool extends ModifiableItem {
             ItemStack ammo, @NotNull ToolStack ammoTool,
             Level level, @NotNull GunTempStats tmp_stats, long currentTick) {
 
-        var slot = hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
-
         float initV = ammoTool.getStats().get(TicgToolStats.BULLET_VELOCITY);
         initV *= gunTool.getStats().get(TicgToolStats.GUN_VELOCITY) + 1;
         initV /= 20;
 
         var shotDir = Vec3.directionFromRotation(user.getViewXRot(1f), user.getViewYRot(1f));
+        {
+            float accuracy = gunTool.getStats().get(TicgToolStats.GUN_ACCURACY);
+            float maxAngle = (float) Math.toRadians(90.0 / (1.0 + 59 * Math.pow(accuracy, 3)));
+            if (user.isUsingItem() && user.getUseItem().getItem() instanceof GunTool) maxAngle *= 0.5f;
+            shotDir = randomConeGaussian(shotDir, maxAngle, level.random);
+        }
 
         BulletProjectile.shot(gun, ammo, gunTool, ammoTool, user, level, initV, shotDir);
-
-        tmp_stats.setLastShot(currentTick);
-
-        ToolDamageUtil.damageAnimated(gunTool, 1, user, hand);
-        ToolDamageUtil.damage(ammoTool, 1, user, ammo);
-
-        TicgGunSyncing.CHANNEL2C.send(
-                PacketDistributor.ALL.noArg(),
-                new TicgGunPackets2C.GunShot(user, slot)
-        );
     }
+
+    public static Vec3 randomConeGaussian(Vec3 direction, float maxAngleRad, RandomSource random) {
+        double length = direction.length();
+        if (length < 1.0E-8) {
+            return direction;
+        }
+        if (maxAngleRad <= 0.0F) {
+            return direction;
+        }
+        // 归一化原方向
+        Vec3 forward = direction.scale(1.0 / length);
+        // 构造与 forward 正交的局部坐标系 right / up
+        Vec3 helper = Math.abs(forward.y) < 0.999 ? new Vec3(0.0, 1.0, 0.0) : new Vec3(1.0, 0.0, 0.0);
+        Vec3 right = forward.cross(helper).normalize();
+        Vec3 up = right.cross(forward).normalize();
+        /*
+         * 生成二维高斯偏移：
+         * gx, gy ~ N(0, sigma^2)
+         * r = sqrt(gx^2 + gy^2) 表示在角空间中的径向偏移量
+         *
+         * 为了保证不超出圆锥最大角，使用截断采样（reject sampling）。
+         * sigma 取 maxAngleRad / 3，意味着约 99.7% 样本自然落在 3σ 内。
+         */
+        double sigma = maxAngleRad / 3.0;
+        double gx, gy;
+        double angle;
+        do {
+            gx = random.nextGaussian() * sigma;
+            gy = random.nextGaussian() * sigma;
+            angle = Math.sqrt(gx * gx + gy * gy);
+        } while (angle > maxAngleRad);
+        // angle == 0 时直接返回
+        if (angle < 1.0E-12) {
+            return direction;
+        }
+        // 由二维高斯确定圆周方向，保证轴对称
+        double cosPhi = gx / angle;
+        double sinPhi = gy / angle;
+        // 在局部平面中得到偏移轴方向
+        Vec3 radial = right.scale(cosPhi).add(up.scale(sinPhi));
+        // 按球面旋转构造结果：
+        // result = forward * cos(angle) + radial * sin(angle)
+        Vec3 rotated = forward.scale(Math.cos(angle))
+                .add(radial.scale(Math.sin(angle)));
+        // 恢复原长度
+        return rotated.scale(length);
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Reloading">

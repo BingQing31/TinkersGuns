@@ -32,9 +32,9 @@ public class DynamicGunHandleStatsGenerator extends DynamicMaterialStatsGenerato
 
     @Override protected @NotNull GunHandleMaterialStats calculateStat(Ctx ctx) {
         var dur = ctx.gripStats.durability();
-        var acc = ctx.gripStats.accuracy();
         var rec = Float.max(-ctx.handleStats.miningSpeed(), -0.8f);
-        return new GunHandleMaterialStats(dur, acc, rec);
+        var ret = ctx.gripStats.accuracy();
+        return new GunHandleMaterialStats(dur, rec, ret);
     }
 
     public record Ctx(HandleMaterialStats handleStats, GripMaterialStats gripStats) {

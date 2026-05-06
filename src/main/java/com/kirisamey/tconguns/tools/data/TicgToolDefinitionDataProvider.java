@@ -8,9 +8,11 @@ import net.minecraft.data.PackOutput;
 import org.jetbrains.annotations.NotNull;
 import slimeknights.tconstruct.library.data.tinkering.AbstractToolDefinitionDataProvider;
 import slimeknights.tconstruct.library.materials.RandomMaterial;
+import slimeknights.tconstruct.library.tools.definition.module.build.MultiplyStatsModule;
 import slimeknights.tconstruct.library.tools.definition.module.build.SetStatsModule;
 import slimeknights.tconstruct.library.tools.definition.module.material.DefaultMaterialsModule;
 import slimeknights.tconstruct.library.tools.definition.module.material.PartStatsModule;
+import slimeknights.tconstruct.library.tools.nbt.MultiplierNBT;
 import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.tools.TinkerToolParts;
@@ -60,6 +62,9 @@ public class TicgToolDefinitionDataProvider extends AbstractToolDefinitionDataPr
                 // stats
                 .module(new SetStatsModule(StatsNBT.builder()
                         .set(TicgToolStats.GUN_DUAL_WIELDABLE, true)
+                        .build()))
+                .module(new MultiplyStatsModule(MultiplierNBT.builder()
+                        .set(TicgToolStats.GUN_ACCURACY, 0.91f)
                         .build()))
                 .smallToolStartingSlots();
 
