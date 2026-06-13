@@ -1,0 +1,19 @@
+{
+    "loader": "toomanytinkers:anim_tool3d_modifier",
+    "id": "tconguns:extended_barrel",
+    "level": 0,
+    "parts": {
+        "barrel": {
+            "model": "tconguns:item/gun_small/modifiers/barrel1",
+            "tool_part": 1,
+            "origin": [1, 10, 0]
+        }
+    },
+    "bones": {
+        "body":{
+            "new_parts":[
+                "barrel"
+            ]
+        }
+    }
+}

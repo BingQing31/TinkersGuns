@@ -1,6 +1,9 @@
 # build files
 mcmodsrepo
 
+# thread report
+**/threads_report.txt
+
 # local libs
 libs
 
