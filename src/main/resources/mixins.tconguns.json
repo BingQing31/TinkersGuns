@@ -7,7 +7,8 @@
     "mixins": [
         "MaterialRegistryMixin",
         "MaterialStatsManagerMixin",
-        "MinecraftMixin"
+        "MinecraftMixin",
+        "TConJEIMixin"
     ],
     "injectors": {
         "defaultRequire": 1

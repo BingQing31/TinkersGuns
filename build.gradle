@@ -198,6 +198,7 @@ dependencies {
 
     // tools
     runtimeOnly fg.deobf("curse.maven:jei-238222:7270446")
+    compileOnly fg.deobf("curse.maven:tconjei-974154:7372437")
     runtimeOnly fg.deobf("curse.maven:tconjei-974154:7372437")
 
     runtimeOnly fg.deobf("curse.maven:selene-499980:7945711")

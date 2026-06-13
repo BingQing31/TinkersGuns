@@ -21,7 +21,11 @@ import com.kirisamey.tconguns.gui.TicgGuiMenus;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import net.minecraftforge.eventbus.api.IEventBus;
+import slimeknights.tconstruct.library.tools.stat.FloatToolStat;
+import slimeknights.tconstruct.library.tools.stat.ToolStatId;
+import sun.misc.Unsafe;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 @Log4j2
