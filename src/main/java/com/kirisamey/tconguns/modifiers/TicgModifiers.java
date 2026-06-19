@@ -8,7 +8,6 @@ import com.kirisamey.tconguns.modifiers.impl.guns.FullAutoModifier;
 import com.kirisamey.tconguns.register.TicgModuleBase;
 import com.kirisamey.tconguns.toolparts.TicgToolParts;
 import io.vavr.Tuple;
-import io.vavr.Tuple3;
 import io.vavr.Tuple4;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -19,7 +18,6 @@ import slimeknights.tconstruct.library.modifiers.impl.NoLevelsModifier;
 import slimeknights.tconstruct.library.modifiers.util.StaticModifier;
 import slimeknights.tconstruct.tools.item.ModifierCrystalItem;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
@@ -61,7 +59,7 @@ public class TicgModifiers extends TicgModuleBase {
 
 
     @Mod.EventBusSubscriber(modid = TconGuns.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class S {
+    public static class TicgModifiersEventSubscriber {
 
         @SubscribeEvent
         public static void addCreative(BuildCreativeModeTabContentsEvent event) {

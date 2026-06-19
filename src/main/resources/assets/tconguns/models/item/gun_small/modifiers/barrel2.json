@@ -12,7 +12,7 @@
     "bones": {
         "body":{
             "new_parts":[
-                "barrel"
+                ["barrel", [1, 2, 0]]
             ]
         }
     }
