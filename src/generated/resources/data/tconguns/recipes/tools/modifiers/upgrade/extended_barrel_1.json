@@ -1,0 +1,42 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "item": "minecraft:end_rod"
+    },
+    {
+      "item": "minecraft:redstone_torch"
+    },
+    {
+      "ingredient": [
+        {
+          "item": "minecraft:chicken"
+        },
+        {
+          "item": "minecraft:cooked_chicken"
+        },
+        {
+          "tag": "forge:rawchicken"
+        },
+        {
+          "tag": "forge:raw_chicken"
+        },
+        {
+          "tag": "forge:cookedchicken"
+        },
+        {
+          "tag": "forge:cooked_chicken"
+        }
+      ]
+    }
+  ],
+  "level": 1,
+  "result": "tconguns:extended_barrel",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": {
+    "tag": "tconguns:gun"
+  }
+}

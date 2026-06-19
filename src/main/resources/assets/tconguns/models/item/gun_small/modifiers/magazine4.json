@@ -1,0 +1,19 @@
+{
+    "loader": "toomanytinkers:anim_tool3d_modifier",
+    "id": "tconguns:extended_magazine",
+    "level": 4,
+    "parts": {
+        "magazine": {
+            "model": "tconguns:item/gun_small/magazines/magazine4",
+            "tool_part": 3,
+            "origin": [-3.5, 6, 0]
+        }
+    },
+    "bones": {
+        "magazine":{
+            "new_parts":[
+                "magazine"
+            ]
+        }
+    }
+}

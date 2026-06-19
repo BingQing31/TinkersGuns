@@ -93,7 +93,11 @@
         "tconguns:item/gun_small/modifiers/barrel1",
         "tconguns:item/gun_small/modifiers/barrel2",
         "tconguns:item/gun_small/modifiers/barrel3",
-        "tconguns:item/gun_small/modifiers/barrel4"
+        "tconguns:item/gun_small/modifiers/barrel4",
+        "tconguns:item/gun_small/modifiers/magazine1",
+        "tconguns:item/gun_small/modifiers/magazine2",
+        "tconguns:item/gun_small/modifiers/magazine3",
+        "tconguns:item/gun_small/modifiers/magazine4"
     ],
     "large_tex": true
 }

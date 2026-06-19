@@ -4,6 +4,7 @@ import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.datatype.LanguageEntry;
 import com.kirisamey.tconguns.datatype.ModifiersLangEntry;
 import com.kirisamey.tconguns.modifiers.impl.guns.ExtendedBarrelModifier;
+import com.kirisamey.tconguns.modifiers.impl.guns.ExtendedMagazineModifier;
 import com.kirisamey.tconguns.modifiers.impl.guns.FullAutoModifier;
 import com.kirisamey.tconguns.register.TicgModuleBase;
 import com.kirisamey.tconguns.toolparts.TicgToolParts;
@@ -33,8 +34,8 @@ public class TicgModifiers extends TicgModuleBase {
 
     public static final StaticModifier<NoLevelsModifier> SIGHT_HOLO = modifier("sight_holo", NoLevelsModifier::new, new ModifiersLangEntry(
             new LanguageEntry("Holograph Sight", "全息瞄具"),
-            new LanguageEntry("LOREM IPSUM", "请输入文本"),
-            new LanguageEntry("LOREM IPSUM", "请输入文本")
+            new LanguageEntry("LOREM IPSUM", "不知道写啥了"),
+            new LanguageEntry("LOREM IPSUM", "所以先不写了")
     ), "#00dd00");
 
     public static final StaticModifier<ExtendedBarrelModifier> EXTENDED_BARREL = modifier("extended_barrel", ExtendedBarrelModifier::extend, new ModifiersLangEntry(
@@ -48,6 +49,12 @@ public class TicgModifiers extends TicgModuleBase {
             new LanguageEntry("The shorter is the more dangerous!", "一寸短，一寸险！"),
             new LanguageEntry("Makes bullets fired from the barrel more dispersed and slower", "令出膛后的子弹更加扩散和缓慢")
     ), "#ff6600");
+
+    public static final StaticModifier<ExtendedMagazineModifier> EXTENDED_MAGAZINE = modifier("extended_magazine", ExtendedMagazineModifier::new, new ModifiersLangEntry(
+            new LanguageEntry("Extended Magazine", "扩展弹匣"),
+            new LanguageEntry("No need to worry about its stability","不用思考它的稳定性"),
+            new LanguageEntry("Increase magazine capacity by percentage","百分比增加弹匣容量")
+    ), "#e68f75");
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Modifier> StaticModifier<T> modifier(String name, Supplier<T> getter, ModifiersLangEntry lang, String color) {

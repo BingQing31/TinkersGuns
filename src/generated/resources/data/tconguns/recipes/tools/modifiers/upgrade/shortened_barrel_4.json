@@ -1,0 +1,26 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "item": "minecraft:end_rod"
+    },
+    {
+      "item": "minecraft:sticky_piston"
+    },
+    {
+      "tag": "minecraft:doors"
+    },
+    {
+      "tag": "minecraft:beds"
+    }
+  ],
+  "level": 4,
+  "result": "tconguns:shortened_barrel",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": {
+    "tag": "tconguns:gun"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "item": "minecraft:end_rod"
+    },
+    {
+      "item": "minecraft:lever"
+    },
+    {
+      "item": "minecraft:milk_bucket"
+    }
+  ],
+  "level": 2,
+  "result": "tconguns:extended_barrel",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": {
+    "tag": "tconguns:gun"
+  }
+}

@@ -3,16 +3,14 @@
   "allow_crystal": true,
   "inputs": [
     {
-      "item": "minecraft:end_rod"
+      "item": "minecraft:hopper"
     },
     {
-      "item": "minecraft:copper_ingot"
+      "item": "minecraft:shulker_box"
     }
   ],
-  "level": {
-    "max": 4
-  },
-  "result": "tconguns:shortened_barrel",
+  "level": 2,
+  "result": "tconguns:extended_magazine",
   "slots": {
     "upgrades": 1
   },

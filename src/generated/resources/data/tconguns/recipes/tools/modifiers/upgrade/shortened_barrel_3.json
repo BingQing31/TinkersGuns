@@ -1,0 +1,20 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "item": "minecraft:end_rod"
+    },
+    {
+      "tag": "minecraft:axes"
+    }
+  ],
+  "level": 3,
+  "result": "tconguns:shortened_barrel",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": {
+    "tag": "tconguns:gun"
+  }
+}

@@ -3,16 +3,17 @@
   "allow_crystal": true,
   "inputs": [
     {
-      "item": "minecraft:end_rod"
+      "item": "minecraft:hopper"
     },
     {
-      "item": "minecraft:iron_ingot"
+      "item": "minecraft:shulker_box"
+    },
+    {
+      "tag": "forge:eggs"
     }
   ],
-  "level": {
-    "max": 4
-  },
-  "result": "tconguns:extended_barrel",
+  "level": 4,
+  "result": "tconguns:extended_magazine",
   "slots": {
     "upgrades": 1
   },

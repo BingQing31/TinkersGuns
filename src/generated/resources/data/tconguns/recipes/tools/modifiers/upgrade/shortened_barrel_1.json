@@ -1,0 +1,27 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "item": "minecraft:end_rod"
+    },
+    {
+      "ingredient": [
+        {
+          "tag": "forge:shears"
+        },
+        {
+          "tag": "forge:tools/knives"
+        }
+      ]
+    }
+  ],
+  "level": 1,
+  "result": "tconguns:shortened_barrel",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": {
+    "tag": "tconguns:gun"
+  }
+}
