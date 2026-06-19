@@ -89,7 +89,11 @@
         "sight": [-10.2, 3.1, 0]
     },
     "modifiers": [
-        "tconguns:item/gun_small/modifiers/sight_holo"
+        "tconguns:item/gun_small/modifiers/sight_holo",
+        "tconguns:item/gun_small/modifiers/barrel1",
+        "tconguns:item/gun_small/modifiers/barrel2",
+        "tconguns:item/gun_small/modifiers/barrel3",
+        "tconguns:item/gun_small/modifiers/barrel4"
     ],
     "large_tex": true
 }

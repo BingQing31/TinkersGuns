@@ -106,6 +106,9 @@ public class TicgMiscLanguageModule extends TicgLangModule {
             Pair.of("material.tconguns.blaze_powder.gunpowder", new LanguageEntry("High-powered gunpowder, delivering powerful propulsion and equally formidable recoil.", "大威力火药，强烈的推进力，以及同样凶猛的后坐力。")),
 
 
+            Pair.of("modifier.tconguns.extended_barrel.confliction", new LanguageEntry("Barrel cannot be both extended and shortened at the same time.", "枪管不能同时被延长和截短")),
+
+
             Pair.of("death.attack.tconguns.gun_shot", new LanguageEntry("%1$s was shot dead", "%1$s 被枪杀了")),
             Pair.of("death.attack.tconguns.gun_shot.gun", new LanguageEntry("%1$s was shot dead by %2$s", "%1$s 被使用 %2$s 击毙")),
             Pair.of("death.attack.tconguns.gun_shot.gun_ammo", new LanguageEntry("%1$s was killed by %3$s fired from %2$s", "%1$s 被 %2$s 中射出的 %3$s 击毙")),

@@ -50,9 +50,27 @@ public class TicgModifierRecipesProvider extends RecipeProviderBase {
                 .setMaxLevel(1)
                 .addInput(Items.END_ROD, 13)
                 .save(consumer, prefix(TicgModifiers.SIGHT_HOLO, slotlessFolder));
+
+        ModifierRecipeBuilder.modifier(TicgModifiers.EXTENDED_BARREL)
+                .setTools(TicgToolTags.GUN)
+                .setMaxLevel(4)
+                .setSlots(SlotType.UPGRADE, 1)
+                .addInput(Items.END_ROD, 1)
+                .addInput(Items.IRON_INGOT, 1)
+                .saveSalvage(consumer, prefix(TicgModifiers.EXTENDED_BARREL, upgradeSalvage))
+                .save(consumer, prefix(TicgModifiers.EXTENDED_BARREL, upgradeFolder));
+
+        ModifierRecipeBuilder.modifier(TicgModifiers.SHORTENED_BARREL)
+                .setTools(TicgToolTags.GUN)
+                .setMaxLevel(4)
+                .setSlots(SlotType.UPGRADE, 1)
+                .addInput(Items.END_ROD, 1)
+                .addInput(Items.COPPER_INGOT, 1)
+                .saveSalvage(consumer, prefix(TicgModifiers.SHORTENED_BARREL, upgradeSalvage))
+                .save(consumer, prefix(TicgModifiers.SHORTENED_BARREL, upgradeFolder));
     }
 
     @Override public @NotNull String getName() {
-        return "";
+        return "Ticg Modifier Recipes Provider";
     }
 }

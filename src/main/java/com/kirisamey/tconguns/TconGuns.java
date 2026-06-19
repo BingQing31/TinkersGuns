@@ -28,29 +28,20 @@ public class TconGuns {
     public TconGuns(FMLJavaModLoadingContext context) {
         LOCK.lock();
 
-        log.debug("TicG 111");
         IEventBus modEventBus = context.getModEventBus();
 
         // Register the commonSetup method for modloading
-        log.debug("TicG 222");
         modEventBus.addListener(this::commonSetup);
 
         // Register ourselves for server and other game events we are interested in
-        log.debug("TicG 333");
         MinecraftForge.EVENT_BUS.register(this);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
-        log.debug("TicG 444");
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
-        log.debug("TicG 555");
         RegisterHelper.initRegisters(modEventBus);
 
-        log.debug("TicG 666");
-
         LOCK.unlock();
-
-        log.debug("TicG: manba out");
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

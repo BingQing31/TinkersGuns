@@ -2,6 +2,7 @@ package com.kirisamey.tconguns.reghub;
 
 import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.materials.data.*;
+import com.kirisamey.tconguns.modifiers.data.TicgModifierColorsProvider;
 import com.kirisamey.tconguns.modifiers.data.TicgModifierRecipesProvider;
 import com.kirisamey.tconguns.register.data.TicgBlockTagProvider;
 import com.kirisamey.tconguns.register.data.TicgLangProvider;
@@ -62,6 +63,7 @@ public final class DataGenHelper {
 
         // for modifiers
         generator.addProvider(isServer, new TicgModifierRecipesProvider(packOutput));
+        generator.addProvider(isClient, new TicgModifierColorsProvider(packOutput));
 
         // for gui
         generator.addProvider(isClient, new TicgGuiSpriteSourceProvider(packOutput, existingFileHelper));

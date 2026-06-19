@@ -1,0 +1,8 @@
+{
+  "modifier.tconguns": {
+    "extended_barrel": "#0066ff",
+    "full_auto": "#66ffcc",
+    "shortened_barrel": "#ff6600",
+    "sight_holo": "#00dd00"
+  }
+}
