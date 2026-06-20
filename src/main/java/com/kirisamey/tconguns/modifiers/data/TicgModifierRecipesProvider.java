@@ -131,6 +131,18 @@ public class TicgModifierRecipesProvider extends RecipeProviderBase {
             builder.saveSalvage(consumer, prefix(TicgModifiers.EXTENDED_MAGAZINE.getId().withSuffix("_" + i), upgradeSalvage))
                     .save(consumer, prefix(TicgModifiers.EXTENDED_MAGAZINE.getId().withSuffix("_" + i), upgradeFolder));
         });
+
+
+        // bullets
+        ModifierRecipeBuilder.modifier(TicgModifiers.SHAPED_CHARGE)
+                .setTools(TicgToolTags.BULLET)
+                .setMaxLevel(1)
+                .setSlots(SlotType.ABILITY, 1)
+                .addInput(Items.FIREWORK_STAR, 1)
+                .addInput(Tags.Items.NUGGETS_IRON, 1)
+                .addInput(Items.NETHERITE_SCRAP, 1)
+                .saveSalvage(consumer, prefix(TicgModifiers.SHAPED_CHARGE, abilitySalvage))
+                .save(consumer, prefix(TicgModifiers.SHAPED_CHARGE, abilityFolder));
     }
 
     @Override public @NotNull String getName() {

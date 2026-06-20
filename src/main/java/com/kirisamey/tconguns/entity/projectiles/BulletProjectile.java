@@ -1,6 +1,7 @@
 package com.kirisamey.tconguns.entity.projectiles;
 
 import com.kirisamey.tconguns.entity.TicgProjectileEntities;
+import com.kirisamey.tconguns.modifiers.TicgModifiers;
 import com.kirisamey.tconguns.syncing.gun.TicgGunPackets2C;
 import com.kirisamey.tconguns.syncing.gun.TicgGunSyncing;
 import com.kirisamey.tconguns.tools.TicgToolStats;
@@ -15,6 +16,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ItemSupplier;
@@ -36,6 +38,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.tools.capability.EntityModifierCapability;
@@ -312,7 +315,9 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
         // post forge event
         ProjectileImpactEvent event = new ProjectileImpactEvent(this, hitResult);
         boolean canceled = MinecraftForge.EVENT_BUS.post(event);
-        if (canceled) return;
+        // shaped charge will ignore this cancel
+        if (canceled && ToolStack.from(getAmmo()).getModifiers().getLevel(TicgModifiers.SHAPED_CHARGE.getId()) <= 0)
+            return;
         // run onHit()
         this.onHit(hitResult);
     }
@@ -323,6 +328,12 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
                 this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0D),
                 this::canHitEntity
         );
+    }
+
+    @Override protected boolean canHitEntity(@NonNull Entity target) {
+        if (ToolStack.from(getAmmo()).getModifiers().getLevel(TicgModifiers.SHAPED_CHARGE.getId()) > 0)
+            return target != this.getOwner();
+        return super.canHitEntity(target);
     }
 
     @Override protected void onHitEntity(@NotNull EntityHitResult pResult) {

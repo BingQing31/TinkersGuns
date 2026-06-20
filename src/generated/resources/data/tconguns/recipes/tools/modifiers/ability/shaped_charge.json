@@ -1,0 +1,23 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "item": "minecraft:firework_star"
+    },
+    {
+      "tag": "forge:nuggets/iron"
+    },
+    {
+      "item": "minecraft:netherite_scrap"
+    }
+  ],
+  "level": 1,
+  "result": "tconguns:shaped_charge",
+  "slots": {
+    "abilities": 1
+  },
+  "tools": {
+    "tag": "tconguns:bullet"
+  }
+}

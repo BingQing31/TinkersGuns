@@ -24,6 +24,8 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class TicgModifiers extends TicgModuleBase {
+    //<editor-fold desc="GUNS">
+
     public static final ArrayList<Tuple4<ResourceLocation, StaticModifier<?>, ModifiersLangEntry, String>> FULL_LIST = new ArrayList<>();
 
     public static final StaticModifier<FullAutoModifier> FULL_AUTO = modifier("full_auto", FullAutoModifier::new, new ModifiersLangEntry(
@@ -52,9 +54,23 @@ public class TicgModifiers extends TicgModuleBase {
 
     public static final StaticModifier<ExtendedMagazineModifier> EXTENDED_MAGAZINE = modifier("extended_magazine", ExtendedMagazineModifier::new, new ModifiersLangEntry(
             new LanguageEntry("Extended Magazine", "扩展弹匣"),
-            new LanguageEntry("No need to worry about its stability","不用思考它的稳定性"),
-            new LanguageEntry("Increase magazine capacity by percentage","百分比增加弹匣容量")
+            new LanguageEntry("No need to worry about its stability", "你无需思考它的稳定性"),
+            new LanguageEntry("Increase magazine capacity by percentage", "百分比增加弹匣容量")
     ), "#e68f75");
+
+    //</editor-fold>
+
+
+    //<editor-fold desc="BULLETS">
+
+    public static final StaticModifier<NoLevelsModifier> SHAPED_CHARGE = modifier("shaped_charge", NoLevelsModifier::new, new ModifiersLangEntry(
+            new LanguageEntry("Shaped Charge", "锥形装药"),
+            new LanguageEntry("Lancea Longini!", "朗基努斯之枪！"),
+            new LanguageEntry("Fired bullets will cause damage with no regard for projectile immunity.", "射出的子弹将无视投射物免疫造成伤害")
+    ), "#9331d5");
+
+    //</editor-fold>
+
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Modifier> StaticModifier<T> modifier(String name, Supplier<T> getter, ModifiersLangEntry lang, String color) {

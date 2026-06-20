@@ -2,6 +2,7 @@ package com.kirisamey.tconguns.attacking;
 
 import com.kirisamey.tconguns.attacking.damagesources.GunShotDamageSource;
 import com.kirisamey.tconguns.entity.projectiles.BulletProjectile;
+import com.kirisamey.tconguns.modifiers.TicgModifiers;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -45,6 +46,13 @@ public class BulletAttackUtils {
         owner.setItemInHand(InteractionHand.OFF_HAND, ammoStack);
         ItemStack prevMainHand = owner.getMainHandItem();
         owner.setItemInHand(InteractionHand.MAIN_HAND, gunStack);
+
+        // some will defense ranged attack by check distance between attacker and target
+        var prevPos = owner.position();
+        if (ammoTool.getModifierLevel(TicgModifiers.SHAPED_CHARGE.getId()) > 0) {
+            var targetToAtk = prevPos.subtract(target.position());
+            owner.setPos(targetToAtk.scale(2.0 / targetToAtk.length()).add(target.position()));
+        }
 
         var attackerPlayer = owner instanceof Player ? (Player) owner : null;
         var targetLiving = target instanceof LivingEntity ? (LivingEntity) target : null;
@@ -139,7 +147,9 @@ public class BulletAttackUtils {
             }
         }
 
-        // restore held items
+        // restore states
+        owner.setPos(prevPos);
+
         owner.setItemInHand(InteractionHand.OFF_HAND, prevOffhand);
         owner.setItemInHand(InteractionHand.MAIN_HAND, prevMainHand);
     }
