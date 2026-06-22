@@ -3,6 +3,9 @@
     "extended_barrel": "#0066ff",
     "extended_magazine": "#e68f75",
     "full_auto": "#66ffcc",
+    "gunpowder_blaze": "#bb5522",
+    "gunpowder_default": "#bbbbbb",
+    "gunpowder_redstone": "#cc2222",
     "shaped_charge": "#9331d5",
     "shortened_barrel": "#ff6600",
     "sight_holo": "#00dd00"

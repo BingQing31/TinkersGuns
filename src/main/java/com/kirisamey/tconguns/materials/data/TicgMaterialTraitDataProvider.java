@@ -1,6 +1,7 @@
 package com.kirisamey.tconguns.materials.data;
 
 import com.kirisamey.tconguns.materials.TicgMaterialIds;
+import com.kirisamey.tconguns.modifiers.TicgModifiers;
 import net.minecraft.data.PackOutput;
 import org.jetbrains.annotations.NotNull;
 import slimeknights.tconstruct.library.data.material.AbstractMaterialDataProvider;
@@ -15,9 +16,9 @@ public class TicgMaterialTraitDataProvider extends AbstractMaterialTraitDataProv
     }
 
     @Override protected void addMaterialTraits() {
-        addDefaultTraits(TicgMaterialIds.GUNPOWDER, ModifierIds.luck);
-        addDefaultTraits(TicgMaterialIds.REDSTONE, ModifierIds.luck);
-        addDefaultTraits(TicgMaterialIds.BLAZE_POWDER, ModifierIds.luck);
+        addDefaultTraits(TicgMaterialIds.GUNPOWDER, TicgModifiers.GUNPOWDER_DEFAULT);
+        addDefaultTraits(TicgMaterialIds.REDSTONE, TicgModifiers.GUNPOWDER_REDSTONE);
+        addDefaultTraits(TicgMaterialIds.BLAZE_POWDER, TicgModifiers.GUNPOWDER_BLAZE);
     }
 
     @Override public @NotNull String getName() {

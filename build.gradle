@@ -190,8 +190,8 @@ dependencies {
     // mods
     implementation fg.deobf("curse.maven:tinkers-construct-74072:7449219")
 
-    compileOnly fg.deobf("files:TooManyTinkers:1.1.2-dev-all")
-    clientRunOnly fg.deobf("files:TooManyTinkers:1.1.2-dev-all")
+    compileOnly fg.deobf("files:TooManyTinkers:1.1.2-all")
+    clientRunOnly fg.deobf("files:TooManyTinkers:1.1.2-all")
 
     compileOnly fg.deobf("curse.maven:mantle-74924:7563777")
     runtimeOnly fg.deobf("curse.maven:mantle-74924:7563777")

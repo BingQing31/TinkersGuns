@@ -3,6 +3,8 @@ package com.kirisamey.tconguns.modifiers;
 import com.kirisamey.tconguns.TconGuns;
 import com.kirisamey.tconguns.datatype.LanguageEntry;
 import com.kirisamey.tconguns.datatype.ModifiersLangEntry;
+import com.kirisamey.tconguns.modifiers.impl.bullets.GunpowderBlaze;
+import com.kirisamey.tconguns.modifiers.impl.bullets.GunpowderRedstone;
 import com.kirisamey.tconguns.modifiers.impl.guns.ExtendedBarrelModifier;
 import com.kirisamey.tconguns.modifiers.impl.guns.ExtendedMagazineModifier;
 import com.kirisamey.tconguns.modifiers.impl.guns.FullAutoModifier;
@@ -63,6 +65,28 @@ public class TicgModifiers extends TicgModuleBase {
 
     //<editor-fold desc="BULLETS">
 
+    // materials
+    public static final StaticModifier<NoLevelsModifier> GUNPOWDER_DEFAULT = modifier("gunpowder_default", NoLevelsModifier::new, new ModifiersLangEntry(
+            new LanguageEntry("gunpowder", "火药"),
+            new LanguageEntry("Sssss..."),
+            new LanguageEntry("Basic gunpowder, no special effects", "基础的火药，无特殊效果")
+    ), "#bbbbbb");
+
+    public static final StaticModifier<GunpowderRedstone> GUNPOWDER_REDSTONE = modifier("gunpowder_redstone", GunpowderRedstone::new, new ModifiersLangEntry(
+            new LanguageEntry("Power Overflow", "溢能"),
+            new LanguageEntry("雷石东直放站"),
+            new LanguageEntry("Temporarily strongly charge the hit block (WIP)", "令击中的方块被临时强充能（WIP）")
+    ), "#cc2222");
+
+    public static final StaticModifier<GunpowderBlaze> GUNPOWDER_BLAZE = modifier("gunpowder_blaze", GunpowderBlaze::new, new ModifiersLangEntry(
+            new LanguageEntry("Afterheat", "余热"),
+            new LanguageEntry("", ""),
+            new LanguageEntry("Set the target on fire", "点燃击中的目标")
+    ), "#bb5522");
+
+
+
+    // abilities
     public static final StaticModifier<NoLevelsModifier> SHAPED_CHARGE = modifier("shaped_charge", NoLevelsModifier::new, new ModifiersLangEntry(
             new LanguageEntry("Shaped Charge", "锥形装药"),
             new LanguageEntry("Lancea Longini!", "朗基努斯之枪！"),

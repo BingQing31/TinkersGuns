@@ -49,6 +49,7 @@ import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 @Log4j2
 public class BulletProjectile extends Projectile implements ItemSupplier {
@@ -78,7 +79,7 @@ public class BulletProjectile extends Projectile implements ItemSupplier {
         // 骑士史莱姆做得不错，这个会被附加到所有Projectile上，所以我可以直接往上放词条~
         var modifierCap = projectile.getCapability(EntityModifierCapability.CAPABILITY).resolve().orElseThrow();
         modifierCap.setModifiers(
-                new ModifierNBT(gunTool.getModifiers().getModifiers().stream().collect(
+                new ModifierNBT(Stream.concat(gunTool.getModifiers().getModifiers().stream(), ammoTool.getModifiers().getModifiers().stream()).collect(
                         () -> new ArrayList<>(modifierCap.getModifiers().getModifiers()),
                         (list, newEntry) -> {
                             for (int i = 0; i < list.size(); i++) {
